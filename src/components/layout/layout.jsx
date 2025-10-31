@@ -1,32 +1,31 @@
-import { useEffect, React, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { faHome, faFileAlt, faTachometerAlt, faKey, faSignOutAlt , faGear, faGraduationCap, faLightbulb, faProjectDiagram, 
-faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard } 
-from '@fortawesome/free-solid-svg-icons';
+import {
+    faHome, faFileAlt, faTachometerAlt, faKey, faSignOutAlt, faGear, faGraduationCap, faLightbulb, faProjectDiagram,
+    faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard
+}
+    from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png';
 import { useAuth } from '../login/authenticate/authenticate';
 import { useNavigate } from 'react-router-dom';
 import './layout.css';
 
-function Layout() 
-{
+function Layout() {
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId: urlStaffId } = useParams();
     const navigate = useNavigate();
-    const { logout, isAuthenticated, staffId: contextStaffId } = useAuth(); 
+    const { logout, isAuthenticated, staffId: contextStaffId } = useAuth();
     const [user, setUsers] = useState([]);
 
-    useEffect(() => 
-    {
+    useEffect(() => {
         if (!isAuthenticated || urlStaffId !== contextStaffId) {
             navigate('/', { replace: true });
         }
     }, [isAuthenticated, urlStaffId, contextStaffId, navigate]);
 
-    useEffect(() => 
-    {
+    useEffect(() => {
         axios.get(`${apiUrl}/scope/${urlStaffId}`)
             .then(response => {
                 setUsers(response.data);
@@ -34,8 +33,7 @@ function Layout()
             .catch(err => console.log(err));
     }, [urlStaffId, apiUrl]);
 
-    const handleLogout = () => 
-    {
+    const handleLogout = () => {
         logout();
         navigate('/', { replace: true });
         window.location.reload();
@@ -109,17 +107,17 @@ function Layout()
         //     show: user && user.obe_report === 1,
         // },
         {
-            icon: faGear ,
+            icon: faGear,
             name: 'Change Password',
             path: `/staff/${urlStaffId}/settings`,
             show: user.settings === 1,
         },
         {
-            icon: faLightbulb ,
+            icon: faLightbulb,
             name: 'OBE Terminologies',
             path: `/staff/${urlStaffId}/terminologies`,
             // show: ['ADMIN', 'admin', 'Admin'].includes(urlStaffId),
-            show: user        
+            show: user
         },
     ]
 

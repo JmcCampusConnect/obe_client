@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './rsmatrix.css';
-
+import '../css/RsMatrix.css';
 const apiUrl = import.meta.env.VITE_API_URL;
 
-function Rsmatrix() {
+function RsMatrix() {
 
     const { staffId } = useParams();
     const [academicSem, setAcademicSem] = useState('');
@@ -132,7 +131,7 @@ function Rsmatrix() {
             setMeanOverallScore(matrixData.mean);
             setCorrelation(matrixData.olrel);
         }
-        catch (err) { console.log('Error Fetching Matrix Data :', err)}
+        catch (err) { console.log('Error Fetching Matrix Data :', err) }
         setShowModal(true);
     }
 
@@ -327,4 +326,4 @@ function Rsmatrix() {
     )
 }
 
-export default Rsmatrix;
+export default RsMatrix;

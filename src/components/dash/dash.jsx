@@ -4,7 +4,6 @@ import Barchart from './Barchart/barchart';
 import Piechart1 from './Piechart/Piechart1';
 import Piechart2 from './Piechart/Piechart2';
 import Linechart1 from './Linechart/Linechart1'
-import Linechart2 from './Linechart/Linechart1'
 import { PiStudentFill } from "react-icons/pi";
 import { IoPersonSharp } from "react-icons/io5";
 import { FaBook } from "react-icons/fa";
@@ -12,6 +11,7 @@ import { SiBookstack } from "react-icons/si";
 import axios from 'axios';
 
 function Dash() {
+    
     const [studentCount, setStudentCount] = useState(0);
     const [staffCount, setStaffCount] = useState(0);
     const [courseCount, setCourseCount] = useState(0);
@@ -19,7 +19,7 @@ function Dash() {
 
     const fetchCounts = async () => {
         try {
-            const response = await axios.get(`${process.env.VITE_API_URL}/api/counts`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/counts`);
             const { studentCount, staffCount, courseCount, programCount } = response.data;
             animateCount(setStudentCount, studentCount);
             animateCount(setStaffCount, staffCount);

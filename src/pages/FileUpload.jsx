@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Upload, Download, FileText } from "lucide-react";
-import "./fileupload.css";
+import "../css/FileUpload.css";
 
 function FileUpload() {
 

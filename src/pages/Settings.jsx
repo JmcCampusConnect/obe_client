@@ -6,26 +6,22 @@ import { useParams } from 'react-router-dom';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 import passbg from '../../assets/passbg.jpg';
 
-function Settings() 
-{
+function Settings() {
+    
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId } = useParams();
 
-    const handlePasswordChange = async () => 
-    {
-        if( newPassword !== '' && confirmPassword !== '' )
-        {
-            if (newPassword === confirmPassword) 
-            {
-                try 
-                {
+    const handlePasswordChange = async () => {
+        if (newPassword !== '' && confirmPassword !== '') {
+            if (newPassword === confirmPassword) {
+                try {
                     const response = await axios.post(`${apiUrl}/api/passwordchange`, {
                         staff_id: staffId,
                         staff_pass: newPassword,
                     })
-                    if(response.data.success) {
+                    if (response.data.success) {
                         alert(response.data.message);
                         window.location.reload();
                     }
@@ -45,8 +41,7 @@ function Settings()
         }
     }
 
-    const handleKeyPress = (e) => 
-    {
+    const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handlePasswordChange();
         }

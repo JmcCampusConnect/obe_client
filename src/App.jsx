@@ -5,9 +5,6 @@ import Login from './components/login/login';
 import PrivateRoute from './components/login/authenticate/privaterouter';
 import Layout from './components/layout/layout';
 import Dash from './components/dash/dash';
-import CourseList from './components/courselist/courselist';
-import Stumark from './components/courselist/stumark/stumark';
-import InputFile from './components/fileupload/fileupload';
 import StatusReport from './components/statusreport/statusreport';
 import Manage from './components/manage/manage';
 import ScopeManage from './components/manage/scopemanage/scopemanage';
@@ -19,8 +16,6 @@ import MarkManage from './components/manage/markmanage/markmanage';
 import StaffMasterManage from './components/manage/staffmanage/staffmaster/staffmaster';
 import HodManage from './components/manage/staffmanage/staffhod/staffhod';
 import TutorManage from './components/manage/staffmanage/stafftutor/stafftutor';
-import Settings from './components/settings/settings';
-import Rsmatrix from './components/rsmatrix/rsmatrix';
 import DeptReport from './components/statusreport/deptreport/deptreport';
 import Rsmatrixreport from './components/statusreport/rsmatrixreport/rsmatrixreport';
 import EseReport from './components/statusreport/esereport/esereport';
@@ -36,11 +31,22 @@ import TutorCouOC from './components/courseoutcome/tutorcououtcome/tutorcououtco
 import TutorStuOC from './components/studentoutcome/tutorstuoutcome/tutorstuoutcome';
 import ProgramOC from './components/prooutcome/prooutcome';
 import ProgramSpecOc from './components/prospecoutcome/prospecoutcome';
-import Terminologies from './components/terminologies/terminologies';
 import Lock from './components/manage/showblock/showblock';
 import HodReport from './components/hodreport/hodreport';
-import TutorReport from './components/tutorreport/tutorreport';
 import ObeReport from './components/obereport/obereport';
+
+
+
+import CourseList from './pages/CourseList';
+import StudentMark from './pages/StudentMark';
+import FileUpload from './pages/FileUpload';
+import RsMatrix from './pages/RsMatrix';
+import Settings from './pages/Settings.jsx';
+import Terminologies from './pages/Terminology.jsx';
+import TutorReport from './pages/TutorReport.jsx';
+
+
+
 
 function App() {
 	return (
@@ -50,10 +56,6 @@ function App() {
 					<Route path="/" element={<Login />} />
 					<Route path="staff/:staffId/*" element={<PrivateRoute element={<Layout />} />} >
 						<Route path="dashboard" element={<Dash />} />
-						<Route path="courselist" element={<CourseList />} />
-						<Route path="studentmark" element={<Stumark />} />
-						<Route path="inputfiles" element={<InputFile />} />
-						<Route path="settings" element={<Settings />} />
 						<Route path="workprogressreport" element={<StatusReport />} />
 						<Route path="obereport" element={<ObeReport />} />
 						<Route path="matrixreport" element={<Rsmatrixreport />} />
@@ -68,7 +70,6 @@ function App() {
 						<Route path="hodmanage" element={<HodManage />} />
 						<Route path="tutormanage" element={<TutorManage />} />
 						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
-						<Route path="rsmatrix" element={<Rsmatrix />} />
 						<Route path=":dept/departmentreport" element={<DeptReport />} />
 						<Route path="studentoutcome" element={<StudentOutcome />} />
 						<Route path="courseoutcome" element={<CourseOutcome />} />
@@ -82,10 +83,23 @@ function App() {
 						<Route path="tutorstudentoutcome" element={<TutorStuOC />} />
 						<Route path="programoutcome" element={<ProgramOC />} />
 						<Route path="programspecificoutcome" element={<ProgramSpecOc />} />
-						<Route path="terminologies" element={<Terminologies />} />
 						<Route path="showandblock" element={<Lock />} />
 						<Route path="hodreport" element={<HodReport />} />
+						
+						
+						
+						
+						
+						<Route path="courselist" element={<CourseList />} />
+						<Route path="studentmark" element={<StudentMark />} />
+						<Route path="inputfiles" element={<FileUpload />} />
+						<Route path="rsmatrix" element={<RsMatrix />} />
+						<Route path="settings" element={<Settings />} />
+						<Route path="terminologies" element={<Terminologies />} />
+						
 						<Route path="tutorreport" element={<TutorReport />} />
+
+
 					</Route>
 				</Routes>
 			</Router>

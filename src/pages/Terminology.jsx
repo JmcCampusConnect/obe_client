@@ -1,7 +1,8 @@
 import React from 'react';
-import './terminologies.css';
+import '../css/Terminology.css';
 
 function Terminologies() {
+
     return (
         <div className='termi-main'>
             <h1 className='termi-top-heading'>OBE Terms</h1>

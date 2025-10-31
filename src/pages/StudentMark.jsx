@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./stumark.css";
+import "../css/StudentMark.css";
 import { useLocation } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-function Stumark() 
-{
+function StudentMark() {
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const location = useLocation();
     const [active, setActive] = useState();
@@ -19,7 +19,7 @@ function Stumark()
     const [lockInput, setLockIntput] = useState([]);
     const { deptName, section, semester, classDetails, courseCode, courseTitle, deptId, category } = location.state || {};
     const [lockMessage, setLockMessage] = useState("");
-    
+
     useEffect(() => {
 
         const academicSemSet = async () => {
@@ -106,22 +106,22 @@ function Stumark()
             setLockMessage(
                 "Mark entry is no longer allowed as the deadline has expired. Please contact the administrator for further assistance"
             )
-        } 
+        }
         else if (activeSection === '2' && lockInput.cia_2 === 1) {
             setLockMessage(
                 "Mark entry is no longer allowed as the deadline has expired. Please contact the administrator for further assistance"
             )
-        } 
+        }
         else if (activeSection === '3' && lockInput.ass_1 === 1) {
             setLockMessage(
                 "Mark entry is no longer allowed as the deadline has expired. Please contact the administrator for further assistance"
             )
-        } 
+        }
         else if (activeSection === '4' && lockInput.ass_2 === 1) {
             setLockMessage(
                 "Mark entry is no longer allowed as the deadline has expired. Please contact the administrator for further assistance"
             )
-        } 
+        }
         else { setLockMessage("") }
 
     }, [activeSection, lockInput]);
@@ -265,7 +265,7 @@ function Stumark()
         else if (activeSection === '5') { return active?.ese === 0 }
         return false;
     }
-    
+
     const handleUpdateMark = async (e, isConfirm) => {
 
         const button_value = isConfirm;
@@ -597,4 +597,4 @@ function Stumark()
     )
 }
 
-export default Stumark;
+export default StudentMark;

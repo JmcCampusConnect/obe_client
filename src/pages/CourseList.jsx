@@ -1,54 +1,47 @@
-import { useEffect, useState, React } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import './courselist.css';
+import '../css/CourseList.css';
 import { useParams } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
 
-function CourseList() 
-{
-    const { staffId } = useParams();
+function CourseList() {
+
     const navigate = useNavigate();
+    const { staffId } = useParams();
     const [courseData, setCourseData] = useState([]);
     const [academicSem, setAcademicSem] = useState('');
     const [staffName, setStaffName] = useState('');
 
-    useEffect(() => 
-    {
-        const fetchStaffName = async () => 
-        {
+    useEffect(() => {
+        const fetchStaffName = async () => {
             try {
-                const response = await axios.post(`${apiUrl}/staffName`,{staffId});
+                const response = await axios.post(`${apiUrl}/staffName`, { staffId });
                 setStaffName(response.data)
             }
-            catch(err) {
+            catch (err) {
                 console.log('Error Fetching Staff Name : ', err)
             }
         }
         fetchStaffName();
 
-        const academicSemSet = async () => 
-        {
+        const academicSemSet = async () => {
             try {
                 const response = await axios.post(`${apiUrl}/activesem`, {});
                 setAcademicSem(response.data.academic_sem);
-            } 
+            }
             catch (err) {
                 console.log('Error Fetching Data:', err);
             }
         };
         academicSemSet();
 
-    }, [apiUrl,staffId]);
+    }, [apiUrl, staffId]);
 
-    useEffect(() => 
-    {
-        const fetchCourseMapDetails = async () => 
-        {
-            if (academicSem) 
-            {
-                try 
-                {
+    useEffect(() => {
+        const fetchCourseMapDetails = async () => {
+            if (academicSem) {
+                try {
                     const response = await axios.post(`${apiUrl}/api/coursemap`, {
                         staff_id: staffId,
                         academic_sem: academicSem
@@ -56,10 +49,8 @@ function CourseList()
                     const courseMappings = response.data;
 
                     const courseMappingsWithStatus = await Promise.all(
-                        courseMappings.map(async (course) => 
-                        {
-                            try 
-                            {
+                        courseMappings.map(async (course) => {
+                            try {
                                 const statusResponse = await axios.post(`${apiUrl}/api/report/status`, {
                                     category: course.category,
                                     dept_name: course.dept_name,
@@ -68,9 +59,8 @@ function CourseList()
                                     course_code: course.course_code,
                                     academic_sem: academicSem
                                 })
-                                console.log(statusResponse)
                                 return { ...course, status: statusResponse.data.status };
-                            } 
+                            }
                             catch (err) {
                                 console.log('Error Fetching Course Status:', err);
                                 return { ...course, status: 'Error' };
@@ -78,31 +68,32 @@ function CourseList()
                         })
                     )
                     setCourseData(courseMappingsWithStatus);
-                } 
+                }
                 catch (err) {
                     console.log('Error fetching data:', err);
                 }
             }
         }
         fetchCourseMapDetails();
-        
+
     }, [staffId, academicSem, apiUrl]);
 
-    const markpage = (user) => 
-    {
-        navigate(`/staff/${staffId}/studentmark`, { state: 
-        { 
-            deptName: user.dept_name, 
-            section: user.section, 
-            semester: user.semester,
-            classDetails: user.degree,
-            courseCode: user.course_code,
-            courseTitle: user.course_title,
-            deptId: user.dept_id,
-            category: user.category
-        }})
+    const markpage = (user) => {
+        navigate(`/staff/${staffId}/studentmark`, {
+            state:
+            {
+                deptName: user.dept_name,
+                section: user.section,
+                semester: user.semester,
+                classDetails: user.degree,
+                courseCode: user.course_code,
+                courseTitle: user.course_title,
+                deptId: user.dept_id,
+                category: user.category
+            }
+        })
     }
-    
+
     return (
         <div className="course-main">
             <div className="course-layout-top-div">
@@ -117,12 +108,12 @@ function CourseList()
                 <div className="course-entire-box">
                     {courseData && courseData.length > 0 ? (
                         courseData.map((user, index) => (
-                            <button 
-                                key={index} 
-                                className="course-subject-box" 
+                            <button
+                                key={index}
+                                className="course-subject-box"
                                 onClick={() => markpage(user)}
                             >
-                                <div 
+                                <div
                                     className="course-box-status"
                                     style={{ color: user.status === "Completed" ? "green" : "red" }}
                                 >
