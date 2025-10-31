@@ -101,12 +101,12 @@ function Layout() {
             path: `/staff/${urlStaffId}/manage`,
             show: user && user.manage === 1,
         },
-        // {
-        //     icon: faUserFriends,
-        //     name: 'OBE Report',
-        //     path: `/staff/${urlStaffId}/obereport`,
-        //     show: user && user.obe_report === 1,
-        // },
+        {
+            icon: faUserFriends,
+            name: 'OBE Report',
+            path: `/staff/${urlStaffId}/obereport`,
+            show: user && user.obe_report === 1,
+        },
         {
             icon: faGear,
             name: 'Change Password',

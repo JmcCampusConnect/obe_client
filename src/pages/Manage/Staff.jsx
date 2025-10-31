@@ -1,8 +1,9 @@
 import React from "react";
-import './staffmanage.css';
+import '../../css/Staff.css';
 import { useParams, useNavigate } from 'react-router-dom';
 
-function StaffManage() {
+function Staff() {
+
     const { staffId } = useParams();
     const navigate = useNavigate();
 
@@ -37,4 +38,4 @@ function StaffManage() {
     )
 }
 
-export default StaffManage;
+export default Staff;

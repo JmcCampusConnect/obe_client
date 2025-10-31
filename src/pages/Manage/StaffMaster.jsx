@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import './staffmaster.css';
-import SearchableDropdown from "../../../common/SearchableDropdown";
+import '../../css/StaffMaster.css';
+import SearchableDropdown from "../../common/SearchableDropdown";
 
-function StaffMasterManage() {
+function StaffMaster() {
 
     const [staffData, setStaffData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -341,7 +341,7 @@ function StaffMasterManage() {
                         <h3>EDIT STAFF</h3>
 
                         <div className="smsm-form-grid">
-                            
+
                             <input type="text" value={newstaffid} disabled className="smsm-edit-inputbox" />
                             <input type="text" value={newstaffname} onChange={(e) => setNewstaffname(e.target.value)} className="smsm-edit-inputbox" />
 
@@ -432,4 +432,4 @@ function StaffMasterManage() {
     )
 }
 
-export default StaffMasterManage;
+export default StaffMaster;

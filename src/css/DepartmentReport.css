@@ -1,0 +1,234 @@
+/* Base reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dept-repo-main {
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Heading */
+.dept-heading {
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #057252;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.dept-main-div {
+    text-align: center;
+}
+
+/* Dropdowns */
+.dept-dropdown {
+    width: 200px;
+    padding: 10px 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 700;
+}
+
+.dept-dropdown:hover,
+.dept-dropdown:focus {
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+/* Search Input */
+.dept-repo-search {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.dept-search-input {
+    padding: 10px 15px;
+    width: 280px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.dept-search-input:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+}
+
+/* Buttons & Filters */
+.dept-repo-btn-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dept-repo-filter {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.dept-repo-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #1c4160;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dept-repo-label input[type="checkbox"] {
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.dept-repo-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #057252, #049e6f);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dept-repo-btn:hover {
+    background: linear-gradient(90deg, #049e6f, #057252);
+    transform: translateY(-1px);
+}
+
+/* Table wrapper */
+.dept-table-wrapper {
+    flex-grow: 1;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 75vh;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+}
+
+/* Table */
+.dept-repo-header {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    min-width: 900px;
+}
+
+.dept-repo-header thead {
+    position: sticky;
+    top: 0;
+    background-color: #057252;
+    color: white;
+    z-index: 10;
+}
+
+.dept-repo-heading {
+    padding: 12px 12px;
+    border: 1px solid #e0e0e0;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 14px;
+}
+
+.dept-repo-content,
+.dept-repo-content-sn,
+.dept-repo-content-dn,
+.dept-repo-content-sr {
+    text-align: center;
+    padding: 15px 12px;
+    border: 1px solid #e0e0e0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.dept-repo-content-sn,
+.dept-repo-content-dn {
+    text-transform: uppercase;
+}
+
+.dept-repo-content-sr {
+    font-weight: 700;
+}
+
+/* Row colors */
+.dept-repo-light {
+    background-color: #f9f9f9;
+}
+
+.dept-repo-dark {
+    background-color: #ffffff;
+}
+
+/* No data */
+.dept-repo-td {
+    text-align: center;
+    font-size: 16px;
+    padding: 20px;
+    color: #777;
+}
+
+/* Scrollbar */
+.dept-table-wrapper::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.dept-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.dept-table-wrapper::-webkit-scrollbar-thumb {
+    background: #4c504f98;
+    border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .dept-repo-btn-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dept-repo-filter {
+        gap: 15px;
+    }
+
+    .dept-dropdown,
+    .dept-search-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .dept-repo-main {
+        padding: 15px;
+    }
+
+    .dept-table-wrapper {
+        max-height: 60vh;
+    }
+}

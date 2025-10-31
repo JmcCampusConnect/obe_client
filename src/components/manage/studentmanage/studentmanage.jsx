@@ -596,7 +596,7 @@
 import React, { useEffect, useState } from "react";
 import "./studentmanage.css";
 import axios from "axios";
-import SearchableDropdown from "../../common/SearchableDropdown";
+import SearchableDropdown from "../../../common/SearchableDropdown";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Loading from '../../../assets/load.svg'

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './rsmatrixreport.css';
+import '../../css/RsMatrixReport.css';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 

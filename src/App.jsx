@@ -4,17 +4,13 @@ import { AuthProvider } from './components/login/authenticate/authenticate';
 import Login from './components/login/login';
 import PrivateRoute from './components/login/authenticate/privaterouter';
 import Dash from './components/dash/dash';
-import Manage from './components/manage/manage';
 import ScopeManage from './components/manage/scopemanage/scopemanage';
-import StaffManage from './components/manage/staffmanage/staffmanage';
 import MarkRelease from './components/manage/markrelease/markrelease';
 import StaffCourseManage from './components/manage/staffcoursemanage/staffcoursemanage';
 import StudentManage from './components/manage/studentmanage/studentmanage';
 import MarkManage from './components/manage/markmanage/markmanage';
-import StaffMasterManage from './components/manage/staffmanage/staffmaster/staffmaster';
 import HodManage from './components/manage/staffmanage/staffhod/staffhod';
 import TutorManage from './components/manage/staffmanage/stafftutor/stafftutor';
-import DeptReport from './components/statusreport/deptreport/deptreport';
 import StudentOutcome from './components/studentoutcome/studentoutcome';
 import CourseOutcome from './components/courseoutcome/courseoutcome';
 import AdminStuOC from './components/studentoutcome/adminstuoutcome/adminstuoutcome';
@@ -46,7 +42,12 @@ import HodReport from './pages/Reports/HodReport';
 import WorkProgressReport from './pages/Reports/WorkProgressReport';
 import EseReport from './pages/Reports/EseReport';
 import RsMatrixReport from './pages/Reports/RsMatrixReport';
+import DepartmentReport from './pages/Reports/DepartmentReport';
 
+// MANAGE FOR STAFF, COURSEMAP, STUDENT ETC
+import Manage from './pages/Manage/Manage';
+import Staff from './pages/Manage/Staff';
+import StaffMaster from './pages/Manage/StaffMaster';
 
 
 
@@ -65,17 +66,13 @@ function App() {
 
 						<Route path="dashboard" element={<Dash />} />
 						<Route path="obereport" element={<ObeReport />} />
-						<Route path="manage" element={<Manage />} />
 						<Route path="scopemanage" element={<ScopeManage />} />
-						<Route path="staffmanage" element={<StaffManage />} />
 						<Route path="studentmanage" element={<StudentManage />} />
 						<Route path="markrelease" element={<MarkRelease />} />
 						<Route path="markmanage" element={<MarkManage />} />
-						<Route path="staffmastermanage" element={<StaffMasterManage />} />
 						<Route path="hodmanage" element={<HodManage />} />
 						<Route path="tutormanage" element={<TutorManage />} />
 						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
-						<Route path=":dept/departmentreport" element={<DeptReport />} />
 						<Route path="studentoutcome" element={<StudentOutcome />} />
 						<Route path="courseoutcome" element={<CourseOutcome />} />
 						<Route path="admincourseoutcome" element={<AdminCouOC />} />
@@ -107,7 +104,12 @@ function App() {
 						<Route path="workprogressreport" element={<WorkProgressReport />} />
 						<Route path="matrixreport" element={<RsMatrixReport />} />
 						<Route path="esereport" element={<EseReport />} />
+						<Route path=":dept/departmentreport" element={<DepartmentReport />} />
 
+						{/* MANAGE FOR STAFF, COURSEMAP, STUDENT ETC */}
+						<Route path="manage" element={<Manage />} />
+						<Route path="staffmanage" element={<Staff />} />
+						<Route path="staffmastermanage" element={<StaffMaster />} />
 
 					</Route>
 				</Routes>
