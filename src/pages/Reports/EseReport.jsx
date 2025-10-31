@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
-import './esereport.css'
+import '../../css/EseReport.css'
 
-function EseReport() 
-{
+function EseReport() {
+
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [ courseCode, setCourseCode ] = useState([])
+    const [courseCode, setCourseCode] = useState([])
 
-    useEffect( () => 
-    {
-        const eseCourseCodes = async () => 
-        {
-            try
-            {
+    useEffect(() => {
+        const eseCourseCodes = async () => {
+            try {
                 const response = await axios.get(`${apiUrl}/api/esereport`)
-                const sortedCourses = response.data.courses.sort((a, b) => 
-                {
+                const sortedCourses = response.data.courses.sort((a, b) => {
                     if (a.course_code < b.course_code) return -1;
                     if (a.course_code > b.course_code) return 1;
                     return 0;
@@ -29,10 +25,9 @@ function EseReport()
         }
         eseCourseCodes();
 
-    },[apiUrl])
+    }, [apiUrl])
 
-    const downloadExcel = () => 
-    {
+    const downloadExcel = () => {
         const worksheetData = courseCode.map(course => ({
             'Course Code': course.course_code,
             'Course Title': course.course_title
@@ -64,7 +59,7 @@ function EseReport()
                 <tbody>
                     {courseCode.map((code, index) => (
                         <tr key={index} className={index % 2 === 0 ? 'ese-repo-light' : 'ese-repo-dark'}>
-                            <td className='ese-repo-td'>{index+1}</td>
+                            <td className='ese-repo-td'>{index + 1}</td>
                             <td className='ese-repo-td'>{code.course_code}</td>
                             <td className='ese-repo-td'>{code.course_title}</td>
                         </tr>

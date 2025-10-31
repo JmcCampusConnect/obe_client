@@ -4,7 +4,7 @@ import './rsmatrixreport.css';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-function MatrixReport() {
+function RsMatrixReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const [academicYear, setAcademicYear] = useState('');
@@ -253,4 +253,4 @@ function MatrixReport() {
     )
 }
 
-export default MatrixReport;
+export default RsMatrixReport;

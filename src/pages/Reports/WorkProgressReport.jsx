@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
-import './statusreport.css'
+import '../../css/WorkProgressReport.css'
 
-function StatusReport() {
+function WorkProgressReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId } = useParams();
@@ -50,7 +50,7 @@ function StatusReport() {
                 const response = await axios.post(`${apiUrl}/staffName`, { staffId });
                 setStaffName(response.data)
             }
-            catch (err) { console.log('Error Fetching Staff Name : ', err)}
+            catch (err) { console.log('Error Fetching Staff Name : ', err) }
         }
         fetchStaffName();
     }, [apiUrl, staffId]);
@@ -96,7 +96,7 @@ function StatusReport() {
                 </p>
             </div>
             {(admin || hod || mentor) ? (
-                <div className='course-content-box'> 
+                <div className='course-content-box'>
                     <div className='course-entire-box'>
                         {admin && (
                             <>
@@ -123,4 +123,4 @@ function StatusReport() {
     )
 }
 
-export default StatusReport;
+export default WorkProgressReport;

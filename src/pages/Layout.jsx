@@ -7,12 +7,13 @@ import {
 }
     from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import Jmclogo from '../../assets/jmclogo.png';
-import { useAuth } from '../login/authenticate/authenticate';
+import Jmclogo from '../assets/jmclogo.png';
+import { useAuth } from '../components/login/authenticate/authenticate';
 import { useNavigate } from 'react-router-dom';
-import './layout.css';
+import '../css/Layout.css';
 
 function Layout() {
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId: urlStaffId } = useParams();
     const navigate = useNavigate();
@@ -116,7 +117,6 @@ function Layout() {
             icon: faLightbulb,
             name: 'OBE Terminologies',
             path: `/staff/${urlStaffId}/terminologies`,
-            // show: ['ADMIN', 'admin', 'Admin'].includes(urlStaffId),
             show: user
         },
     ]

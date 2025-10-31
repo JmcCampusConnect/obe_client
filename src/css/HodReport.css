@@ -3,50 +3,50 @@
     padding: 0px;
 }
 
-.tutor-main {
+.hod-main {
     margin: 0px;
     padding: 10px !important;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background: #f8f9fb;
 }
 
-.tutor-input-btn {
+.hod-input-btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.tutor-repo-table {
+.hod-repo-table {
     border-collapse: collapse;
     font-size: 16px;
     text-align: center;
 }
 
-.tutor-repo-th {
+.hod-repo-th {
     background-color: #1c8163;
     text-align: center;
     font-size: 18px;
     color: white;
     border: 1px solid gray;
     padding: 12px 17px;
-    font-weight: bold;
-    border-color: black;    
     height: 70px;
-
+    font-weight: bold;
+    border-color: black;
 }
 
-.tutor-repo-td {
+.hod-repo-td {
     text-align: center;
     font-size: 16px;
     border: 1px solid gray;
     padding: 17px;
+    height: 70px;
     font-weight: bold;
     text-transform: uppercase;
-    height: 70px;
 }
 
-.tutor-repo-td-status {
+.hod-repo-td-status {
     text-align: center;
     font-size: 16px;
     border: 1px solid gray;
@@ -54,7 +54,7 @@
     font-weight: bold;
 }
 
-.tutor-top-heading {
+.hod-top-heading {
     text-align: center;
     margin-top: 5px;
     font-size: 25px;
@@ -93,14 +93,15 @@
 
 
 .process-main {
-	padding: 30px;
+    padding: 60px;
 }
 
 .process-content {
-	padding: 50px;
-	border-radius: 10px;
-	border: 1px solid black;
-    box-shadow: 2px  4px 5px rgb(183, 183, 183);
+    padding: 50px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 2px 4px 5px rgb(183, 183, 183);
 }
 
 .process-code {

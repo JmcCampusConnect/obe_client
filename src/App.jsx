@@ -3,9 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './components/login/authenticate/authenticate';
 import Login from './components/login/login';
 import PrivateRoute from './components/login/authenticate/privaterouter';
-import Layout from './components/layout/layout';
 import Dash from './components/dash/dash';
-import StatusReport from './components/statusreport/statusreport';
 import Manage from './components/manage/manage';
 import ScopeManage from './components/manage/scopemanage/scopemanage';
 import StaffManage from './components/manage/staffmanage/staffmanage';
@@ -17,8 +15,6 @@ import StaffMasterManage from './components/manage/staffmanage/staffmaster/staff
 import HodManage from './components/manage/staffmanage/staffhod/staffhod';
 import TutorManage from './components/manage/staffmanage/stafftutor/stafftutor';
 import DeptReport from './components/statusreport/deptreport/deptreport';
-import Rsmatrixreport from './components/statusreport/rsmatrixreport/rsmatrixreport';
-import EseReport from './components/statusreport/esereport/esereport';
 import StudentOutcome from './components/studentoutcome/studentoutcome';
 import CourseOutcome from './components/courseoutcome/courseoutcome';
 import AdminStuOC from './components/studentoutcome/adminstuoutcome/adminstuoutcome';
@@ -32,34 +28,43 @@ import TutorStuOC from './components/studentoutcome/tutorstuoutcome/tutorstuoutc
 import ProgramOC from './components/prooutcome/prooutcome';
 import ProgramSpecOc from './components/prospecoutcome/prospecoutcome';
 import Lock from './components/manage/showblock/showblock';
-import HodReport from './components/hodreport/hodreport';
 import ObeReport from './components/obereport/obereport';
 
 
 
+import Layout from './pages/Layout';
 import CourseList from './pages/CourseList';
 import StudentMark from './pages/StudentMark';
 import FileUpload from './pages/FileUpload';
 import RsMatrix from './pages/RsMatrix';
-import Settings from './pages/Settings.jsx';
-import Terminologies from './pages/Terminology.jsx';
-import TutorReport from './pages/TutorReport.jsx';
+import Settings from './pages/Settings';
+import Terminologies from './pages/Terminology';
+
+// ENTRY REPORT FOR HOD, TUTOR, ADMIN
+import TutorReport from './pages/Reports/TutorReport';
+import HodReport from './pages/Reports/HodReport';
+import WorkProgressReport from './pages/Reports/WorkProgressReport';
+import EseReport from './pages/Reports/EseReport';
+import RsMatrixReport from './pages/Reports/RsMatrixReport';
 
 
 
 
 function App() {
+
 	return (
 		<AuthProvider>
 			<Router>
 				<Routes>
 					<Route path="/" element={<Login />} />
+
+					{/* Checked */}
 					<Route path="staff/:staffId/*" element={<PrivateRoute element={<Layout />} />} >
+
+
+
 						<Route path="dashboard" element={<Dash />} />
-						<Route path="workprogressreport" element={<StatusReport />} />
 						<Route path="obereport" element={<ObeReport />} />
-						<Route path="matrixreport" element={<Rsmatrixreport />} />
-						<Route path="esereport" element={<EseReport />} />
 						<Route path="manage" element={<Manage />} />
 						<Route path="scopemanage" element={<ScopeManage />} />
 						<Route path="staffmanage" element={<StaffManage />} />
@@ -84,20 +89,24 @@ function App() {
 						<Route path="programoutcome" element={<ProgramOC />} />
 						<Route path="programspecificoutcome" element={<ProgramSpecOc />} />
 						<Route path="showandblock" element={<Lock />} />
-						<Route path="hodreport" element={<HodReport />} />
-						
-						
-						
-						
-						
+
+
+
+
+
 						<Route path="courselist" element={<CourseList />} />
 						<Route path="studentmark" element={<StudentMark />} />
 						<Route path="inputfiles" element={<FileUpload />} />
 						<Route path="rsmatrix" element={<RsMatrix />} />
 						<Route path="settings" element={<Settings />} />
 						<Route path="terminologies" element={<Terminologies />} />
-						
+
+						{/*  REPORT FOR HOD, TUTOR, ADMIN */}
 						<Route path="tutorreport" element={<TutorReport />} />
+						<Route path="hodreport" element={<HodReport />} />
+						<Route path="workprogressreport" element={<WorkProgressReport />} />
+						<Route path="matrixreport" element={<RsMatrixReport />} />
+						<Route path="esereport" element={<EseReport />} />
 
 
 					</Route>

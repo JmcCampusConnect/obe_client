@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import './hodreport.css'; 
+import '../../css/HodReport.css';
 import { useParams } from 'react-router-dom';
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
-function HodReport() 
-{
+function HodReport() {
+
     const { staffId } = useParams();
     const [deptStatus, setDeptStatus] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +18,7 @@ function HodReport()
                 });
                 const uniqueData = Array.from(new Set(response.data.map(item => JSON.stringify(item)))).map(item => JSON.parse(item));
                 setDeptStatus(uniqueData);
-            } 
+            }
             catch (error) {
                 console.error("Error fetching department status:", error);
             }
@@ -28,19 +27,17 @@ function HodReport()
     }, [staffId]);
 
     const filteredStaffData = deptStatus.filter((staff) =>
-		(staff.staff_id?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-		(staff.category?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-		(staff.section?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-		(staff.dept_id?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-		(staff.course_code?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-		(staff.course_title?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-		(staff.staff_name?.toLowerCase() || "").includes(searchTerm.toLowerCase())
-	)
+        (staff.staff_id?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (staff.category?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (staff.section?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (staff.dept_id?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (staff.course_code?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (staff.course_title?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (staff.staff_name?.toLowerCase() || "").includes(searchTerm.toLowerCase())
+    )
 
-    const getStatusClass = (status) => 
-    {
-        switch (status) 
-        {
+    const getStatusClass = (status) => {
+        switch (status) {
             case "Completed":
                 return "status-completed";
             case "Processing":
@@ -50,7 +47,7 @@ function HodReport()
         }
     }
 
-    return ( 
+    return (
         <div>
             {deptStatus.length > 0 && (
                 <div className="hod-main">
@@ -79,26 +76,26 @@ function HodReport()
                             </tr>
                         </thead>
                         <tbody>
-                        {filteredStaffData.length > 0 ? (
-                            filteredStaffData.map((dept, index) => (
-                                <tr key={index}>
-                                    <td className="hod-repo-td">{index + 1}</td>
-                                    <td className="hod-repo-td">{dept.staff_name}</td>
-                                    <td className="hod-repo-td">{dept.semester} {dept.dept_id} {dept.section}</td>
-                                    <td className="hod-repo-td">{dept.course_title}</td>
-                                    <td className={`hod-repo-td-status ${getStatusClass(dept.cia_1)}`}>{dept.cia_1}</td>
-                                    <td className={`hod-repo-td-status ${getStatusClass(dept.cia_2)}`}>{dept.cia_2}</td>
-                                    <td className={`hod-repo-td-status ${getStatusClass(dept.ass_1)}`}>{dept.ass_1}</td>
-                                    <td className={`hod-repo-td-status ${getStatusClass(dept.ass_2)}`}>{dept.ass_2}</td>
+                            {filteredStaffData.length > 0 ? (
+                                filteredStaffData.map((dept, index) => (
+                                    <tr key={index}>
+                                        <td className="hod-repo-td">{index + 1}</td>
+                                        <td className="hod-repo-td">{dept.staff_name}</td>
+                                        <td className="hod-repo-td">{dept.semester} {dept.dept_id} {dept.section}</td>
+                                        <td className="hod-repo-td">{dept.course_title}</td>
+                                        <td className={`hod-repo-td-status ${getStatusClass(dept.cia_1)}`}>{dept.cia_1}</td>
+                                        <td className={`hod-repo-td-status ${getStatusClass(dept.cia_2)}`}>{dept.cia_2}</td>
+                                        <td className={`hod-repo-td-status ${getStatusClass(dept.ass_1)}`}>{dept.ass_1}</td>
+                                        <td className={`hod-repo-td-status ${getStatusClass(dept.ass_2)}`}>{dept.ass_2}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" className="hod-repo-td">
+                                        No Data Available.
+                                    </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="8" className="hod-repo-td">
-                                    No Data Available.
-                                </td>
-                            </tr>
-                        )}
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -111,17 +108,7 @@ function HodReport()
                 </div>
             )}
         </div>
-    ) 
+    )
 }
 
 export default HodReport;
-
-// import React from 'react'
-
-// function HodReport() {
-//   return (
-//     <div>H</div>
-//   )
-// }
-
-// export default HodReport

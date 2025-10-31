@@ -1,27 +1,25 @@
 import { useEffect, useState, React } from 'react';
 import axios from "axios";
-import './tutorreport.css';
+import '../../css/TutorReport.css';
 import { useParams } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
 
-function TutorReport() 
-{
+function TutorReport() {
+
     const { staffId } = useParams();
     const [deptStatus, setDeptStatus] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
-    useEffect(() => 
-    {
-        const fetchTutorReport = async () => 
-        {
+    useEffect(() => {
+        const fetchTutorReport = async () => {
             try {
                 const response = await axios.post(`${apiUrl}/api/tutorStatusReport`, {
                     staff_id: staffId
                 });
-                
+
                 const uniqueData = Array.from(new Set(response.data.map(item => JSON.stringify(item))))
-                .map(item => JSON.parse(item));
-                
+                    .map(item => JSON.parse(item));
+
                 const allCompleted = uniqueData.every(
                     (item) =>
                         item.cia_1 === "Completed" &&
@@ -29,21 +27,21 @@ function TutorReport()
                         item.ass_1 === "Completed" &&
                         item.ass_2 === "Completed"
                 )
-    
+
                 if (allCompleted) {
-                    setDeptStatus([]); 
-                } 
-                else {
-                    setDeptStatus(uniqueData); 
+                    setDeptStatus([]);
                 }
-            } 
+                else {
+                    setDeptStatus(uniqueData);
+                }
+            }
             catch (error) {
                 console.error("Error fetching Department Status : ", error);
             }
         };
         fetchTutorReport();
 
-    }, [apiUrl,staffId]);
+    }, [apiUrl, staffId]);
 
     const filteredData = deptStatus.filter(
         (item) =>
@@ -58,10 +56,8 @@ function TutorReport()
         (staff.staff_name?.toLowerCase() || "").includes(searchTerm.toLowerCase())
     )
 
-    const getStatusClass = (status) => 
-    {
-        switch (status) 
-        {
+    const getStatusClass = (status) => {
+        switch (status) {
             case "Completed":
                 return "status-completed";
             case "Processing":
@@ -99,25 +95,25 @@ function TutorReport()
                             </tr>
                         </thead>
                         <tbody>
-                        {filteredStaffData.length > 0 ? (
-                            filteredStaffData.map((dept, index) => (
-                                <tr key={index}>
-                                    <td className='tutor-repo-td'>{index + 1}</td>
-                                    <td className='tutor-repo-td'>{dept.staff_name}</td>
-                                    <td className='tutor-repo-td'>{dept.course_title}</td>
-                                    <td className={`tutor-repo-td-status ${getStatusClass(dept.cia_1)}`}>{dept.cia_1}</td>
-                                    <td className={`tutor-repo-td-status ${getStatusClass(dept.cia_2)}`}>{dept.cia_2}</td>
-                                    <td className={`tutor-repo-td-status ${getStatusClass(dept.ass_1)}`}>{dept.ass_1}</td>
-                                    <td className={`tutor-repo-td-status ${getStatusClass(dept.ass_2)}`}>{dept.ass_2}</td>
+                            {filteredStaffData.length > 0 ? (
+                                filteredStaffData.map((dept, index) => (
+                                    <tr key={index}>
+                                        <td className='tutor-repo-td'>{index + 1}</td>
+                                        <td className='tutor-repo-td'>{dept.staff_name}</td>
+                                        <td className='tutor-repo-td'>{dept.course_title}</td>
+                                        <td className={`tutor-repo-td-status ${getStatusClass(dept.cia_1)}`}>{dept.cia_1}</td>
+                                        <td className={`tutor-repo-td-status ${getStatusClass(dept.cia_2)}`}>{dept.cia_2}</td>
+                                        <td className={`tutor-repo-td-status ${getStatusClass(dept.ass_1)}`}>{dept.ass_1}</td>
+                                        <td className={`tutor-repo-td-status ${getStatusClass(dept.ass_2)}`}>{dept.ass_2}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className="tutor-repo-td">
+                                        No Data Available.
+                                    </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="7" className="tutor-repo-td">
-                                    No Data Available.
-                                </td>
-                            </tr>
-                        )}
+                            )}
                         </tbody>
                     </table>
 
@@ -135,13 +131,3 @@ function TutorReport()
 }
 
 export default TutorReport;
-
-// import React from 'react'
-
-// function TutorReport() {
-//   return (
-//     <div>TutorReport</div>
-//   )
-// }
-
-// export default TutorReport

@@ -36,18 +36,18 @@
 }
 
 .ese-repo-btn {
-	background-color: #057252;
+    background-color: #057252;
     background-color: #007BFF;
     color: white;
     font-size: 20px;
     padding: 20px 25px;
     border: none;
     border-radius: 10px;
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .ese-repo-btn:hover {
-	background-color: #03573e;
+    background-color: #03573e;
     background-color: #076ad4;
 }
 

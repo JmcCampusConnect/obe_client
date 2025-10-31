@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './settings.css';
+import '../css/Settings.css';
 import { useParams } from 'react-router-dom';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
-import passbg from '../../assets/passbg.jpg';
-
+import passbg from '../assets/passbg.jpg'
 function Settings() {
     
     const [newPassword, setNewPassword] = useState('');

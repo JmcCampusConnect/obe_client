@@ -13,7 +13,6 @@
     border: 1px solid black;
     border-radius: 10px;
     width: 100%;
-    /* padding: 40px; */
     margin: 0 auto;
     margin-bottom: 40px;
     box-shadow: 2px 4px 5px rgb(183, 183, 183);
@@ -22,7 +21,6 @@
 .report-entire-box {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* gap: 40px; */
 }
 
 .report-subject-box {
@@ -32,7 +30,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* height: 180px; */
     cursor: pointer;
     font-family: Arial, Helvetica, sans-serif;
     transition: 0.report-3s;
