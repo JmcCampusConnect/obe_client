@@ -1,0 +1,304 @@
+/* Reset + Base */
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.tso-main {
+     padding: 25px;
+     min-height: 100vh;
+     background-color: #f9fafc;
+}
+
+/* Dropdown Container */
+.tso-dropdown-container {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: 25px 35px;
+     padding: 30px 25px;
+     border-radius: 12px;
+     background: #ffffff;
+     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+     border: 1px solid #e5e7eb;
+     margin-bottom: 25px;
+     transition: box-shadow 0.3s ease;
+}
+
+.tso-dropdown-container:hover {
+     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Each dropdown field */
+.tso-search-cnt {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+     width: 100%;
+}
+
+/* Label */
+.tso-label {
+     font-size: 14px;
+     font-weight: 600;
+     letter-spacing: 0.5px;
+     color: #173d61;
+     text-transform: uppercase;
+}
+
+/* Input & Select */
+.tso-select,
+.tso-input {
+     width: 100%;
+     border: 1px solid #d1d5db;
+     border-radius: 10px;
+     font-size: 15px;
+     padding: 12px 14px;
+     background: linear-gradient(180deg, #fafafa, #fdfdfd);
+     transition: all 0.3s ease;
+     font-weight: 500;
+     color: #333;
+     cursor: pointer;
+}
+
+/* Remove native select arrow for styling */
+.tso-select {
+     appearance: none;
+     background-image: url("data:image/svg+xml,%3Csvg fill='%23007bff' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+     background-repeat: no-repeat;
+     background-position: right 12px center;
+     background-size: 16px;
+}
+
+/* Hover & Focus */
+.tso-select:hover,
+.tso-input:hover {
+     border-color: #007bff;
+     box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.25);
+}
+
+.tso-select:focus,
+.tso-input:focus {
+     outline: none;
+     border-color: #007bff;
+     box-shadow: 0 0 8px rgba(0, 123, 255, 0.35);
+     background: #fff;
+}
+
+/* Button */
+.tso-btn-content {
+     margin-top: 20px;
+     display: flex;
+     justify-content: flex-end;
+}
+
+.tso-btn {
+     padding: 12px;
+     border-radius: 8px;
+     width: 180px;
+     font-size: 16px;
+     font-weight: 600;
+     background: linear-gradient(90deg, #057252, #049e6f);
+     color: white;
+     border: none;
+     cursor: pointer;
+     transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.tso-btn:hover {
+     background: linear-gradient(90deg, #049e6f, #057252);
+     transform: translateY(-1px);
+}
+
+/* Header */
+.tso-header-title1 {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     font-weight: bold;
+     justify-content: center;
+     align-items: center;
+     color: #173d61;
+}
+
+.tso-header-title1 h1 {
+     font-size: 25px;
+     margin-bottom: 6px;
+     color: #222;
+}
+
+.tso-header-title1 span {
+     font-size: 14px;
+     color: #555;
+     margin-bottom: 3px;
+}
+
+/* Green Banner */
+.tso-header-title2 {
+     margin-top: 20px;
+     width: 100%;
+     height: 70px;
+     background: linear-gradient(90deg, #057252, #049e6f);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-weight: bold;
+     color: white;
+     border-radius: 6px;
+     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+     text-transform: uppercase;
+     letter-spacing: 1px;
+     font-size: 20px;
+}
+
+/* Section Heading */
+.tso-heading {
+     margin: 35px 0 20px;
+     text-align: center;
+     font-size: 22px;
+     color: #007bff;
+     cursor: pointer;
+     transition: color 0.3s ease;
+}
+
+.tso-heading:hover {
+     color: #0056b3;
+     text-decoration: underline;
+}
+
+/* Table */
+.tso-table {
+     width: 100%;
+     border-collapse: collapse;
+     font-size: 15px;
+     background: white;
+     margin-top: 20px;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tso-table thead {
+     background: #057252;
+}
+
+.tso-table th {
+     color: white;
+     padding: 15px;
+     font-size: 15px;
+     font-weight: bold;
+     text-transform: uppercase;
+     border: 1px solid rgba(255, 255, 255, 0.2);
+     text-align: center;
+}
+
+.tso-table td {
+     padding: 12px;
+     border: 1px solid #e0e0e0;
+     font-weight: 500;
+     text-align: center;
+     transition: background 0.3s ease;
+}
+
+.tso-table tbody tr:nth-child(even) {
+     background-color: #f9f9f9;
+}
+
+.tso-table tbody tr:hover td {
+     background-color: #f1f9f7;
+}
+
+/* Color-coded cells */
+.tso-content-cia {
+     background-color: #e3f0ff;
+     color: #004085;
+     font-weight: bold;
+}
+
+.tso-content-ese {
+     background-color: #fff4e1;
+     color: #856404;
+     font-weight: bold;
+}
+
+.tso-content-all {
+     background-color: #e6f4ea;
+     color: #155724;
+     font-weight: bold;
+}
+
+/* No Data */
+.tso-no-content {
+     font-size: 18px;
+     margin-top: 20px;
+     text-align: center;
+     color: #777;
+}
+
+/* Alert Popup */
+.alert-overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.5);
+     z-index: 1000;
+     display: flex;
+     justify-content: center;
+     align-items: flex-start;
+     padding-top: 60px;
+}
+
+.alert-box {
+     background-color: #fff;
+     padding: 25px;
+     border-radius: 8px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+     text-align: justify;
+     width: 550px;
+     border: 1px solid #ccc;
+     font-size: 16px;
+     line-height: 24px;
+}
+
+.alert-button {
+     margin-top: 15px;
+     padding: 10px 20px;
+     background-color: #007bff;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     font-size: 15px;
+     transition: background 0.3s ease;
+     float: right;
+}
+
+.alert-button:hover {
+     background-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+     .tso-dropdown-container {
+          grid-template-columns: repeat(2, 1fr);
+     }
+}
+
+@media (max-width: 600px) {
+     .tso-dropdown-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+          padding: 20px;
+     }
+}
+
+.tso-table thead tr {
+     display: table-row;
+}
+
+.tso-table th {
+     display: table-cell;
+}

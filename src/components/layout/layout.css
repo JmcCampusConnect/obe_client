@@ -1,0 +1,128 @@
+.layout-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    height: 100vh;
+    width: 100%;
+}
+
+.layout-sidebar {
+    background-color: #057252;
+    width: 20rem;
+    padding: 0.layout-75rem;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    color: #000000;
+}
+
+.layout-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.layout-sidebar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+}
+
+.layout-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.layout-logo {
+    margin-top: 20px;
+    width: 9rem;
+    height: 10rem;
+}
+
+.layout-logo-alt {
+    width: 15rem;
+}
+
+.layout-college-info {
+    margin-top: 0.layout-5rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.layout-college-name {
+    font-size: 0.layout-875rem;
+    font-weight: 800;
+}
+
+.layout-college-type {
+    font-size: 0.layout-875rem;
+    font-weight: 700;
+    margin-top: -0.layout-25rem;
+}
+
+.layout-college-location {
+    font-size: 0.layout-875rem;
+    font-weight: 700;
+    margin-top: -0.layout-25rem;
+}
+
+.layout-menu-item {
+    display: flex;
+    align-items: center;
+    width: 280px;
+    font-size: 16px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    height: 45px;
+    padding-left: 20px;
+    font-size: 1.layout-25rem;
+    text-decoration: none;
+    transition: all 0.layout-8s ease;
+    color: #ffffff;
+    transition: 0.3s;
+    flex-shrink: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.layout-menu-item:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.layout-active {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.layout-menu-label {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    margin-left: 10px;
+}
+
+.layout-menu-item:hover,
+.layout-active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.layout-content {
+    flex: 1;
+    overflow: auto;
+}
+
+.layout-fa-icons {
+    width: 20px;
+}
+
+.layout-menu-logout-label {
+    cursor: pointer;
+    font-size: 0.93rem;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    margin-left: 10px;
+}

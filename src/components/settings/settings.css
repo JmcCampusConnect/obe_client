@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.settings-parent {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background: linear-gradient(to bottom right, #173d61, #0d4b85); */
+    padding: 40px;
+}
+
+/* MAIN CARD */
+.settings-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* LEFT SIDE */
+.settings-left-wrapper {
+    width: 50%;
+    height: 100%;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-passbg {
+    width: 90%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* RIGHT SIDE */
+.settings-right-wrapper {
+    width: 50%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    /* padding: 20px; */
+}
+
+.settings-rgt-header {
+    font-size: 32px;
+    font-weight: bold;
+    color: #173d61;
+    text-align: center;
+}
+
+/* INPUT FIELDS */
+.settings-desc-input {
+    width: 75%;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    padding-left: 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-desc-input:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 6px rgba(13, 110, 253, 0.4);
+}
+
+/* BUTTON */
+.settings-desc-btn {
+    width: 75%;
+    height: 50px;
+    background: linear-gradient(to right, #057252, #025c41);
+    font-weight: 600;
+    color: white;
+    border-radius: 8px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.settings-desc-btn:hover {
+    background: linear-gradient(to right, #0056b3, #00408d);
+    transform: translateY(-2px);
+}
+
+.settings-fa-fa-icons {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+    .settings-main {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+    }
+
+    .settings-left-wrapper,
+    .settings-right-wrapper {
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+    }
+
+    .settings-passbg {
+        width: 70%;
+        margin: 20px 0;
+    }
+
+    .settings-desc-input,
+    .settings-desc-btn {
+        width: 90%;
+    }
+
+    .settings-rgt-header {
+        font-size: 26px;
+    }
+}

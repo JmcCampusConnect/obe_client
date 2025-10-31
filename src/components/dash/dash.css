@@ -1,0 +1,88 @@
+.dash-main {
+    width: 100%;
+    display: flex;
+    padding: 40px;
+    flex-direction: column;
+    gap: 40px;
+    background: #f8f9fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dash-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 40px;
+}
+
+.dash-header-content {
+    flex: 1;
+    gap: 10px;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-header-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.dash-count-content {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+}
+
+.dash-count-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+}
+
+.dash-student-icon {
+    color: #007bff;
+    font-size: 40px;
+}
+
+.dash-staff-icon {
+    color: #28a745;
+    font-size: 40px;
+}
+
+.dash-course-icon {
+    color: #fd7e14;
+    font-size: 40px;
+}
+
+.dash-programme-icon {
+    color: #6f42c1;
+    font-size: 40px;
+}
+
+.dash-linechart {
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.dash-piechart-main {
+    width: 100%;
+    padding: 40px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+    justify-content: space-around;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}

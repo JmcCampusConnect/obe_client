@@ -1,0 +1,130 @@
+/* Main Container */
+.tco-main {
+     padding: 20px;
+     max-height: 700px;
+     overflow-y: auto;
+     background: #f9fafc;
+     border-radius: 8px;
+     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.tco-header {
+     display: flex;
+     justify-content: center;
+     text-align: center;
+}
+
+.tco-header-title1 {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     font-weight: bold;
+     justify-content: center;
+     align-items: center;
+     color: #173d61;
+}
+
+.tco-header-title1 h1 {
+     font-size: 25px;
+     margin-bottom: 5px;
+     color: #222;
+}
+
+.tco-header-title1 span {
+     font-size: 14px;
+     color: #555;
+     margin-bottom: 3px;
+}
+
+/* Green Banner */
+.tco-header-title2 {
+     margin-top: 18px;
+     width: 100%;
+     height: 65px;
+     background: linear-gradient(90deg, #057252, #049e6f);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-weight: bold;
+     color: white;
+     font-size: 20px;
+     border-radius: 6px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+     text-transform: uppercase;
+     letter-spacing: 1px;
+}
+
+/* Section Heading */
+.tco-heading {
+     margin: 30px 0 20px;
+     text-align: center;
+     font-size: 22px;
+     font-weight: bold;
+     color: #007bff;
+}
+
+/* Table */
+.tco-table {
+     width: 100%;
+     border-collapse: collapse;
+     font-size: 16px;
+     background: #fff;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tco-table thead {
+     background: #057252;
+}
+
+.tco-table th {
+     color: white;
+     padding: 15px;
+     font-size: 16px;
+     font-weight: bold;
+     text-transform: uppercase;
+     border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tco-table th:last-child {
+     border-right: none;
+}
+
+.tco-table td {
+     padding: 14px;
+     border: 1px solid #e0e0e0;
+     font-weight: 500;
+     text-align: center;
+     transition: background 0.3s ease;
+}
+
+/* Row styles */
+.tco-table tbody tr:nth-child(even) {
+     background-color: #f9f9f9;
+}
+
+.tco-table tbody tr:hover td {
+     background-color: #f1f9f7;
+}
+
+/* Color-coded cells */
+.tco-content-cia {
+     background-color: #e3f0ff;
+     color: #004085;
+     font-weight: bold;
+}
+
+.tco-content-ese {
+     background-color: #fff4e1;
+     color: #856404;
+     font-weight: bold;
+}
+
+.tco-content-all {
+     background-color: #e6f4ea;
+     color: #155724;
+     font-weight: bold;
+}

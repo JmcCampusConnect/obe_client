@@ -1,0 +1,155 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.mark-mng-main {
+    display: flex;
+    flex-direction: column;
+    padding: 35px;
+    gap: 45px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: auto;
+}
+
+.mark-mng-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    letter-spacing: 0.5px;
+}
+
+.mark-mng-top-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    height: auto;
+    flex-wrap: wrap;
+}
+
+table {
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.mark-mng-mark-table,
+.mark-mng-mark-wtable,
+.mark-mng-ltable {
+    width: 100%;
+    min-width: 300px;
+}
+
+.mark-mng-left-wrapper {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+}
+
+.mark-mng-th {
+    background-color: #057252;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 12px;
+    letter-spacing: 0.3px;
+    width: 25%;
+}
+
+.mark-mng-thg {
+    background-color: #057252;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 12px;
+    letter-spacing: 0.3px;
+    width: 20%;
+}
+
+.mark-mng-td {
+    text-align: center;
+    color: #222;
+    font-size: 15px;
+    padding: 10px;
+    font-weight: 500;
+    border: 1px solid #ddd;
+    background-color: rgba(128, 128, 128, 0.03);
+}
+
+.mark-mng-td:hover {
+    background: rgba(0, 123, 255, 0.08);
+}
+
+.mark-mng-input {
+    width: 100%;
+    height: 45px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.mark-mng-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.35);
+}
+
+.mark-mng-input:disabled {
+    background-color: #f5f5f5;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.mark-mng-button {
+    padding: 12px;
+    border-radius: 8px;
+    width: 140px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.mark-mng-button:hover {
+    background: linear-gradient(135deg, #076ad4, #004a99);
+}
+
+.mark-mng-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.mark-mng-level-save-btn {
+    display: flex;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mark-mng-left-wrapper {
+        width: 100%;
+        align-items: center;
+    }
+
+    .mark-mng-level-save-btn {
+        justify-content: center;
+    }
+}

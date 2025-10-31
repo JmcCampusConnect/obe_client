@@ -1,0 +1,110 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.hod-main {
+    margin: 0px;
+    padding: 10px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f8f9fb;
+}
+
+.hod-input-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hod-repo-table {
+    border-collapse: collapse;
+    font-size: 16px;
+    text-align: center;
+}
+
+.hod-repo-th {
+    background-color: #1c8163;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    border: 1px solid gray;
+    padding: 12px 17px;
+    height: 70px;
+    font-weight: bold;
+    border-color: black;
+}
+
+.hod-repo-td {
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid gray;
+    padding: 17px;
+    height: 70px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hod-repo-td-status {
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid gray;
+    padding: 17px;
+    font-weight: bold;
+}
+
+.hod-top-heading {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    word-spacing: 2px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.status-completed {
+    color: green;
+}
+
+.status-processing {
+    color: blue;
+}
+
+.status-incomplete {
+    color: red;
+}
+
+.export-button {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.export-button:hover {
+    color: #0056b3;
+}
+
+
+.process-main {
+	padding: 60px;
+}
+
+.process-content {
+	padding: 50px;
+    width: 100%;
+	border-radius: 10px;
+	border: 1px solid black;
+    box-shadow: 2px  4px 5px rgb(183, 183, 183);
+}
+
+.process-code {
+    font-size: 18px;
+    color: #888;
+}

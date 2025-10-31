@@ -1,0 +1,370 @@
+/* * {
+	margin: 0px;
+	padding: 0px;
+}
+
+.student-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 16px;
+	text-align: left;
+}
+
+.student-header {
+	background-color: #1c8163;
+	text-align: center;
+	font-size: 19px;
+	color: white;
+	border: 1px solid gray;
+	padding: 10px 13px;
+	height: 65px;
+	font-weight: bold;
+	border-color: black;
+}
+
+.student-data,
+.student-data-stu {
+	text-align: center;
+	font-size: 16px;
+	border: 1px solid gray;
+	padding: 10px 15px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.student-no-data {
+	text-align: center;
+	color: #888;
+	padding: 20px;
+	font-size: 16px;
+}
+
+.stu-span {
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.stu-add-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.stu-add-content {
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	max-width: 90%;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	animation: slide-down 0.3s ease-out;
+}
+
+.stu-add-input-container {
+	display: flex;
+	gap: 15px;
+}
+
+.stu-add-indi-input {
+	width: 100%;
+	height: 43px;
+	border-radius: 5px;
+	font-size: 14px;
+	padding: 0px 8px;
+	text-transform: uppercase;
+}
+
+.stu-add-indi-input::placeholder {
+	color: rgba(0, 0, 0, 0.486)
+}
+
+.student-add-input-container {
+	display: flex;
+	gap: 15px;
+}
+
+.stu-select {
+	width: 300px;
+	border-radius: 5px;
+	font-size: 15px;
+	height: 43px;
+	padding: 8px;
+}
+
+.stu-btn-container {
+	display: flex;
+	justify-content: flex-end;
+	gap: 13px;
+}
+
+.stu-btn-container2 {
+	display: flex;
+	justify-content: flex-end;
+	gap: 13px;
+}
+
+.stu-btn-1,
+.stu-btn-2 {
+	padding: 12px;
+	border-radius: 10px;
+	font-size: 16px;
+	font-weight: 700;
+	color: white;
+	cursor: pointer;
+	border: none;
+}
+
+.stu-btn-1 {
+	background-color: green;
+	padding: 12px 17px;
+}
+
+.stu-btn-2 {
+	background-color: red;
+	width: 100px;
+}
+
+.stu-btn-3 {
+	padding: 12px;
+	border-radius: 10px;
+	font-size: 15px;
+	width: 100px;
+	font-weight: 700;
+	color: white;
+	cursor: pointer;
+	border: none;
+	background-color: #007BFF;
+}
+
+.student-add-dropdowns {
+	display: flex;
+	gap: 20px;
+	justify-content: space-between;
+}
+
+.checkbox-row {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	justify-content: space-between;
+	margin-bottom: 10px;
+	gap: 23px;
+	margin-top: 5px;
+	margin-left: 7px;
+}
+
+.checkbox-item {
+	display: flex;
+	align-items: center;
+}
+
+.custom-checkbox {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #007bff;
+	border-radius: 4px;
+	cursor: pointer;
+	outline: none;
+	position: relative;
+}
+
+.custom-checkbox:checked {
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.custom-checkbox:checked::after {
+	content: '✔';
+	color: white;
+	font-size: 14px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.checkbox-label {
+	margin-left: 10px;
+	font-size: 16px;
+	color: #333;
+	cursor: pointer;
+}
+
+.stu-del-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.stu-del-content {
+	background: #fff;
+	border-radius: 8px;
+	padding: 20px;
+	width: 430px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	animation: slide-down 0.3s ease-out;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.stu-del-content p {
+	font-size: 19px;
+	text-align: center;
+}
+
+.stu-del-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 15px;
+}
+
+@keyframes slide-down {
+	from {
+		transform: translateY(-20px);
+		opacity: 0;
+	}
+
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+} */
+
+
+/* ------------------------------------------------------------------------------------------------------- */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sm-main {
+	padding: 25px;
+	min-height: 100vh;
+}
+
+.sm-main {
+	padding: 25px;
+	min-height: 100vh;
+}
+
+/* Dropdown Container */
+.sm-dropdown-container {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 25px 35px;
+	padding: 30px 25px;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+	border: 1px solid #e5e7eb;
+	margin-bottom: 25px;
+	transition: box-shadow 0.3s ease;
+}
+
+.sm-dropdown-container:hover {
+	box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Each dropdown field */
+.sm-search-cnt {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 100%;
+}
+
+/* Label */
+.sm-label {
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	color: #173d61;
+	text-transform: uppercase;
+}
+
+/* Input & Select (full equal width) */
+.sm-select,
+.sm-input {
+	width: 100%;
+	border: 1px solid #d1d5db;
+	border-radius: 10px;
+	font-size: 15px;
+	padding: 12px 14px;
+	background: linear-gradient(180deg, #fafafa, #fdfdfd);
+	transition: all 0.3s ease;
+	font-weight: 500;
+	color: #333;
+	cursor: pointer;
+}
+
+/* Remove native select arrow for styling */
+.sm-select {
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg fill='%23007bff' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 12px center;
+	background-size: 16px;
+}
+
+/* Hover & Focus */
+.sm-select:hover,
+.sm-input:hover {
+	border-color: #007bff;
+	box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.25);
+}
+
+.sm-select:focus,
+.sm-input:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 8px rgba(0, 123, 255, 0.35);
+	background: #fff;
+}
+
+/* Button */
+.sm-btn-content {
+	margin: 20px 0px 25px 0px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.sm-btn {
+	padding: 12px;
+	border-radius: 8px;
+	width: 180px;
+	font-size: 16px;
+	font-weight: 600;
+	background: linear-gradient(90deg, #057252, #049e6f);
+	color: white;
+	border: none;
+	cursor: pointer;
+	transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.sm-btn:hover {
+	background: linear-gradient(90deg, #049e6f, #057252);
+	transform: translateY(-1px);
+}

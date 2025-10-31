@@ -1,0 +1,374 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.rsmatrix-main {
+    background: #f8f9fb;
+    border-radius: 10px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rsmatrix-parent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    padding: 40px;
+    border-radius: 10px;
+    background: #fff;
+    padding: 18px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.rsmatrix-label {
+    font-weight: 500;
+    margin-right: 10px;
+    text-align: end;
+    font-size: 16px;
+    color: black;
+}
+
+.rsmatrix-top-div {
+    display: flex;
+    justify-content: end;
+}
+
+.rsmatrix-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.rsmatrix-box {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background-color: white;
+    padding: 35px 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.rsmatrix-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+}
+
+.rsmatrix-layout-top-div {
+    width: 100%;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.rsmatrix-no-code {
+    font-size: 16px;
+    color: #888;
+    font-weight: bold;
+}
+
+.rsmatrix-completed {
+    color: green;
+}
+
+.rsmatrix-incomplete {
+    color: red;
+}
+
+.rsmatrix-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.rsmatrix-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    width: 87%;
+    height: 668px;
+    max-width: 1500px;
+    position: relative;
+    overflow-y: auto;
+}
+
+.rsmatrix-modal-content h2 {
+    text-align: center;
+}
+
+.rsmatrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.rsmatrix-th,
+.rsmatrix-td {
+    padding: 10px;
+    border: 0.5px solid #ccc;
+}
+
+.rsmatrix-th {
+    background-color: #057252;
+    color: white;
+    font-weight: bold;
+}
+
+.rsmatrix-input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    padding: 5px 10px;
+    border: 2px solid #c2c1c1;
+    background-color: #fcf7f7;
+    border-radius: 5px;
+    transition: border 0.3s;
+    text-align: center;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.rsmatrix-input:focus {
+    border-color: black;
+    outline: none;
+}
+
+.rsmatrix-close-btn {
+    background-color: rgb(255, 36, 36);
+    padding: 12px;
+    border-radius: 8px;
+    width: 120px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.rsmatrix-save-btn {
+    padding: 12px;
+    border-radius: 8px;
+    width: 120px;
+    font-size: 18px;
+    font-weight: 700;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.rsmatrix-save-btn:hover {
+    background-color: #076ad4;
+}
+
+.rsmatrix-close-btn:hover {
+    background-color: rgb(211, 3, 3);
+}
+
+.rsmatrix-btn {
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.rsmatrix-td-co {
+    text-align: center;
+    border: 0.5px solid #ccc;
+}
+
+.rsmatrix-course-colspan {
+    text-align: right;
+    padding-right: 20px;
+    font-size: 17px;
+    border: 0.5px solid #ccc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.rsmatrix-main {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rsmatrix-layout-top-div {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 28px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 18px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.course-staff {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.rsmatrix-parent {
+    width: 100%;
+    background: #fff;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.6s ease;
+}
+
+.rsmatrix-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 30px;
+}
+
+.rsmatrix-box {
+    background: linear-gradient(145deg, #ffffff, #f7faff);
+    border: 1px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 20px 16px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    font-size: 17px;
+    font-weight: 600;
+    gap: 15px;
+}
+
+.rsmatrix-box:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(145deg, #fdfefe, #f2f6fb);
+}
+
+.course-status {
+    margin-bottom: 10px;
+}
+
+.rsmatrix-completed,
+.rsmatrix-incomplete {
+    font-size: 15px;
+    padding: 5px 12px;
+    border-radius: 18px;
+    font-weight: 700;
+}
+
+.rsmatrix-completed {
+    background: #eaf4e9;
+    color: #28a745;
+}
+
+.rsmatrix-incomplete {
+    background: #fdecea;
+    color: #e74c3c;
+}
+
+.rsmatrix-header-code {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #007bff;
+    margin-bottom: 4px;
+}
+
+.rsmatrix-box p {
+    font-size: 16px;
+    font-weight: 700;
+    color: #555;
+    line-height: 1.4;
+    margin: 2px 0;
+}
+
+.rsmatrix-no-code {
+    font-size: 16px;
+    color: #7f8c8d;
+    font-weight: 500;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .rsmatrix-layout-top-div {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+        font-size: 16px;
+    }
+
+    .rsmatrix-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .rsmatrix-box {
+        padding: 18px;
+        min-height: 150px;
+    }
+}
+
+.rsmatrix-header-code {
+    color: red;
+}

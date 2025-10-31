@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+.termi-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    gap: 35px;
+}
+
+.termi-top-heading {
+    font-size: 36px;
+    font-weight: 700;
+    color: #173d61;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.termi-a4 {
+    width: 100%;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.termi-section {
+    background-color: #f7f9fc;
+    padding: 20px 25px;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.termi-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.termi-term,
+.termi-term2 {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: #057252;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.termi-list {
+    list-style-type: disc;
+    padding-left: 45px;
+    line-height: 1.8;
+    color: #2b2b2b;
+}
+
+.termi-list li {
+    margin-bottom: 12px;
+    font-size: 18px;
+
+}
+
+.termi-list span {
+    font-weight: 700;
+    color: #173d61;
+    font-size: 18px;
+}
+
+.termi-para {
+    text-align: justify;
+    text-indent: 2em;
+    line-height: 1.9;
+    color: #2a2a2a;
+    font-size: 18px;
+}
+
+.termi-span {
+    font-weight: 700;
+    color: #173d61;
+}
+
+i {
+    font-style: italic;
+    color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .termi-a4 {
+        padding: 25px;
+    }
+
+    .termi-top-heading {
+        font-size: 28px;
+    }
+
+    .termi-term,
+    .termi-term2 {
+        font-size: 18px;
+    }
+
+    .termi-para {
+        font-size: 15px;
+    }
+}

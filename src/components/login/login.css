@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.log-parent {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, rgb(26, 112, 30), rgb(18, 144, 163));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* LEFT CONTAINER - ENHANCED */
+.log-left-container {
+    width: 450px;
+    height: 450px;
+    padding: 15px;
+    border-radius: 10px 0 0 10px;
+    border-right: 2px solid rgb(26, 112, 30);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.log-left-top {
+    width: 100%;
+    height: 70%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.log-jmclogo {
+    width: 53%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.log-left-bottom {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.log-clg-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.log-clg-span {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+    color: rgb(26, 112, 30);
+    text-align: center;
+}
+
+/* RIGHT CONTAINER - ENHANCED */
+.log-right-container {
+    width: 450px;
+    max-width: 100%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    border-radius: 0 10px 10px 0;
+    background-color: white;
+    padding: 30px 45px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.log-desc-para {
+    font-size: 28px;
+    color: rgb(26, 112, 30);
+    font-weight: bold;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.log-desc-input {
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 19px;
+    padding-left: 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.log-desc-input:focus {
+    outline: none;
+    border-color: rgb(26, 112, 30);
+    box-shadow: 0 0 6px rgba(26, 112, 30, 0.4);
+}
+
+.log-desc-anchor {
+    font-size: 15px;
+    color: #1a7030;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.log-desc-btn {
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+    background-color: rgb(26, 112, 30);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.log-fa-fa-icons {
+    color: white;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media (max-width: 1000px) {
+    .log-parent {
+        flex-direction: column;
+        height: auto;
+        padding: 30px 0;
+    }
+
+    .log-left-container,
+    .log-right-container {
+        width: 90%;
+        border-radius: 10px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .log-right-container {
+        gap: 25px;
+        padding: 25px 15px;
+    }
+
+    .log-desc-para {
+        font-size: 24px;
+    }
+
+    .log-desc-input,
+    .log-desc-btn {
+        width: 90%;
+    }
+
+    .log-clg-span {
+        font-size: 20px;
+    }
+
+    .log-jmclogo {
+        width: 60%;
+    }
+}
