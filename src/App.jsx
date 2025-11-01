@@ -6,7 +6,6 @@ import PrivateRoute from './components/common/Privaterouter';
 
 import ScopeManage from './components/manage/scopemanage/scopemanage';
 import MarkRelease from './components/manage/markrelease/markrelease';
-import StaffCourseManage from './components/manage/staffcoursemanage/staffcoursemanage';
 import StudentManage from './components/manage/studentmanage/studentmanage';
 import MarkManage from './components/manage/markmanage/markmanage';
 import ProgramOC from './components/prooutcome/prooutcome';
@@ -39,6 +38,7 @@ import StaffMaster from './pages/Manage/StaffMaster';
 import HodManage from './pages/Manage/HodManage';
 import TutorManage from './pages/Manage/TutorManage';
 import BlockShow from './pages/Manage/BlockShow'
+import StaffCourseManage from './pages/Manage/StaffCourseManage';
 
 // OUTCOME FOR STUDENT COURSE AND PROGRAM
 import StudentOutcome from './pages/Outcomes/StudentOutcome';

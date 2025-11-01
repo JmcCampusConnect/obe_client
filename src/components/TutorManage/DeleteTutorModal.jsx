@@ -6,7 +6,7 @@ function DeleteTutorModal({ deleteStaff, cancelDelete, handleConfirmDelete }) {
 
 	return (
 		<div className="modal-overlay">
-			<div className="modal modal-sm">
+			<div className="modal modal-md">
 				<div className="modal-header">
 					<h3>Confirm Delete</h3>
 					<button className="modal-close" onClick={cancelDelete}>✕</button>
