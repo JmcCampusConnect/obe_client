@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './tutorstuoutcome.css';
-import { useParams } from 'react-router-dom';
+import './TutorStudentOutcome.css';
+import '../../css/AdminCourseOutcome.css';
 
-function AdminStuOutcome() 
-{
-	const apiUrl = import.meta.env.VITE_API_URL;
+function TutorStudentOutcome() {
+
+	const apiUrl = process.env.REACT_APP_API_URL;
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
 	const [outcomeData, setOutcomeData] = useState("");
@@ -17,8 +17,7 @@ function AdminStuOutcome()
 	const [section, setSection] = useState('');
 	const [semester, setSemester] = useState('');
 
-	useEffect(() => 
-	{
+	useEffect(() => {
 		const academicSemSet = async () => {
 			try {
 				const response = await axios.post(`${apiUrl}/activesem`, {});
@@ -32,8 +31,7 @@ function AdminStuOutcome()
 
 	}, []);
 
-	useEffect(() => 
-	{
+	useEffect(() => {
 		const fetchacademicSemAndData = async () => {
 			try {
 				const tutorDetails = await axios.post(`${apiUrl}/api/tutordetails`, { staffId })
@@ -52,7 +50,7 @@ function AdminStuOutcome()
 	}, []);
 
 	const handlePopup = () => { setShowSclaPopup(true) }
-    const closePopup  = () => { setShowSclaPopup(false) }
+	const closePopup = () => { setShowSclaPopup(false) }
 
 	const sendData = async () => {
 		const values = await axios.post(`${apiUrl}/api/tutorstuoutcome`, {
@@ -145,23 +143,23 @@ function AdminStuOutcome()
 					<div className="tso-header-title2">
 						<h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
 					</div>
-					<h2 className='aso-heading'  title='Click to View' onClick={handlePopup}>
-                        SCLA - Student Cognitive Level Attainment
-                    </h2>
-                    {showSclaPopup && (
-                        <div className="alert-overlay">
-                            <div className="alert-box">
-                                <p>
-                                    The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
-                                    Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
-                                    for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
-                                </p>
-                                <button onClick={closePopup} className="alert-button">
-                                    OK
-                                </button>
-                            </div>
-                        </div>
-                    )}
+					<h2 className='aso-heading' title='Click to View' onClick={handlePopup}>
+						SCLA - Student Cognitive Level Attainment
+					</h2>
+					{showSclaPopup && (
+						<div className="alert-overlay">
+							<div className="alert-box">
+								<p>
+									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
+									Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
+									for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
+								</p>
+								<button onClick={closePopup} className="alert-button">
+									OK
+								</button>
+							</div>
+						</div>
+					)}
 					{outcomeData && outcomeData.length > 0 ? (
 						<table className="tso-table">
 							<thead>
@@ -189,17 +187,17 @@ function AdminStuOutcome()
 								{outcomeData.map((item, index) => (
 									<tr key={index}>
 										<td className='aso-content'>{item.reg_no}</td>
-                                        <td className='aso-content'>{item.course_code}</td>
-                                        <td className='aso-content-cia'>{item.lot_attainment}</td>
-                                        <td className='aso-content-cia'>{item.mot_attainment}</td>
-                                        <td className='aso-content-cia'>{item.hot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.elot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.emot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.ehot_attainment}</td>
-                                        <td className='aso-content-all'>{item.overAll_lot}</td>
-                                        <td className='aso-content-all'>{item.overAll_mot}</td>
-                                        <td className='aso-content-all'>{item.overAll_hot}</td>
-                                        <td className='aso-content'>{item.final_grade}</td>
+										<td className='aso-content'>{item.course_code}</td>
+										<td className='aso-content-cia'>{item.lot_attainment}</td>
+										<td className='aso-content-cia'>{item.mot_attainment}</td>
+										<td className='aso-content-cia'>{item.hot_attainment}</td>
+										<td className='aso-content-ese'>{item.elot_attainment}</td>
+										<td className='aso-content-ese'>{item.emot_attainment}</td>
+										<td className='aso-content-ese'>{item.ehot_attainment}</td>
+										<td className='aso-content-all'>{item.overAll_lot}</td>
+										<td className='aso-content-all'>{item.overAll_mot}</td>
+										<td className='aso-content-all'>{item.overAll_hot}</td>
+										<td className='aso-content'>{item.final_grade}</td>
 									</tr>
 								))}
 							</tbody>
@@ -213,4 +211,4 @@ function AdminStuOutcome()
 	)
 }
 
-export default AdminStuOutcome;
+export default TutorStudentOutcome;

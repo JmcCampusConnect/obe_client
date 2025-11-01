@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import './hodstuoutcome.css'
+import '../../css/HodStudentOutcome.css';
 
-function HodStuOutcome() 
-{
+function HodStudentOutcome() {
+	
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
-	const apiUrl = import.meta.env.VITE_API_URL;
+	const apiUrl = process.env.REACT_APP_API_URL;
 	const [academicSem, setAcademicSem] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [departments, setDepartments] = useState([]);
@@ -24,13 +24,12 @@ function HodStuOutcome()
 	const [showCclaPopup, setShowCclaPopup] = useState(false);
 
 
-	useEffect(() => 
-	{
+	useEffect(() => {
 		const fetchacademicSem = async () => {
 			try {
 				const response = await axios.post(`${apiUrl}/activesem`);
 				setAcademicSem(response.data.academic_sem || "");
-			} 
+			}
 			catch (err) {
 				console.error("Error fetching academic year:", err);
 			}
@@ -39,8 +38,7 @@ function HodStuOutcome()
 		fetchacademicSem();
 	}, [apiUrl]);
 
-	useEffect(() => 
-	{
+	useEffect(() => {
 		const fetchHodData = async () => {
 			try {
 				const response = await axios.get(`${apiUrl}/api/hoddata`, { params: { staffId } });
@@ -54,12 +52,10 @@ function HodStuOutcome()
 	}, [apiUrl, staffId]);
 
 	const handlePopup = () => { setShowSclaPopup(true) }
-    const closePopup  = () => { setShowSclaPopup(false) }
+	const closePopup = () => { setShowSclaPopup(false) }
 
-	const fetchCourseData = async (filters) => 
-	{
-		try 
-		{
+	const fetchCourseData = async (filters) => {
+		try {
 			const response = await axios.get(`${apiUrl}/api/coursemapping`, {
 				params: filters,
 			})
@@ -93,45 +89,43 @@ function HodStuOutcome()
 		}
 	}
 
-	const handleCategoryChange = async (value) => 
-	{
-		const category = value; 
-    	setSelectedCategory(category);
+	const handleCategoryChange = async (value) => {
+		const category = value;
+		setSelectedCategory(category);
 
-		try 
-		{
-			const response = await axios.post(`${apiUrl}/api/hodDept`,{ 
-				staff_id: staffId, 
+		try {
+			const response = await axios.post(`${apiUrl}/api/hodDept`, {
+				staff_id: staffId,
 				category: category
 			})
 			setDepartments(response.data)
 		}
-		catch(error) {
+		catch (error) {
 			console.log('Error Fetching HOD Dept : ', error)
 		}
 	}
 
-	const handleDeptChange = (value) => { 
+	const handleDeptChange = (value) => {
 		setSelectedDept(value);
 		setSelectedClass("");
 		setSelectedSection("");
 		setSelectedSemester("");
 		fetchCourseData({
 			academic_sem: academicSem,
-			category: selectedCategory, 
-			dept_name: value, 
+			category: selectedCategory,
+			dept_name: value,
 			staff_id: staffId,
 		})
 	}
-	
+
 	const handleClassChange = (value) => {
 		setSelectedClass(value);
 		setSelectedSection("");
 		setSelectedSemester("");
 		fetchCourseData({
 			academic_sem: academicSem,
-			category: selectedCategory, 
-			dept_name: selectedDept, 
+			category: selectedCategory,
+			dept_name: selectedDept,
 			staff_id: staffId,
 			dept_id: value
 		})
@@ -161,14 +155,12 @@ function HodStuOutcome()
 		})
 	}
 
-	const sendData = async () => 
-	{
+	const sendData = async () => {
 		if (!selectedClass || !selectedSemester || !selectedSection) {
 			alert("Please select Class, Semester, and Section before submitting.");
 			return;
 		}
-		try 
-		{
+		try {
 			const payload = {
 				category: categories,
 				department: departments,
@@ -184,7 +176,7 @@ function HodStuOutcome()
 				setOutcomeData(dropDownData.data);
 				setOutcomeTable(true);
 			}
-		} 
+		}
 		catch (err) {
 			console.error("Error sending data:", err);
 			alert("Failed to send data");
@@ -202,7 +194,7 @@ function HodStuOutcome()
 					<span className="hso-label">Category : </span>
 					<select className="hso-select" value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)} >
 						<option className="hso-option" value="">Select</option>
-						{categories.map((catgry, index) => ( 
+						{categories.map((catgry, index) => (
 							<option className="hso-option" key={index} value={catgry}>
 								{catgry}
 							</option>
@@ -273,23 +265,23 @@ function HodStuOutcome()
 					<div className="hso-header-title2">
 						<h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
 					</div>
-					<h2 className='aso-heading'  title='Click to View' onClick={handlePopup}>
-                        SCLA - Student Cognitive Level Attainment
-                    </h2>
-                    {showSclaPopup && (
-                        <div className="alert-overlay">
-                            <div className="alert-box">
-                                <p>
-                                    The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
-                                    Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
-                                    for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
-                                </p>
-                                <button onClick={closePopup} className="alert-button">
-                                    OK
-                                </button>
-                            </div>
-                        </div>
-                    )}
+					<h2 className='aso-heading' title='Click to View' onClick={handlePopup}>
+						SCLA - Student Cognitive Level Attainment
+					</h2>
+					{showSclaPopup && (
+						<div className="alert-overlay">
+							<div className="alert-box">
+								<p>
+									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
+									Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
+									for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
+								</p>
+								<button onClick={closePopup} className="alert-button">
+									OK
+								</button>
+							</div>
+						</div>
+					)}
 					{outcomeData && outcomeData.length > 0 ? (
 						<table className="hso-table">
 							<thead>
@@ -317,17 +309,17 @@ function HodStuOutcome()
 								{outcomeData.map((item, index) => (
 									<tr key={index}>
 										<td className='aso-content'>{item.reg_no}</td>
-                                        <td className='aso-content'>{item.course_code}</td>
-                                        <td className='aso-content-cia'>{item.lot_attainment}</td>
-                                        <td className='aso-content-cia'>{item.mot_attainment}</td>
-                                        <td className='aso-content-cia'>{item.hot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.elot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.emot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.ehot_attainment}</td>
-                                        <td className='aso-content-all'>{item.overAll_lot}</td>
-                                        <td className='aso-content-all'>{item.overAll_mot}</td>
-                                        <td className='aso-content-all'>{item.overAll_hot}</td>
-                                        <td className='aso-content'>{item.final_grade}</td>
+										<td className='aso-content'>{item.course_code}</td>
+										<td className='aso-content-cia'>{item.lot_attainment}</td>
+										<td className='aso-content-cia'>{item.mot_attainment}</td>
+										<td className='aso-content-cia'>{item.hot_attainment}</td>
+										<td className='aso-content-ese'>{item.elot_attainment}</td>
+										<td className='aso-content-ese'>{item.emot_attainment}</td>
+										<td className='aso-content-ese'>{item.ehot_attainment}</td>
+										<td className='aso-content-all'>{item.overAll_lot}</td>
+										<td className='aso-content-all'>{item.overAll_mot}</td>
+										<td className='aso-content-all'>{item.overAll_hot}</td>
+										<td className='aso-content'>{item.final_grade}</td>
 									</tr>
 								))}
 							</tbody>
@@ -341,4 +333,4 @@ function HodStuOutcome()
 	);
 }
 
-export default HodStuOutcome;
+export default HodStudentOutcome;

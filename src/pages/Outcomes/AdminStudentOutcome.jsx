@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './adminstuoutcome.css';
+import '../../css/AdminStudentOutcome.css';
 
-function AdminStuOutcome() 
-{
-    const apiUrl = import.meta.env.VITE_API_URL;
+function AdminStudentOutcome() {
+    
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [showSclaPopup, setShowSclaPopup] = useState(false);
     const [categories, setCategories] = useState([]);
     const [departments, setDepartments] = useState([]);
@@ -19,17 +19,15 @@ function AdminStuOutcome()
     const [outcomeData, setOutcomeData] = useState("");
     const [academicSem, setAcademicSem] = useState('');
     const [outcomeTable, setOutcomeTable] = useState('');
-    
-    useEffect(() => 
-    {
-        const fetchacademicSemAndData = async () => 
-        {
+
+    useEffect(() => {
+        const fetchacademicSemAndData = async () => {
             try {
                 const yearResponse = await axios.post(`${apiUrl}/activesem`, {});
                 const activeYear = yearResponse.data.academic_sem;
                 setAcademicSem(activeYear);
                 fetchCourseData({ academic_year: activeYear });
-            } 
+            }
             catch (error) {
                 console.error("Error Fetching Active Academic Year or Course Data :", error);
                 alert("Failed to fetch Academic Year and Related Data");
@@ -39,12 +37,10 @@ function AdminStuOutcome()
     }, []);
 
     const handlePopup = () => { setShowSclaPopup(true) }
-    const closePopup  = () => { setShowSclaPopup(false) }
+    const closePopup = () => { setShowSclaPopup(false) }
 
-    const fetchCourseData = async (filters) => 
-    {
-        try 
-        {
+    const fetchCourseData = async (filters) => {
+        try {
             const response = await axios.get(`${apiUrl}/api/coursemapping`, {
                 params: filters,
             })
@@ -78,8 +74,7 @@ function AdminStuOutcome()
         }
     }
 
-    const handleCategoryChange = (value) => 
-    {
+    const handleCategoryChange = (value) => {
         setSelectedCategory(value);
         setSelectedDepartment("");
         setSelectedClass("");
@@ -88,22 +83,20 @@ function AdminStuOutcome()
         fetchCourseData({ academic_sem: academicSem, category: value });
     }
 
-    const handleDepartmentChange = (value) => 
-    {
+    const handleDepartmentChange = (value) => {
         setSelectedDepartment(value);
         setSelectedClass("");
         setSelectedSemester("");
         setSelectedSection("");
         fetchCourseData(
-        {
-            academic_sem: academicSem,
-            category: selectedCategory,
-            dept_name: value,
-        })
+            {
+                academic_sem: academicSem,
+                category: selectedCategory,
+                dept_name: value,
+            })
     }
 
-    const handleClassChange = (value) => 
-    {
+    const handleClassChange = (value) => {
         setSelectedClass(value);
         setSelectedSemester("");
         setSelectedSection("");
@@ -115,38 +108,35 @@ function AdminStuOutcome()
         })
     }
 
-    const handleSemesterChange = (value) => 
-    {
+    const handleSemesterChange = (value) => {
         setSelectedSemester(value);
         setSelectedSection("");
         fetchCourseData(
-        {
-            academic_sem: academicSem, 
-            category: selectedCategory,
-            dept_name: selectedDepartment,
-            dept_id: selectedClass,
-            semester: value,
-        })
+            {
+                academic_sem: academicSem,
+                category: selectedCategory,
+                dept_name: selectedDepartment,
+                dept_id: selectedClass,
+                semester: value,
+            })
     }
 
-    const handleSectionChange = (value) => 
-    {
+    const handleSectionChange = (value) => {
         setSelectedSection(value);
         fetchCourseData(
-        {
-            academic_sem: academicSem,
-            category: selectedCategory,
-            dept_name: selectedDepartment,
-            dept_id: selectedClass,
-            semester: selectedSemester,
-            section: value,
-        })
+            {
+                academic_sem: academicSem,
+                category: selectedCategory,
+                dept_name: selectedDepartment,
+                dept_id: selectedClass,
+                semester: selectedSemester,
+                section: value,
+            })
     }
 
-    const sendData = async () => 
-    {
-        const dropDownData = await axios.post(`${apiUrl}/api/adminstuoutcome`, { 
-            academicSem, selectedCategory, selectedDepartment, selectedClass, selectedSection, selectedSemester 
+    const sendData = async () => {
+        const dropDownData = await axios.post(`${apiUrl}/api/adminstuoutcome`, {
+            academicSem, selectedCategory, selectedDepartment, selectedClass, selectedSection, selectedSemester
         })
         setOutcomeData(dropDownData.data);
         setOutcomeTable(true);
@@ -174,7 +164,7 @@ function AdminStuOutcome()
                                 {category}
                             </option>
                         ))}
-                    </select> 
+                    </select>
                 </div>
                 <div className="aso-search-cnt">
                     <span className="aso-label">Department : </span>
@@ -240,7 +230,7 @@ function AdminStuOutcome()
                     <div className="aso-header-title2">
                         <h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
                     </div>
-                    <h2 className='aso-heading'  title='Click to View' onClick={handlePopup}>
+                    <h2 className='aso-heading' title='Click to View' onClick={handlePopup}>
                         SCLA - Student Cognitive Level Attainment
                     </h2>
                     {showSclaPopup && (
@@ -266,7 +256,7 @@ function AdminStuOutcome()
                                     <th className='aso-header' colSpan={3}>INTERNAL</th>
                                     <th className='aso-header' colSpan={3}>EXTERNAL</th>
                                     <th className='aso-header' colSpan={3}>TOTAL</th>
-                                    <th className='aso-header'rowSpan={2}>GRADE</th>
+                                    <th className='aso-header' rowSpan={2}>GRADE</th>
                                 </tr>
                                 <tr>
                                     <th className='aso-header'>LOT</th>
@@ -308,4 +298,4 @@ function AdminStuOutcome()
     )
 }
 
-export default AdminStuOutcome;
+export default AdminStudentOutcome;

@@ -3,9 +3,7 @@
      padding: 20px;
      max-height: 700px;
      overflow-y: auto;
-     background: #f9fafc;
      border-radius: 8px;
-     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 

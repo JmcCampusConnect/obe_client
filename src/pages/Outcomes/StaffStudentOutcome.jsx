@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import './handlestuoutcome.css'
+import '../../css/StaffStudentOutcome.css';
 
-function HandleStuOutcome() 
-{
-	const apiUrl = import.meta.env.VITE_API_URL;
+function StaffStudentOutcome() {
+	
+	const apiUrl = process.env.REACT_APP_API_URL;
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
 	const [categories, setCategories] = useState([]);
@@ -22,8 +22,7 @@ function HandleStuOutcome()
 	const [academicSem, setAcademicSem] = useState('');
 	const [outcomeTable, setOutcomeTable] = useState('');
 
-	useEffect(() => 
-	{
+	useEffect(() => {
 		const fetchacademicSem = async () => {
 			try {
 				const response = await axios.post(`${apiUrl}/activesem`);
@@ -37,8 +36,7 @@ function HandleStuOutcome()
 		fetchacademicSem();
 	}, [apiUrl]);
 
-	useEffect(() => 
-	{
+	useEffect(() => {
 		const fetchcategory = async () => {
 			try {
 				const responce = await axios.get(`${apiUrl}/api/category/${staffId}`, {
@@ -56,10 +54,9 @@ function HandleStuOutcome()
 	}, [apiUrl, staffId]);
 
 	const handlePopup = () => { setShowSclaPopup(true) }
-    const closePopup  = () => { setShowSclaPopup(false) }
+	const closePopup = () => { setShowSclaPopup(false) }
 
-	const fetchCourseData = async (filters) => 
-	{
+	const fetchCourseData = async (filters) => {
 		try {
 			const response = await axios.get(`${apiUrl}/api/stucoursemapping`, {
 				params: filters,
@@ -156,8 +153,7 @@ function HandleStuOutcome()
 		})
 	}
 
-	const sendData = async () => 
-	{
+	const sendData = async () => {
 		try {
 			const dropDownData = await axios.post(`${apiUrl}/api/staffstuoutcome`, {
 				academicSem, selectedCategory, selectedDepartment, selectedClass, selectedSection, selectedSemester, staffId
@@ -166,7 +162,7 @@ function HandleStuOutcome()
 				setOutcomeData(dropDownData.data);
 				setOutcomeTable(true);
 			}
-		} 
+		}
 		catch (err) {
 			console.log("Error", err);
 		}
@@ -260,23 +256,23 @@ function HandleStuOutcome()
 					<div className="sso-header-title2">
 						<h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
 					</div>
-					<h2 className='aso-heading'  title='Click to View' onClick={handlePopup}>
-                        SCLA - Student Cognitive Level Attainment
-                    </h2>
-                    {showSclaPopup && (
-                        <div className="alert-overlay">
-                            <div className="alert-box">
-                                <p>
-                                    The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
-                                    Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
-                                    for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
-                                </p>
-                                <button onClick={closePopup} className="alert-button">
-                                    OK
-                                </button>
-                            </div>
-                        </div>
-                    )}
+					<h2 className='aso-heading' title='Click to View' onClick={handlePopup}>
+						SCLA - Student Cognitive Level Attainment
+					</h2>
+					{showSclaPopup && (
+						<div className="alert-overlay">
+							<div className="alert-box">
+								<p>
+									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
+									Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
+									for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
+								</p>
+								<button onClick={closePopup} className="alert-button">
+									OK
+								</button>
+							</div>
+						</div>
+					)}
 					{outcomeData && outcomeData.length > 0 ? (
 						<table className="sso-table">
 							<thead>
@@ -304,17 +300,17 @@ function HandleStuOutcome()
 								{outcomeData.map((item, index) => (
 									<tr key={index}>
 										<td className='aso-content'>{item.reg_no}</td>
-                                        <td className='aso-content'>{item.course_code}</td>
-                                        <td className='aso-content-cia'>{item.lot_attainment}</td>
-                                        <td className='aso-content-cia'>{item.mot_attainment}</td>
-                                        <td className='aso-content-cia'>{item.hot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.elot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.emot_attainment}</td>
-                                        <td className='aso-content-ese'>{item.ehot_attainment}</td>
-                                        <td className='aso-content-all'>{item.overAll_lot}</td>
-                                        <td className='aso-content-all'>{item.overAll_mot}</td>
-                                        <td className='aso-content-all'>{item.overAll_hot}</td>
-                                        <td className='aso-content'>{item.final_grade}</td>
+										<td className='aso-content'>{item.course_code}</td>
+										<td className='aso-content-cia'>{item.lot_attainment}</td>
+										<td className='aso-content-cia'>{item.mot_attainment}</td>
+										<td className='aso-content-cia'>{item.hot_attainment}</td>
+										<td className='aso-content-ese'>{item.elot_attainment}</td>
+										<td className='aso-content-ese'>{item.emot_attainment}</td>
+										<td className='aso-content-ese'>{item.ehot_attainment}</td>
+										<td className='aso-content-all'>{item.overAll_lot}</td>
+										<td className='aso-content-all'>{item.overAll_mot}</td>
+										<td className='aso-content-all'>{item.overAll_hot}</td>
+										<td className='aso-content'>{item.final_grade}</td>
 									</tr>
 								))}
 							</tbody>
@@ -328,4 +324,4 @@ function HandleStuOutcome()
 	)
 }
 
-export default HandleStuOutcome
+export default StaffStudentOutcome

@@ -113,7 +113,7 @@ function WorkProgressReport() {
                     </div>
                 </div>
             ) : (
-                <div className='report-content-div'>
+                <div className='course-content-box'>
                     <div className="rsmatrix-no-code">
                         <p>No Report Found for this ID</p>
                     </div>

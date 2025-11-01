@@ -9,18 +9,7 @@ import MarkRelease from './components/manage/markrelease/markrelease';
 import StaffCourseManage from './components/manage/staffcoursemanage/staffcoursemanage';
 import StudentManage from './components/manage/studentmanage/studentmanage';
 import MarkManage from './components/manage/markmanage/markmanage';
-import StudentOutcome from './components/studentoutcome/studentoutcome';
-import CourseOutcome from './components/courseoutcome/courseoutcome';
-import AdminStuOC from './components/studentoutcome/adminstuoutcome/adminstuoutcome';
-import AdminCouOC from './components/courseoutcome/admincououtcome/admincououtcome';
-import HodCouOC from './components/courseoutcome/hodcououtcome/hodcououtcome';
-import HodStuOC from './components/studentoutcome/hodstuoutcome/hodstuoutcome';
-import StaffCouOC from './components/courseoutcome/handlecououtcome/handlecououtcome';
-import StaffStuOC from './components/studentoutcome/handlestuoutcome/handlestuoutcome';
-import TutorCouOC from './components/courseoutcome/tutorcououtcome/tutorcououtcome';
-import TutorStuOC from './components/studentoutcome/tutorstuoutcome/tutorstuoutcome';
 import ProgramOC from './components/prooutcome/prooutcome';
-import ProgramSpecOc from './components/prospecoutcome/prospecoutcome';
 import ObeReport from './components/obereport/obereport';
 
 
@@ -49,6 +38,18 @@ import HodManage from './pages/Manage/HodManage';
 import TutorManage from './pages/Manage/TutorManage';
 import BlockShow from './pages/Manage/BlockShow'
 
+// OUTCOME FOR STUDENT COURSE AND PROGRAM
+import StudentOutcome from './pages/Outcomes/StudentOutcome';
+import CourseOutcome from './pages/Outcomes/CourseOutcome';
+import ProgramSpecOutcome from './pages/Outcomes/ProgramSpecOutcome';
+import AdminStudentOutcome from './pages/Outcomes/AdminStudentOutcome';
+import HodStudentOutcome from './pages/Outcomes/HodStudentOutcome';
+import TutorStudentOutcome from './pages/Outcomes/TutorStudentOutcome';
+import StaffStudentOutcome from './pages/Outcomes/StaffStudentOutcome';
+import AdminCourseOutcome from './pages/Outcomes/AdminCourseOutcome';
+import HodCourseOutcome from './pages/Outcomes/HodCourseOutcome';
+import TutorCourseOutcome from './pages/Outcomes/TutorCourseOutcome';
+import StaffCourseOutcome from './pages/Outcomes/StaffCourseOutcome/';
 
 function App() {
 
@@ -70,18 +71,7 @@ function App() {
 						<Route path="markrelease" element={<MarkRelease />} />
 						<Route path="markmanage" element={<MarkManage />} />
 						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
-						<Route path="studentoutcome" element={<StudentOutcome />} />
-						<Route path="courseoutcome" element={<CourseOutcome />} />
-						<Route path="admincourseoutcome" element={<AdminCouOC />} />
-						<Route path="adminstudentoutcome" element={<AdminStuOC />} />
-						<Route path="hodcourseoutcome" element={<HodCouOC />} />
-						<Route path="hodstudentoutcome" element={<HodStuOC />} />
-						<Route path="staffcourseoutcome" element={<StaffCouOC />} />
-						<Route path="staffstudentoutcome" element={<StaffStuOC />} />
-						<Route path="tutorcourseoutcome" element={<TutorCouOC />} />
-						<Route path="tutorstudentoutcome" element={<TutorStuOC />} />
 						<Route path="programoutcome" element={<ProgramOC />} />
-						<Route path="programspecificoutcome" element={<ProgramSpecOc />} />
 
 
 
@@ -109,6 +99,20 @@ function App() {
 						<Route path="hodmanage" element={<HodManage />} />
 						<Route path="tutormanage" element={<TutorManage />} />
 						<Route path="showandblock" element={<BlockShow />} />
+
+						{/* OUTCOME FOR STUDENT COURSE AND PROGRAM */}
+						<Route path="studentoutcome" element={<StudentOutcome />} />
+						<Route path="courseoutcome" element={<CourseOutcome />} />
+						<Route path="programspecificoutcome" element={<ProgramSpecOutcome />} />
+						<Route path="adminstudentoutcome" element={<AdminStudentOutcome />} />
+						<Route path="hodstudentoutcome" element={<HodStudentOutcome />} />
+						<Route path="tutorstudentoutcome" element={<TutorStudentOutcome />} />
+						<Route path="staffstudentoutcome" element={<StaffStudentOutcome />} />
+						<Route path="admincourseoutcome" element={<AdminCourseOutcome />} />
+						<Route path="hodcourseoutcome" element={<HodCourseOutcome />} />
+						<Route path="tutorcourseoutcome" element={<TutorCourseOutcome />} />
+						<Route path="staffcourseoutcome" element={<StaffCourseOutcome />} />
+
 
 					</Route>
 				</Routes>

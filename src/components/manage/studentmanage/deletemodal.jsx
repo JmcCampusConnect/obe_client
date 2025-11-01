@@ -3,13 +3,12 @@ import React from 'react'
 
 function DeleteModal({ deleteModal, closeDeleteModal, student }) {
 
-    const apiUrl = process.env.VITE_API_URL
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const deletestudent = async () => {
         const response = await axios.delete(`${apiUrl}/api/student/delete`, {
             data: { reg_no: student.reg_no }
         })
-        // console.log(response.data)
         if (response.data.message === 'Deleted successfully') {
             alert('Student deleted successfully')
             closeDeleteModal()

@@ -1,63 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './handlecououtcome.css';
+import '../../css/AdminCourseOutcome.css';
 import axios from "axios";
 import Loading from '../../../assets/load.svg'
-const apiUrl = import.meta.env.VITE_API_URL;
 
-function CoursesCouOutcome()  
-{
+function AdminCourseOutcome() {
+    
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const [showCclaPopup, setShowCclaPopup] = useState(false);
+    const [showCapsoPopup, setShowCapsoPopup] = useState(false);
     const { staffId } = useParams();
     const [academicSem, setAcademicSem] = useState('');
     const [attainmentData, setAttainmentData] = useState(null);
-    const [showCclaPopup, setShowCclaPopup] = useState(false);
-    const [showCapsoPopup, setShowCapsoPopup] = useState(false);
 
-    useEffect(() => 
-    {
-        const checkStaffId = async () => 
-        {
+    useEffect(() => {
+        const checkStaffId = async () => {
             try {
-                const response = await axios.post(`${apiUrl}/api/checkCourseCOC`, {
-                    staff_id: staffId
-                })
-                setAttainmentData(response.data.attainedScores); 
-            } 
+                const response = await axios.post(`${apiUrl}/api/checkAdminCOC`, {})
+                setAttainmentData(response.data.attainedScores);
+            }
             catch (err) {
                 console.log('Error fetching data:', err);
             }
         }
         checkStaffId();
 
-        const academicSemSet = async () => 
-        {
+        const academicSemSet = async () => {
             try {
-                const response = await axios.post(`${apiUrl}/activesem`, {
-                    
-                });
+                const response = await axios.post(`${apiUrl}/activesem`, {});
                 setAcademicSem(response.data.academic_sem);
-            } 
+            }
             catch (err) {
                 console.log('Error fetching academic year:', err);
             }
         }
         academicSemSet();
 
-    }, [staffId,apiUrl]);
+    }, [staffId, apiUrl]);
 
     const handleCclaPopup = () => { setShowCclaPopup(true) }
-    const closeCclaPopup  = () => { setShowCclaPopup(false) }
+    const closeCclaPopup = () => { setShowCclaPopup(false) }
 
     const handleCapsoPopup = () => { setShowCapsoPopup(true) }
-    const closeCapsoPopup  = () => { setShowCapsoPopup(false) }
+    const closeCapsoPopup = () => { setShowCapsoPopup(false) }
 
     if (!attainmentData) return <div><center><img src={Loading} alt="" className="img" /></center></div>;
 
     return (
-        <div className='sco-main'>
-            <div className="sco-header">
-                <div className="sco-header-title1">
-                    <h1 className="">JAMAL MOHAMED COLLEGE (Autonomous)</h1> 
+        <div className="aco-main">
+            <div className="aco-header">
+                <div className="aco-header-title1">
+                    <h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
                     <span>
                         Nationally Accredited with A++ Grade by NAAC (4th Cycle) with CGPA
                         3.69 out of 4.0
@@ -66,10 +59,10 @@ function CoursesCouOutcome()
                     <span>TIRUCHIRAPPALLI - 620 020 .</span>
                 </div>
             </div>
-            <div className="sco-header-title2">
+            <div className="aco-header-title2">
                 <h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
             </div>
-            <h2 className='hco-heading'  title='Click to View' onClick={handleCclaPopup}>
+            <h2 className='hco-heading' title='Click to View' onClick={handleCclaPopup}>
                 CCLA - Course Cognitive Level Attainment
             </h2>
             {showCclaPopup && (
@@ -85,54 +78,56 @@ function CoursesCouOutcome()
                     </div>
                 </div>
             )}
-            <table className='sco-table'>
-                <thead>
-                    <tr>
-                    <th rowSpan={2}>Course Code</th>
-                        <th colSpan={3}>INTERNAL</th>
-                        <th colSpan={3}>EXTERNAL</th>
-                        <th colSpan={3}>TOTAL</th>
-                        <th rowSpan={2}>Grade</th>
-                    </tr>
-                    <tr>
-                        <th>LOT</th>
-                        <th>MOT</th>
-                        <th>HOT</th>
-                        <th>LOT</th>
-                        <th>MOT</th>
-                        <th>HOT</th>
-                        <th>LOT</th>
-                        <th>MOT</th>
-                        <th>HOT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(attainmentData.overall).map(courseCode => (
-                        <tr key={courseCode}>
-                            <td>{courseCode}</td>
-                            <td className='sco-content-cia'>{attainmentData.lot[courseCode]}</td>
-                            <td className='sco-content-cia'>{attainmentData.mot[courseCode]}</td>
-                            <td className='sco-content-cia'>{attainmentData.hot[courseCode]}</td>
-                            <td className='sco-content-ese'>{attainmentData.elot[courseCode]}</td>
-                            <td className='sco-content-ese'>{attainmentData.emot[courseCode]}</td>
-                            <td className='sco-content-ese'>{attainmentData.ehot[courseCode]}</td>
-                            <td className='sco-content-all'>{attainmentData.overall[courseCode].lot}</td>
-                            <td className='sco-content-all'>{attainmentData.overall[courseCode].mot}</td>
-                            <td className='sco-content-all'>{attainmentData.overall[courseCode].hot}</td>
-                            <td>{attainmentData.grade[courseCode]}</td>
+            <div className="aco-table-container">
+                <table className="aco-table">
+                    <thead>
+                        <tr>
+                            <th rowSpan={2}>Course Code</th>
+                            <th colSpan={3}>INTERNAL</th>
+                            <th colSpan={3}>EXTERNAL</th>
+                            <th colSpan={3}>TOTAL</th>
+                            <th rowSpan={2}>Grade</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <h2 className='hco-heading'  title='Click to View' onClick={handleCapsoPopup}>
+                        <tr>
+                            <th>LOT</th>
+                            <th>MOT</th>
+                            <th>HOT</th>
+                            <th>LOT</th>
+                            <th>MOT</th>
+                            <th>HOT</th>
+                            <th>LOT</th>
+                            <th>MOT</th>
+                            <th>HOT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(attainmentData.overall).map((courseCode) => (
+                            <tr key={courseCode}>
+                                <td>{courseCode}</td>
+                                <td className="aco-content-cia">{attainmentData.lot[courseCode]}</td>
+                                <td className="aco-content-cia">{attainmentData.mot[courseCode]}</td>
+                                <td className="aco-content-cia">{attainmentData.hot[courseCode]}</td>
+                                <td className="aco-content-ese">{attainmentData.elot[courseCode]}</td>
+                                <td className="aco-content-ese">{attainmentData.emot[courseCode]}</td>
+                                <td className="aco-content-ese">{attainmentData.ehot[courseCode]}</td>
+                                <td className="aco-content-all">{attainmentData.overall[courseCode].lot}</td>
+                                <td className="aco-content-all">{attainmentData.overall[courseCode].mot}</td>
+                                <td className="aco-content-all">{attainmentData.overall[courseCode].hot}</td>
+                                <td>{attainmentData.grade[courseCode]}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <h2 className='hco-heading' title='Click to View' onClick={handleCapsoPopup}>
                 CAPSO - Course Attainment by Programme Specific Outcome
             </h2>
             {showCapsoPopup && (
                 <div className="alert-overlay">
                     <div className="alert-box">
                         <p>
-                            The CAPSO is a systematic process for evaluating the impact of a course on achieving the program-specific outcome (PSO). 
-                            To calculate CAPSO the values of the Relationship Matrix and the values of the three cognitive levels calculated in CCLA 
+                            The CAPSO is a systematic process for evaluating the impact of a course on achieving the program-specific outcome (PSO).
+                            To calculate CAPSO the values of the Relationship Matrix and the values of the three cognitive levels calculated in CCLA
                             for a specified course are given as input.
                         </p>
                         <button onClick={closeCapsoPopup} className="alert-button">
@@ -141,7 +136,8 @@ function CoursesCouOutcome()
                     </div>
                 </div>
             )}
-            <table className='sco-table'>
+            <h2 className='hco-heading'></h2>
+            <table className='aco-table'>
                 <thead>
                     <tr>
                         <th>Course Code</th>
@@ -171,4 +167,4 @@ function CoursesCouOutcome()
     )
 }
 
-export default CoursesCouOutcome;
+export default AdminCourseOutcome;
