@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../manage/staffmanage/staffhod/staffhod.css";
+import "../../css/StaffMaster.css";
 
 function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, placeholder }) {
 

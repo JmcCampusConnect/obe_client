@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchableDropdown from '../../common/SearchableDropdown';
+import SearchableDropdown from '../common/SearchableDropdown';
 
 function AddStaffModal({
     popup, hidepopup, staffId, setStaffId, staffName, setStaffName, staffDept, setStaffDept,

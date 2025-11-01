@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchableDropdown from '../../common/SearchableDropdown';
+import SearchableDropdown from '../common/SearchableDropdown';
 
 function HodFilters({
 	showFilters, filterCategory, setFilterCategory, filterDeptId, setFilterDeptId, depts, clearAllFilters

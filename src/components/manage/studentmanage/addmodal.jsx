@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import SearchableDropdown from "../../../common/SearchableDropdown";
+import SearchableDropdown from "../../common/SearchableDropdown";
 
 function AddStudentModal({ addModal, closeAddModal }) {
 

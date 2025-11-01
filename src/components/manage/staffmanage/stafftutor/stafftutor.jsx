@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './stafftutor.css';
 import Loading from '../../../../assets/load.svg'
-import SearchableDropdown from "../../../../common/SearchableDropdown";
+import SearchableDropdown from "../../../../components/common/SearchableDropdown";
+
 
 function StaffTutorManage() {
 
