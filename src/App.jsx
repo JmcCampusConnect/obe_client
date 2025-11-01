@@ -21,7 +21,6 @@ import TutorCouOC from './components/courseoutcome/tutorcououtcome/tutorcououtco
 import TutorStuOC from './components/studentoutcome/tutorstuoutcome/tutorstuoutcome';
 import ProgramOC from './components/prooutcome/prooutcome';
 import ProgramSpecOc from './components/prospecoutcome/prospecoutcome';
-import Lock from './components/manage/showblock/showblock';
 import ObeReport from './components/obereport/obereport';
 
 
@@ -48,7 +47,7 @@ import Staff from './pages/Manage/Staff';
 import StaffMaster from './pages/Manage/StaffMaster';
 import HodManage from './pages/Manage/HodManage';
 import TutorManage from './pages/Manage/TutorManage';
-
+import BlockShow from './pages/Manage/BlockShow'
 
 
 function App() {
@@ -83,7 +82,6 @@ function App() {
 						<Route path="tutorstudentoutcome" element={<TutorStuOC />} />
 						<Route path="programoutcome" element={<ProgramOC />} />
 						<Route path="programspecificoutcome" element={<ProgramSpecOc />} />
-						<Route path="showandblock" element={<Lock />} />
 
 
 
@@ -110,6 +108,7 @@ function App() {
 						<Route path="staffmastermanage" element={<StaffMaster />} />
 						<Route path="hodmanage" element={<HodManage />} />
 						<Route path="tutormanage" element={<TutorManage />} />
+						<Route path="showandblock" element={<BlockShow />} />
 
 					</Route>
 				</Routes>

@@ -1,0 +1,156 @@
+.showblock-container {
+    font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 45px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.showblock-container:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.showblock-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.showblock-header h2 {
+    font-size: 1.9rem;
+    color: #1e40af;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.showblock-header p {
+    color: #6b7280;
+    font-size: 1.1rem;
+}
+
+.showblock-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #cbd5e1, transparent);
+    margin: 1.8rem 0;
+}
+
+.showblock-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.showblock-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px 24px;
+    transition: background 0.2s ease;
+}
+
+.showblock-control:hover {
+    background: #f3f4f6;
+}
+
+.showblock-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.toggle-wrapper {
+    position: relative;
+    width: 64px;
+    height: 34px;
+}
+
+.toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-track {
+    background: #e5e7eb;
+    border-radius: 34px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 28px;
+    height: 28px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-input:checked+.toggle-track {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.toggle-input:checked+.toggle-track .toggle-thumb {
+    transform: translateX(30px);
+}
+
+.save-section {
+    text-align: right;
+    margin-top: 2rem;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.save-btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+.info-text {
+    color: #64748b;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+
+@media (max-width: 600px) {
+    .showblock-container {
+        padding: 30px;
+    }
+
+    .showblock-control {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .save-section {
+        text-align: center;
+    }
+}
