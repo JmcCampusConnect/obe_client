@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './barchart.css';
+import '../../css/BarChart.css';
 
-const ProgressBar = () => {
+const BarChart = () => {
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [componentReport, setComponentReport] = useState({});
     const [cia1, setCia1] = useState(0);
@@ -96,4 +97,4 @@ const ProgressBar = () => {
     )
 }
 
-export default ProgressBar;
+export default BarChart;

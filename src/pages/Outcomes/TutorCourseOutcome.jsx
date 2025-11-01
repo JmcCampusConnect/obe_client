@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 import '../../css/TutorCourseOutcome.css';
-import Loading from '../../../assets/load.svg'
+import Loading from '../../assets/load.svg'
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function TutorCourseOutcome() {

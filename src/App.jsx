@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './components/login/authenticate/authenticate';
-import Login from './components/login/login';
-import PrivateRoute from './components/login/authenticate/privaterouter';
-import Dash from './components/dash/dash';
+import { AuthProvider } from './components/common/Authenticate';
+import PrivateRoute from './components/common/Privaterouter';
+
+
 import ScopeManage from './components/manage/scopemanage/scopemanage';
 import MarkRelease from './components/manage/markrelease/markrelease';
 import StaffCourseManage from './components/manage/staffcoursemanage/staffcoursemanage';
@@ -14,6 +14,8 @@ import ObeReport from './components/obereport/obereport';
 
 
 
+import LoginPage from './pages/LoginPage'
+import Dashboard from './pages/Dashboard/Dashboard';
 import Layout from './pages/Layout';
 import CourseList from './pages/CourseList';
 import StudentMark from './pages/StudentMark';
@@ -57,14 +59,13 @@ function App() {
 		<AuthProvider>
 			<Router>
 				<Routes>
-					<Route path="/" element={<Login />} />
+					<Route path="/" element={<LoginPage />} />
 
 					{/* Checked */}
 					<Route path="staff/:staffId/*" element={<PrivateRoute element={<Layout />} />} >
 
 
 
-						<Route path="dashboard" element={<Dash />} />
 						<Route path="obereport" element={<ObeReport />} />
 						<Route path="scopemanage" element={<ScopeManage />} />
 						<Route path="studentmanage" element={<StudentManage />} />
@@ -77,6 +78,7 @@ function App() {
 
 
 
+						<Route path="dashboard" element={<Dashboard />} />
 						<Route path="courselist" element={<CourseList />} />
 						<Route path="studentmark" element={<StudentMark />} />
 						<Route path="inputfiles" element={<FileUpload />} />

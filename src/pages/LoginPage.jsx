@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import jmclogo from '../../assets/jmclogo.png';
+import jmclogo from '../assets/jmclogo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './authenticate/authenticate';
-import './login.css';
+import { useAuth } from '../components/common/Authenticate';
+import '../css/LoginPage.css';
 
-function Login() {
+function LoginPage() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const [staffId, setStaffId] = useState('');
@@ -105,4 +105,4 @@ function Login() {
     )
 }
 
-export default Login;
+export default LoginPage;

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import './dash.css';
-import Barchart from './Barchart/barchart';
-import Piechart1 from './Piechart/Piechart1';
-import Piechart2 from './Piechart/Piechart2';
-import Linechart1 from './Linechart/Linechart1'
+import '../../css/Dashboard.css';
+import Barchart from './BarChart';
+import PieChart1 from './PieChart1';
+import PieChart2 from './Piechart2';
+import LineChart from './LineChart';
 import { PiStudentFill } from "react-icons/pi";
 import { IoPersonSharp } from "react-icons/io5";
 import { FaBook } from "react-icons/fa";
 import { SiBookstack } from "react-icons/si";
 import axios from 'axios';
 
-function Dash() {
+function Dashboard() {
     
     const [studentCount, setStudentCount] = useState(0);
     const [staffCount, setStaffCount] = useState(0);
@@ -82,12 +82,12 @@ function Dash() {
                 <Barchart />
             </div>
             <div className='dash-piechart-main'>
-                <div className="chart-card"><Linechart1 /></div>
-                <div className="chart-card"><Piechart1 /></div>
-                <div className="chart-card"><Piechart2 /></div>
+                <div className="chart-card"><LineChart /></div>
+                <div className="chart-card"><PieChart1 /></div>
+                <div className="chart-card"><PieChart2 /></div>
             </div>
         </div>
     )
 }
 
-export default Dash;
+export default Dashboard;

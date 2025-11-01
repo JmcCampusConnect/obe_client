@@ -8,7 +8,7 @@ import {
     from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import Jmclogo from '../assets/jmclogo.png';
-import { useAuth } from '../components/login/authenticate/authenticate';
+import { useAuth } from '../components/common/Authenticate';
 import { useNavigate } from 'react-router-dom';
 import '../css/Layout.css';
 

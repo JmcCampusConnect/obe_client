@@ -4,23 +4,18 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const BarChart = () => 
-{
+const LineChart = () => {
+
     const [chartData, setChartData] = useState(null);
     const [total, setTotal] = useState(0);
 
-    useEffect(() => 
-    {
-        const fetchChartData = async () => 
-        {
-            try 
-            {
+    useEffect(() => {
+        const fetchChartData = async () => {
+            try {
                 const response = await axios.post(`${apiUrl}/api/processedChartData`, {});
                 const data = response.data;
                 setTotal(response.data.countUniqueCourseCodes);
-
-                setChartData(
-                {
+                setChartData({
                     categories: ['CIA 1', 'CIA 2', 'ASS 1', 'ASS 2', 'ESE'],
                     data: [
                         data.counts.cia_1,
@@ -31,7 +26,7 @@ const BarChart = () =>
                     ],
                     total,
                 })
-            } 
+            }
             catch (error) {
                 console.error('Error Fetching Chart Data :', error);
             }
@@ -41,21 +36,21 @@ const BarChart = () =>
 
     if (!chartData) return <p>Loading Chart Data...</p>;
 
-    const options = 
+    const options =
     {
         chart: {
             type: 'column',
         },
-        title: 
+        title:
         {
-            text: `COMPLETION STATUS of ${total} COURSES`,            
-            align: 'center', 
+            text: `COMPLETION STATUS of ${total} COURSES`,
+            align: 'center',
             style: {
-                fontSize: '15px', 
-                fontWeight: 'bolder', 
+                fontSize: '15px',
+                fontWeight: 'bolder',
             },
         },
-        xAxis: 
+        xAxis:
         {
             categories: chartData.categories,
             labels: {
@@ -67,24 +62,7 @@ const BarChart = () =>
             },
             gridLineWidth: 0,
         },
-        // yAxis: {
-        //     title: {
-        //         text: 'COUNTS',
-        //         margin: 20,
-        //     },
-        //     max: Math.max(...chartData.data), 
-        //     endOnTick: true,
-        //     tickInterval: Math.ceil(Math.max(...chartData.data) / 5),
-        //     labels: {
-        //         enabled: true,
-        //         style: {
-        //             fontSize: '12px',
-        //             fontWeight: 'bold',
-        //         },
-        //     },
-        //     gridLineWidth: 0,
-        // },
-        yAxis: 
+        yAxis:
         {
             title: {
                 text: 'COUNTS',
@@ -93,7 +71,7 @@ const BarChart = () =>
             max: total,
             endOnTick: false,
             tickInterval: Math.ceil(Math.max(total) / 8),
-            labels: 
+            labels:
             {
                 enabled: true,
                 style: {
@@ -103,12 +81,12 @@ const BarChart = () =>
             },
             gridLineWidth: 0,
         },
-        plotOptions: 
+        plotOptions:
         {
-            column: 
+            column:
             {
                 colorByPoint: true,
-                dataLabels: 
+                dataLabels:
                 {
                     enabled: true,
                     color: '#000',
@@ -126,10 +104,10 @@ const BarChart = () =>
         },
         series: [
             {
-                name: '', 
+                name: '',
                 data: chartData.data,
                 colors: ['rgb(0, 81, 255)', 'rgb(224, 5, 5)', 'rgb(146, 0, 236)', '#ea9a0d', 'rgb(10, 161, 116)'],
-                showInLegend: false, 
+                showInLegend: false,
             },
         ],
         credits: {
@@ -144,4 +122,4 @@ const BarChart = () =>
     )
 }
 
-export default BarChart;
+export default LineChart;
