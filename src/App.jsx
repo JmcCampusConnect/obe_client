@@ -9,7 +9,6 @@ import MarkRelease from './components/manage/markrelease/markrelease';
 import StaffCourseManage from './components/manage/staffcoursemanage/staffcoursemanage';
 import StudentManage from './components/manage/studentmanage/studentmanage';
 import MarkManage from './components/manage/markmanage/markmanage';
-import HodManage from './components/manage/staffmanage/staffhod/staffhod';
 import TutorManage from './components/manage/staffmanage/stafftutor/stafftutor';
 import StudentOutcome from './components/studentoutcome/studentoutcome';
 import CourseOutcome from './components/courseoutcome/courseoutcome';
@@ -48,6 +47,7 @@ import DepartmentReport from './pages/Reports/DepartmentReport';
 import Manage from './pages/Manage/Manage';
 import Staff from './pages/Manage/Staff';
 import StaffMaster from './pages/Manage/StaffMaster';
+import HodManage from './pages/Manage/HodManage';
 
 
 
@@ -70,7 +70,6 @@ function App() {
 						<Route path="studentmanage" element={<StudentManage />} />
 						<Route path="markrelease" element={<MarkRelease />} />
 						<Route path="markmanage" element={<MarkManage />} />
-						<Route path="hodmanage" element={<HodManage />} />
 						<Route path="tutormanage" element={<TutorManage />} />
 						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
 						<Route path="studentoutcome" element={<StudentOutcome />} />
@@ -110,6 +109,7 @@ function App() {
 						<Route path="manage" element={<Manage />} />
 						<Route path="staffmanage" element={<Staff />} />
 						<Route path="staffmastermanage" element={<StaffMaster />} />
+						<Route path="hodmanage" element={<HodManage />} />
 
 					</Route>
 				</Routes>
