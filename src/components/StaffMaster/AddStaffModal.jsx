@@ -1,4 +1,3 @@
-// AddStaffModal.jsx
 import React from 'react';
 import SearchableDropdown from '../../common/SearchableDropdown';
 
@@ -7,6 +6,7 @@ function AddStaffModal({
     staffCategory, setStaffCategory, deptCategory, setDeptCategory, staffpassword, setStaffpassword,
     savenewstaff, staff_Dept, checkboxValues, handleCheckboxChange
 }) {
+
     if (!popup) return null;
 
     const departmentOptions = staff_Dept.map(d => ({ value: d.staff_dept, label: d.staff_dept }));
@@ -14,7 +14,7 @@ function AddStaffModal({
         { value: "SFM", label: "SFM" },
         { value: "SFW", label: "SFW" },
         { value: "AIDED", label: "AIDED" }
-    ];
+    ]
 
     return (
         <div className="modal-overlay">
@@ -26,53 +26,52 @@ function AddStaffModal({
 
                 <form className="modal-body" onSubmit={savenewstaff}>
                     <div className="form-grid">
-                        {/* Staff ID, Name, Categories, Dept, Password inputs/dropdowns */}
                         <label>
-                            <div className="label">Staff ID</div>
-                            <input value={staffId} onChange={(e) => setStaffId(e.target.value)} required />
+                            <div className="label">Staff ID :</div>
+                            <input className='input-box-correction' value={staffId} onChange={(e) => setStaffId(e.target.value)} required />
                         </label>
                         <label>
-                            <div className="label">Staff Name</div>
-                            <input value={staffName} onChange={(e) => setStaffName(e.target.value)} required />
+                            <div className="label">Staff Name :</div>
+                            <input className='input-box-correction' value={staffName} onChange={(e) => setStaffName(e.target.value)} required />
                         </label>
                         <label>
-                            <div className="label">Staff Category</div>
+                            <div className="label">Staff Category :</div>
                             <SearchableDropdown
                                 options={categoryOptions}
                                 value={staffCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setStaffCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                                placeholder="Select category"
+                                placeholder="Select Category"
                             />
                         </label>
                         <label>
-                            <div className="label">Dept Category</div>
+                            <div className="label">Dept Category :</div>
                             <SearchableDropdown
-                                options={categoryOptions} // Assuming same options for simplicity, adjust if needed
+                                options={categoryOptions}
                                 value={deptCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                                placeholder="Select dept category"
+                                placeholder="Select Dept Category"
                             />
                         </label>
                         <label>
-                            <div className="label">Department</div>
+                            <div className="label">Department :</div>
                             <SearchableDropdown
                                 options={departmentOptions}
                                 value={staffDept}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setStaffDept(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                                placeholder="Select department"
+                                placeholder="Select Department"
                             />
                         </label>
                         <label>
-                            <div className="label">Password</div>
+                            <div className="label">Password :</div>
                             <input type="password" value={staffpassword} onChange={(e) => setStaffpassword(e.target.value)} required />
                         </label>
                     </div>
 
                     <div className="permissions">
-                        <div className="perm-title">Permissions</div>
+                        <div className="perm-title">Permissions :</div>
                         <div className="perm-grid">
                             {Object.keys(checkboxValues).map((key) => (
                                 <label className="perm-item" key={key}>
@@ -82,7 +81,6 @@ function AddStaffModal({
                             ))}
                         </div>
                     </div>
-
                     <div className="modal-actions">
                         <button type="submit" className="btn btn-primary">Save</button>
                         <button type="button" className="btn btn-outline" onClick={hidepopup}>Cancel</button>
@@ -90,7 +88,7 @@ function AddStaffModal({
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
 export default AddStaffModal;

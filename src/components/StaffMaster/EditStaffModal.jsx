@@ -1,4 +1,3 @@
-// EditStaffModal.jsx
 import React from 'react';
 import SearchableDropdown from '../../common/SearchableDropdown';
 
@@ -8,6 +7,7 @@ function EditStaffModal({
     newdept, setNewdept, oldpassword, newpassword, setNewpassword, updatestaff,
     staff_Dept
 }) {
+
     if (!edit) return null;
 
     const departmentOptions = staff_Dept.map(d => ({ value: d.staff_dept, label: d.staff_dept }));
@@ -28,20 +28,20 @@ function EditStaffModal({
                 <div className="modal-body">
                     <div className="form-grid">
                         <label>
-                            <div className="label">Staff ID</div>
-                            {/* Staff ID is typically read-only during an edit */}
-                            <input value={newstaffid} disabled /> 
+                            <div className="label">Staff ID :</div>
+                            <input className='input-box-correction' value={newstaffid} disabled /> 
                         </label>
                         <label>
                             <div className="label">Staff Name</div>
                             <input 
+                                className='input-box-correction'
                                 value={newstaffname} 
                                 onChange={(e) => setNewstaffname(e.target.value)} 
                             />
                         </label>
 
                         <label>
-                            <div className="label">Staff Category</div>
+                            <div className="label">Staff Category :</div>
                             <SearchableDropdown
                                 options={categoryOptions}
                                 value={newStaffCategory}
@@ -52,9 +52,9 @@ function EditStaffModal({
                         </label>
 
                         <label>
-                            <div className="label">Dept Category</div>
+                            <div className="label">Dept Category :</div>
                             <SearchableDropdown
-                                options={categoryOptions} // Assuming same options as staff category
+                                options={categoryOptions} 
                                 value={newDeptCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setNewDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
@@ -63,7 +63,7 @@ function EditStaffModal({
                         </label>
 
                         <label>
-                            <div className="label">Department</div>
+                            <div className="label">Department :</div>
                             <SearchableDropdown
                                 options={departmentOptions}
                                 value={newdept}
@@ -75,16 +75,15 @@ function EditStaffModal({
 
                         {/* Password fields */}
                         <label>
-                            <div className="label">Current Password (Hidden)</div>
-                            <input value={oldpassword} disabled type="password" /> 
+                            <div className="label">Current Password :</div>
+                            <input value={oldpassword} disabled type="text" /> 
                         </label>
                         <label>
-                            <div className="label">New Password</div>
+                            <div className="label">New Password :</div>
                             <input 
                                 type="password"
                                 value={newpassword} 
                                 onChange={(e) => setNewpassword(e.target.value)} 
-                                placeholder="Leave blank to keep old" 
                             />
                         </label>
                     </div>

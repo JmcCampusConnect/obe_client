@@ -3,7 +3,7 @@ import SearchableDropdown from '../../common/SearchableDropdown';
 
 function StaffFilters({
     showFilters, staffCategory, setStaffCategory, staffDept, setStaffDept,
-    staff_Dept, searchText, staffData, setFilteredData, setPage
+    staff_Dept,  filterDeptCategory, setFilterDeptCategory, applyFiltersFunction
 }) {
 
     const categoryOptions = [
@@ -12,34 +12,20 @@ function StaffFilters({
         { value: "AIDED", label: "AIDED" }
     ];
 
-    const departmentOptions = staff_Dept.map(d => ({ value: d.staff_dept, label: d.staff_dept }));
+    const deptCategoryOptions = [
+        { value: "SFM", label: "SFM" },
+        { value: "SFW", label: "SFW" },
+        { value: "AIDED", label: "AIDED" }
+    ];
 
-    const handleApplyFilters = () => {
-        const lower = (searchText || "").toLowerCase();
-        const filtered = staffData.filter(s => {
-            return (
-                (staffCategory ? s.staff_category === staffCategory : true) &&
-                (staffDept ? s.staff_dept === staffDept : true) &&
-                ((lower === "") ||
-                    (s.staff_name || "").toLowerCase().includes(lower) ||
-                    (s.staff_id || "").toLowerCase().includes(lower))
-            );
-        });
-        setFilteredData(filtered);
-        setPage(1);
-    };
+    const departmentOptions = staff_Dept.map(d => ({ value: d.staff_dept, label: d.staff_dept }));
 
     const handleClearFilters = () => {
         setStaffCategory("");
         setStaffDept("");
-        const lower = (searchText || "").toLowerCase();
-        if (lower) {
-            handleApplyFilters(); 
-        } else {
-            setFilteredData(staffData); 
-        }
-        setPage(1);
-    };
+        setFilterDeptCategory("");
+        applyFiltersFunction();
+    }
 
     if (!showFilters) return null;
 
@@ -54,6 +40,13 @@ function StaffFilters({
                     placeholder="Staff Category"
                 />
                 <SearchableDropdown
+                    options={deptCategoryOptions}
+                    value={filterDeptCategory}
+                    getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
+                    onSelect={(opt) => setFilterDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
+                    placeholder="Dept Category"
+                />
+                <SearchableDropdown
                     options={departmentOptions}
                     value={staffDept}
                     getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
@@ -63,9 +56,6 @@ function StaffFilters({
                 <div className="filter-actions">
                     <button className="btn btn-outline" onClick={handleClearFilters}>
                         Clear Filters
-                    </button>
-                    <button className="btn btn-primary" onClick={handleApplyFilters}>
-                        Apply
                     </button>
                 </div>
             </div>

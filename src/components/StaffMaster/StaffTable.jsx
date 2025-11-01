@@ -75,7 +75,7 @@ function StaffTable({
                 </div>
             </section>
         </main>
-    );
+    )
 }
 
 export default StaffTable;

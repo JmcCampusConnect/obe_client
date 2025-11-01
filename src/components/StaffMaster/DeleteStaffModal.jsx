@@ -1,9 +1,9 @@
-// DeleteStaffModal.jsx
 import React from 'react';
 
 function DeleteStaffModal({
     deletestaff, staffDeleteClose, deletestaffname, deletestaffid, Confirmdelete
 }) {
+
     if (!deletestaff) return null;
 
     return (
@@ -14,7 +14,7 @@ function DeleteStaffModal({
                     <button className="modal-close" onClick={staffDeleteClose}>✕</button>
                 </div>
                 <div className="modal-body">
-                    <p>Are you sure you want to permanently delete the following staff?</p>
+                    <p>Are you sure you want to permanently delete the following staff ?</p>
                     <p className="del-info">
                         <strong>{deletestaffname}</strong> ({deletestaffid})
                     </p>
@@ -29,7 +29,7 @@ function DeleteStaffModal({
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default DeleteStaffModal;
