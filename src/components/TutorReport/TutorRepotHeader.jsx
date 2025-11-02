@@ -1,10 +1,8 @@
 // components/TutorManage/TutorHeader.jsx
 
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-function TutorHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
+function TutorReportHeader({ searchText, handleSearch }) {
 
     return (
         <header className="app-header">
@@ -18,9 +16,6 @@ function TutorHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
                                 placeholder="Search by ID, Name, Department..."
                                 className="search-input"
                             />
-                            <button className="filter-button" onClick={() => setShowFilters(v => !v)} title="Filters">
-                                <FontAwesomeIcon icon={faFilter} />
-                            </button>
                         </div>
                     </div>
 
@@ -35,4 +30,4 @@ function TutorHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
     )
 }
 
-export default TutorHeader;
+export default TutorReportHeader;
