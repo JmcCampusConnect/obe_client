@@ -4,9 +4,7 @@ import { AuthProvider } from './components/common/Authenticate';
 import PrivateRoute from './components/common/Privaterouter';
 
 
-import ScopeManage from './components/manage/scopemanage/scopemanage';
 import StudentManage from './components/manage/studentmanage/studentmanage';
-import MarkManage from './components/manage/markmanage/markmanage';
 import ProgramOC from './components/prooutcome/prooutcome';
 import ObeReport from './components/obereport/obereport';
 
@@ -39,6 +37,8 @@ import TutorManage from './pages/Manage/TutorManage';
 import BlockShow from './pages/Manage/BlockShow'
 import StaffCourseManage from './pages/Manage/StaffCourseManage';
 import MarkRelease from './pages/Manage/MarkRelease';
+import MarkManage from './pages/Manage/MarkManage';
+import ScopeManage from './pages/Manage/ScopeManage';
 
 // OUTCOME FOR STUDENT COURSE AND PROGRAM
 import StudentOutcome from './pages/Outcomes/StudentOutcome';
@@ -67,11 +67,7 @@ function App() {
 
 
 						<Route path="obereport" element={<ObeReport />} />
-						<Route path="scopemanage" element={<ScopeManage />} />
 						<Route path="studentmanage" element={<StudentManage />} />
-						<Route path="markrelease" element={<MarkRelease />} />
-						<Route path="markmanage" element={<MarkManage />} />
-						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
 						<Route path="programoutcome" element={<ProgramOC />} />
 
 
@@ -100,7 +96,11 @@ function App() {
 						<Route path="staffmastermanage" element={<StaffMaster />} />
 						<Route path="hodmanage" element={<HodManage />} />
 						<Route path="tutormanage" element={<TutorManage />} />
+						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
 						<Route path="showandblock" element={<BlockShow />} />
+						<Route path="markmanage" element={<MarkManage />} />
+						<Route path="markrelease" element={<MarkRelease />} />
+						<Route path="scopemanage" element={<ScopeManage />} />
 
 						{/* OUTCOME FOR STUDENT COURSE AND PROGRAM */}
 						<Route path="studentoutcome" element={<StudentOutcome />} />

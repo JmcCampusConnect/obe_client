@@ -51,7 +51,7 @@ function StaffCourseFilter({
                     value={filterCourseCode}
                     getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                     onSelect={(opt) => setFilterCourseCode(getOptionValue(opt))}
-                    placeholder="Course Code"
+                    placeholder="Course Code or Title"
                 />
 
                 <SearchableDropdown

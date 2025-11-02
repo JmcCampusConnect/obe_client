@@ -25,7 +25,7 @@ function MarkReleaseFilters({
                     value={filterStaffId}
                     getOptionLabel={getOptionLabel}
                     onSelect={(opt) => setFilterStaffId(getOptionValue(opt))}
-                    placeholder="Staff ID / Name"
+                    placeholder="Staff ID or Name"
                 />
 
                 {/* Department Filter */}
@@ -43,7 +43,7 @@ function MarkReleaseFilters({
                     value={filterCourseCode}
                     getOptionLabel={getOptionLabel}
                     onSelect={(opt) => setFilterCourseCode(getOptionValue(opt))}
-                    placeholder="Course Code / Title"
+                    placeholder="Course Code or Title"
                 />
 
                 {/* Section Filter */}

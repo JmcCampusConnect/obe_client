@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import './markmanage.css';
+import '../../css/MarkManage.css';
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
