@@ -13,7 +13,7 @@ function RsMartixReportHeader({ searchText, handleSearch, handleDownload, setSho
                             <input
                                 value={searchText}
                                 onChange={(e) => handleSearch(e.target.value)}
-                                placeholder="Search by ID, Name, Department..."
+                                placeholder="Search by Course Code, Status..."
                                 className="search-input"
                             />
                             <button

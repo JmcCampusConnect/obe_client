@@ -103,9 +103,6 @@ function WorkProgressReport() {
                                 <button className='report-subject-box' onClick={() => handleDeptReport("ALL")}>ALL</button>
                                 <button className='report-subject-box' onClick={handleMatrixReport}>RELATIONSHIP MATRIX</button>
                                 <button className='report-subject-box' onClick={handleEseReport}>ESE</button>
-                                {reportDeptName.map((dept, index) => (
-                                    <button key={index} className='report-subject-box' onClick={() => handleDeptReport(dept)}>{dept}</button>
-                                ))}
                             </>
                         )}
                         {hod && <button className='report-subject-box' onClick={handleHod}>DEPT REPORT</button>}
