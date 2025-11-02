@@ -216,9 +216,9 @@
     border: 1px solid var(--color-border-light);
 }
 
-.filter-grid-dept-report {
+.filter-grid-hod-report-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-lg);
     align-items: center;
 }
@@ -801,15 +801,18 @@
     padding: 25px 35px 0px;
 }
 
-.status-completed {
-    color: green;
+.hod-repo-td-status.status-completed {
+    color: green !important;
 }
 
-.status-processing {
-    color: blue;
+.hod-repo-td-status.status-processing {
+    color: blue !important;
 }
 
-.status-incomplete {
-    color: red;
+.hod-repo-td-status.status-incomplete {
+    color: red !important;
 }
 
+.hod-repo-td-status {
+    font-weight: 600;
+}
