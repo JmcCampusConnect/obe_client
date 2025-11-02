@@ -79,7 +79,7 @@ const ScopeTable = ({
                                 ) : (
                                     <tr>
                                         <td colSpan={columns.length + 1} className="no-data">
-                                            No Data Available.
+                                            No records to display
                                         </td>
                                     </tr>
                                 )}

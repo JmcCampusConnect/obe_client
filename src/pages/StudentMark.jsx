@@ -462,18 +462,30 @@ function StudentMark() {
                         <span className="mark-course-footer">{courseTitle}</span>
                     </div>
                 </div>
-                <div className="mark-dropdown-group">
-                    <select
-                        value={activeSection || ''}
-                        onChange={handleSectionChange}
-                        className="mark-dropdown"
-                    >
-                        <option value="1">CIA - 1</option>
-                        <option value="2">CIA - 2</option>
-                        <option value="3">ASS - 1</option>
-                        <option value="4">ASS - 2</option>
-                        <option value="5">ESE</option>
-                    </select>
+                <div className="mark-toggle-container">
+                    <div className="mark-toggle-group">
+                        {[
+                            { value: "1", label: "CIA - 1", key: "cia_1" },
+                            { value: "2", label: "CIA - 2", key: "cia_2" },
+                            { value: "3", label: "ASS - 1", key: "ass_1" },
+                            { value: "4", label: "ASS - 2", key: "ass_2" },
+                        ].map((section) => {
+                            const isActive = activeSection === section.value;
+                            const isCompleted = active?.[section.key] === 2;
+                            return (
+                                <button
+                                    key={section.value}
+                                    onClick={() => setActiveSection(section.value)}
+                                    className={`mark-toggle-btn 
+                                        ${isActive ? "mark-toggle-active" : ""} 
+                                        ${isCompleted ? "mark-toggle-complete" : "mark-toggle-pending"}`
+                                    }
+                                >
+                                    {section.label}
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
                 {lockMessage && <p className="lockMessage">{lockMessage}</p>}
                 <div>

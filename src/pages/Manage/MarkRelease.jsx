@@ -183,6 +183,7 @@ function MarkRelease() {
 
     return (
         <div className="staff-management-shell">
+            
             <MarkReleaseHeader
                 searchText={searchText}
                 handleSearch={handleSearch}
