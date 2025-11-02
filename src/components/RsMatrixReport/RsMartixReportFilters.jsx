@@ -1,16 +1,30 @@
-import React from 'react';
-import SearchableDropdown from '../common/SearchableDropdown';
+import React from "react";
+import SearchableDropdown from "../common/SearchableDropdown";
 
-function DepartmentReportFilter({
-    showFilters, clearAllFilters, filterCategory, setFilterCategory, filterDeptId, setFilterDeptId, depts,
-    filterStaffId, setFilterStaffId, staffOptions, filterCourseCode, setFilterCourseCode, courseCodeOptions,
-    filterSection, setFilterSection, sectionOptions, filterStatus, setFilterStatus
+function RsMartixReportFilters({
+    showFilters,
+    clearAllFilters,
+    filterCategory,
+    setFilterCategory,
+    filterDeptId,
+    setFilterDeptId,
+    depts,
+    filterStaffId,
+    setFilterStaffId,
+    staffOptions,
+    filterCourseCode,
+    setFilterCourseCode,
+    courseCodeOptions,
+    filterSection,
+    setFilterSection,
+    sectionOptions,
+    filterStatus,
+    setFilterStatus,
 }) {
-
     const categoryOptions = [
         { value: "AIDED", label: "AIDED" },
         { value: "SFM", label: "SFM" },
-        { value: "SFW", label: "SFW" }
+        { value: "SFW", label: "SFW" },
     ]
 
     const getOptionValue = (opt) => (typeof opt === "string" ? opt : opt?.value || "");
@@ -19,9 +33,8 @@ function DepartmentReportFilter({
     if (!showFilters) return null;
 
     return (
-        <div className="crm-filters">
-            <div className="filter-grid-dept-report">
-
+        <div className="crm-filters bg-white p-6 rounded-xl shadow-lg border border-sky-100 mb-6">
+            <div className="filter-grid-dept-report grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 <SearchableDropdown
                     options={staffOptions}
                     value={filterStaffId}
@@ -35,7 +48,7 @@ function DepartmentReportFilter({
                     value={filterDeptId}
                     getOptionLabel={getOptionLabel}
                     onSelect={(opt) => setFilterDeptId(getOptionValue(opt))}
-                    placeholder="Department"
+                    placeholder="Department ID"
                 />
 
                 <SearchableDropdown
@@ -65,7 +78,6 @@ function DepartmentReportFilter({
                 <SearchableDropdown
                     options={[
                         { value: "Completed", label: "Completed" },
-                        { value: "Processing", label: "Processing" },
                         { value: "Incomplete", label: "Incomplete" },
                     ]}
                     value={filterStatus}
@@ -86,4 +98,4 @@ function DepartmentReportFilter({
     )
 }
 
-export default DepartmentReportFilter;
+export default RsMartixReportFilters;
