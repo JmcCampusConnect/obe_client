@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import {
     faHome, faFileAlt, faTachometerAlt, faKey, faSignOutAlt, faGear, faGraduationCap, faLightbulb, faProjectDiagram,
-    faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard
+    faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard, faChartBar
 }
     from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
@@ -102,7 +102,7 @@ function Layout() {
             show: user && user.manage === 1,
         },
         {
-            icon: faUserFriends,
+            icon: faChartBar,
             name: 'OBE Report',
             path: `/staff/${urlStaffId}/obereport`,
             show: user && user.obe_report === 1,

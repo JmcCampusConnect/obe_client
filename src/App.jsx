@@ -5,8 +5,7 @@ import PrivateRoute from './components/common/Privaterouter';
 
 
 import StudentManage from './components/manage/studentmanage/studentmanage';
-import ProgramOC from './components/prooutcome/prooutcome';
-import ObeReport from './components/obereport/obereport';
+// import ProgramOC from './components/prooutcome/prooutcome';
 
 
 
@@ -27,6 +26,7 @@ import WorkProgressReport from './pages/Reports/WorkProgressReport';
 import EseReport from './pages/Reports/EseReport';
 import RsMatrixReport from './pages/Reports/RsMatrixReport';
 import DepartmentReport from './pages/Reports/DepartmentReport';
+import ObeReport from './pages/Reports/ObeReport';
 
 // MANAGE FOR STAFF, COURSEMAP, STUDENT ETC
 import Manage from './pages/Manage/Manage';
@@ -66,9 +66,8 @@ function App() {
 
 
 
-						<Route path="obereport" element={<ObeReport />} />
 						<Route path="studentmanage" element={<StudentManage />} />
-						<Route path="programoutcome" element={<ProgramOC />} />
+						{/* <Route path="programoutcome" element={<ProgramOC />} /> */}
 
 
 
@@ -89,6 +88,7 @@ function App() {
 						<Route path="matrixreport" element={<RsMatrixReport />} />
 						<Route path="esereport" element={<EseReport />} />
 						<Route path=":dept/departmentreport" element={<DepartmentReport />} />
+						<Route path="obereport" element={<ObeReport />} />
 
 						{/* MANAGE FOR STAFF, COURSEMAP, STUDENT ETC */}
 						<Route path="manage" element={<Manage />} />

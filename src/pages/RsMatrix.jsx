@@ -262,7 +262,7 @@ function RsMatrix() {
             {showModal && (
                 <div className="rsmatrix-modal-overlay">
                     <div className="rsmatrix-modal-content">
-                        <h2>Relationship Matrix for {selectedCourse.course_code}</h2>
+                        <h2 className='rsmatrix-heading'>Relationship Matrix for {selectedCourse.course_code}</h2>
                         <table className='rsmatrix-table'>
                             <thead className='rsmartrix-thead'>
                                 <tr className='rsmartrix-tr'>
