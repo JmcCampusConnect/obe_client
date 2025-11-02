@@ -464,7 +464,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import '../../css/StaffCourseManage.css';
-import AddModal from './addmodal';
+import AddModal from '../../components/StaffCourseManage/AddStaffCourseModal';
 import EditModal from '../../components/StaffCourseManage/EditStaffCourseModal';
 import DeleteModal from '../../components/StaffCourseManage/DeleteStaffCourse';
 import StaffCourseTable from '../../components/StaffCourseManage/StaffCourseTable';
@@ -673,22 +673,35 @@ const StaffCourseManage = () => {
         }
     };
 
+    // In StaffCourseManage.jsx
+
     const handleOpenEditModal = async staff => {
+        // 1. Set the staff data and initial selections for the modal
         setEditStaff(staff);
         setSelectedCategory(staff.category);
         setSelectedDeptId(staff.dept_id);
         setSelectedSemester(staff.semester);
         setIsEditModalOpen(true);
 
+        // 2. Fetch the LIST of all available Department IDs for the staff's category
+        try {
+            const deptIdResponse = await axios.post(`${apiUrl}/api/depId`, { category: staff.category });
+            setDeptId(deptIdResponse.data); // <<< CRITICAL: Populates the dropdown options
+        } catch (error) {
+            console.error('Error fetching ALL Dept IDs for category:', error);
+        }
+
+        // 3. Fetch details related to the staff's current department (Dept Name, Degree, Semesters)
         try {
             const deptDetails = await axios.post(`${apiUrl}/api/departmentname`, { dept_id: staff.dept_id });
             setDeptName(fixField(deptDetails.data.uniqueDeptNames));
             setDegree(fixField(deptDetails.data.uniqueDegrees));
             setSemester(deptDetails.data.uniqueSemester);
         } catch (error) {
-            console.error(error);
+            console.error('Error fetching department details:', error);
         }
 
+        // 4. Fetch the Sections and Course Codes related to the staff's current semester/dept
         try {
             const resp = await axios.post(`${apiUrl}/api/scmsection`, {
                 semester: staff.semester,
@@ -698,9 +711,10 @@ const StaffCourseManage = () => {
             setSection(resp.data.section);
             setCourseCode(resp.data.courseCode);
         } catch (error) {
-            console.error(error);
+            console.error('Error fetching sections and course codes:', error);
         }
     };
+
 
     const handleSaveStaff = async () => {
         const payload = {
@@ -857,6 +871,7 @@ const StaffCourseManage = () => {
                 }}
                 deptId={deptId}
                 handleEditCategoryChange={async value => {
+                    // 1. Update the editStaff state and clear dependent fields
                     setEditStaff(prev => ({
                         ...prev,
                         category: value,
@@ -869,9 +884,12 @@ const StaffCourseManage = () => {
                         course_title: '',
                         batch: '',
                     }));
+
+                    // 2. >>> NEW/CORRECTED LOGIC TO FETCH ALL DEPT IDs <<<
                     try {
-                        const response = await axios.post(`${apiUrl}/api/deptid`, { category: value });
-                        setDeptId(response.data);
+                        // This endpoint should return the list of department IDs for the selected category
+                        const response = await axios.post(`${apiUrl}/api/depId`, { category: value });
+                        setDeptId(response.data); // <-- Use setDeptId to update the main state
                         setSemester([]);
                         setSection([]);
                         setCourseCode([]);

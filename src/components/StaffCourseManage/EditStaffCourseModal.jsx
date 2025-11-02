@@ -2,23 +2,38 @@ import React from 'react';
 import SearchableDropdown from '../../components/common/SearchableDropdown';
 
 const EditStaffCourseModal = ({
-    isOpen, closeModal, staffId: staffIdList, editStaff, handleEditStaffIdChange, handleEditInputChange, 
+    isOpen, closeModal,
+    staffId: staffIdList, editStaff, handleEditStaffIdChange, handleEditInputChange,
     deptId: deptIdList, semester: semesterList, section: sectionList, courseCode: courseCodeList,
-    handleEditCourseCodeChange, handleEditDeptIdChange, handleEditCategoryChange, handleEditSemChange, 
-    handleSaveEditStaff, staffData
+    handleEditCourseCodeChange, handleEditDeptIdChange, handleEditCategoryChange,
+    handleEditSemChange, handleSaveEditStaff, staffData
 }) => {
-    
+
     if (!isOpen) return null;
 
-    const staffIdOptions = staffIdList.map(id => {
-        const staff = staffData.find(s => s.staff_id === id);
-        return { value: id, label: `${id} - ${staff?.staff_name || "Unknown Staff"}` };
+    const safeMap = (list = []) =>
+        list.map(item => ({
+            value: String(item ?? ""),
+            label: String(item ?? "")
+        }));
+
+    const staffIdOptions = (staffIdList || []).map(id => {
+        const staff = staffData?.find(s => s.staff_id === id);
+        return {
+            value: String(id ?? ""),
+            label: `${id} - ${staff?.staff_name || "Unknown Staff"}`
+        };
     });
 
-    const categoryOptions = ["SFM", "SFW", "AIDED"].map(c => ({ value: c, label: c }));
-    const deptIdOptions = deptIdList.map(id => ({ value: id, label: id }));
-    const courseCodeOptions = courseCodeList.map(code => ({ value: code, label: code }));
-    const sectionOptions = sectionList.map(sec => ({ value: sec, label: sec }));
+    const categoryOptions = ["SFM", "SFW", "AIDED"].map(c => ({
+        value: String(c),
+        label: String(c)
+    }));
+
+    const deptIdOptions = safeMap(deptIdList);
+    const courseCodeOptions = safeMap(courseCodeList);
+    const sectionOptions = safeMap(sectionList);
+    const semesterOptions = safeMap(semesterList);
 
     return (
         <div className="modal-overlay">
@@ -30,6 +45,8 @@ const EditStaffCourseModal = ({
 
                 <div className="modal-body">
                     <div className="form-grid">
+
+                        {/* STAFF ID */}
                         <label>
                             <div className="label">Staff ID :</div>
                             <SearchableDropdown
@@ -44,30 +61,35 @@ const EditStaffCourseModal = ({
                             />
                         </label>
 
+                        {/* STAFF NAME */}
                         <label>
                             <div className="label">Staff Name :</div>
-                            <input type="text" name="staff_name" value={editStaff.staff_name || ''} readOnly placeholder="Staff Name" />
+                            <input
+                                type="text"
+                                name="staff_name"
+                                value={editStaff.staff_name || ''}
+                                readOnly
+                                placeholder="Select Staff Name"
+                            />
                         </label>
 
+                        {/* CATEGORY */}
                         <label>
                             <div className="label">Category :</div>
-                            <select
-                                name="category"
-                                className='input-box-correction'
+                            <SearchableDropdown
+                                options={categoryOptions}
                                 value={editStaff.category || ""}
-                                onChange={e => {
-                                    const value = e.target.value;
-                                    handleEditInputChange(e);
+                                getOptionLabel={opt => opt.label}
+                                onSelect={opt => {
+                                    const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
                                     handleEditCategoryChange(value);
+                                    handleEditInputChange({ target: { name: "category", value } });
                                 }}
-                            >
-                                <option value="" disabled>Select Category</option>
-                                {categoryOptions.map((c, i) => (
-                                    <option key={i} value={c.value}>{c.label}</option>
-                                ))}
-                            </select>
+                                placeholder="Select Category"
+                            />
                         </label>
 
+                        {/* DEPT ID */}
                         <label>
                             <div className="label">Dept ID :</div>
                             <SearchableDropdown
@@ -82,50 +104,62 @@ const EditStaffCourseModal = ({
                             />
                         </label>
 
+                        {/* DEPT NAME */}
                         <label>
                             <div className="label">Dept Name :</div>
-                            <input type="text" name="dept_name" value={editStaff.dept_name || ''} readOnly placeholder="Dept Name" />
+                            <input
+                                type="text"
+                                name="dept_name"
+                                value={editStaff.dept_name || ''}
+                                readOnly
+                                placeholder="Select Dept Name"
+                            />
                         </label>
 
+                        {/* DEGREE */}
                         <label>
                             <div className="label">Degree :</div>
-                            <input type="text" name="degree" value={editStaff.degree || ''} readOnly placeholder="Degree" />
+                            <input
+                                type="text"
+                                name="degree"
+                                value={editStaff.degree || ''}
+                                readOnly
+                                placeholder="Select Degree"
+                            />
                         </label>
 
+                        {/* SEMESTER */}
                         <label>
                             <div className="label">Semester :</div>
-                            <select
-                                className='input-box-correction'
-                                name="semester"
-                                value={editStaff.semester || ''}
-                                onChange={e => {
-                                    const value = e.target.value;
-                                    handleEditInputChange(e);
+                            <SearchableDropdown
+                                options={semesterOptions}
+                                value={semesterOptions.find(opt => opt.value === String(editStaff.semester)) || ""}
+                                getOptionLabel={opt => opt.label}
+                                onSelect={opt => {
+                                    const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
                                     handleEditSemChange(value);
+                                    handleEditInputChange({ target: { name: "semester", value } });
                                 }}
-                            >
-                                <option value="" disabled>Select Semester</option>
-                                {semesterList.map((sem, i) => (
-                                    <option key={i} value={sem}>{sem}</option>
-                                ))}
-                            </select>
+                                placeholder="Select Semester"
+                            />
                         </label>
 
+                        {/* SECTION */}
                         <label>
                             <div className="label">Section :</div>
-                            <select
-                                className='input-box-correction'
-                                name="section"
-                                value={editStaff.section || ''}
-                                onChange={handleEditInputChange}
-                            >
-                                <option value="" disabled>Select Section</option>
-                                {sectionOptions.map((sec, i) => (
-                                    <option key={i} value={sec.value}>{sec.label}</option>
-                                ))}
-                            </select>
+                            <SearchableDropdown
+                                options={sectionOptions}
+                                value={editStaff.section || ""}
+                                getOptionLabel={opt => opt.label}
+                                onSelect={opt => {
+                                    const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
+                                    handleEditInputChange({ target: { name: "section", value } });
+                                }}
+                                placeholder="Select Section"
+                            />
                         </label>
 
+                        {/* COURSE CODE */}
                         <label>
                             <div className="label">Course Code :</div>
                             <SearchableDropdown
@@ -140,17 +174,32 @@ const EditStaffCourseModal = ({
                             />
                         </label>
 
+                        {/* COURSE TITLE */}
                         <label>
                             <div className="label">Course Title :</div>
-                            <input type="text" name="course_title" value={editStaff.course_title || ''} readOnly placeholder="Course Title" />
+                            <input
+                                type="text"
+                                name="course_title"
+                                value={editStaff.course_title || ''}
+                                readOnly
+                                placeholder="Select Course Title"
+                            />
                         </label>
 
+                        {/* BATCH */}
                         <label>
                             <div className="label">Batch :</div>
-                            <input type="text" name="batch" value={editStaff.batch || ''} readOnly placeholder="Batch" />
+                            <input
+                                type="text"
+                                name="batch"
+                                value={editStaff.batch || ''}
+                                readOnly
+                                placeholder="Select Batch"
+                            />
                         </label>
                     </div>
 
+                    {/* ACTION BUTTONS */}
                     <div className="modal-actions">
                         <button className="btn btn-primary" onClick={handleSaveEditStaff}>Save Changes</button>
                         <button className="btn btn-outline" onClick={closeModal}>Cancel</button>
