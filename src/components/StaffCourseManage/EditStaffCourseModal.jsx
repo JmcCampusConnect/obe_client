@@ -2,11 +2,12 @@ import React from 'react';
 import SearchableDropdown from '../../components/common/SearchableDropdown';
 
 const EditStaffCourseModal = ({
-    isOpen, closeModal, staffId: staffIdList, editStaff, handleEditStaffIdChange, handleEditInputChange,
+    isOpen, closeModal, staffId: staffIdList, editStaff, handleEditStaffIdChange, handleEditInputChange, 
     deptId: deptIdList, semester: semesterList, section: sectionList, courseCode: courseCodeList,
-    handleEditCourseCodeChange, handleEditDeptIdChange, handleEditCategoryChange, handleSaveEditStaff, staffData
+    handleEditCourseCodeChange, handleEditDeptIdChange, handleEditCategoryChange, handleEditSemChange, 
+    handleSaveEditStaff, staffData
 }) => {
-
+    
     if (!isOpen) return null;
 
     const staffIdOptions = staffIdList.map(id => {
@@ -17,6 +18,7 @@ const EditStaffCourseModal = ({
     const categoryOptions = ["SFM", "SFW", "AIDED"].map(c => ({ value: c, label: c }));
     const deptIdOptions = deptIdList.map(id => ({ value: id, label: id }));
     const courseCodeOptions = courseCodeList.map(code => ({ value: code, label: code }));
+    const sectionOptions = sectionList.map(sec => ({ value: sec, label: sec }));
 
     return (
         <div className="modal-overlay">
@@ -35,11 +37,8 @@ const EditStaffCourseModal = ({
                                 value={editStaff.staff_id || ""}
                                 getOptionLabel={opt => opt.label}
                                 onSelect={opt => {
-                                    if (typeof opt === 'string') {
-                                        handleEditInputChange({ target: { name: "staff_id", value: opt } });
-                                    } else {
-                                        handleEditStaffIdChange(opt ? opt.value : "");
-                                    }
+                                    const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
+                                    handleEditStaffIdChange(value);
                                 }}
                                 placeholder="Select Staff ID"
                             />
@@ -76,11 +75,8 @@ const EditStaffCourseModal = ({
                                 value={editStaff.dept_id || ""}
                                 getOptionLabel={opt => opt.label}
                                 onSelect={opt => {
-                                    if (typeof opt === 'string') {
-                                        handleEditInputChange({ target: { name: "dept_id", value: opt } });
-                                    } else {
-                                        handleEditDeptIdChange(opt ? opt.value : "");
-                                    }
+                                    const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
+                                    handleEditDeptIdChange(value);
                                 }}
                                 placeholder="Select Dept ID"
                             />
@@ -98,7 +94,16 @@ const EditStaffCourseModal = ({
 
                         <label>
                             <div className="label">Semester :</div>
-                            <select className='input-box-correction' name="semester" value={editStaff.semester || ''} onChange={handleEditInputChange}>
+                            <select
+                                className='input-box-correction'
+                                name="semester"
+                                value={editStaff.semester || ''}
+                                onChange={e => {
+                                    const value = e.target.value;
+                                    handleEditInputChange(e);
+                                    handleEditSemChange(value);
+                                }}
+                            >
                                 <option value="" disabled>Select Semester</option>
                                 {semesterList.map((sem, i) => (
                                     <option key={i} value={sem}>{sem}</option>
@@ -108,10 +113,15 @@ const EditStaffCourseModal = ({
 
                         <label>
                             <div className="label">Section :</div>
-                            <select className='input-box-correction' name="section" value={editStaff.section || ''} onChange={handleEditInputChange}>
+                            <select
+                                className='input-box-correction'
+                                name="section"
+                                value={editStaff.section || ''}
+                                onChange={handleEditInputChange}
+                            >
                                 <option value="" disabled>Select Section</option>
-                                {sectionList.map((sec, i) => (
-                                    <option key={i} value={sec}>{sec}</option>
+                                {sectionOptions.map((sec, i) => (
+                                    <option key={i} value={sec.value}>{sec.label}</option>
                                 ))}
                             </select>
                         </label>
@@ -123,11 +133,8 @@ const EditStaffCourseModal = ({
                                 value={editStaff.course_code || ""}
                                 getOptionLabel={opt => opt.label}
                                 onSelect={opt => {
-                                    if (typeof opt === 'string') {
-                                        handleEditInputChange({ target: { name: "course_code", value: opt } });
-                                    } else {
-                                        handleEditCourseCodeChange(opt ? opt.value : "");
-                                    }
+                                    const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
+                                    handleEditCourseCodeChange(value);
                                 }}
                                 placeholder="Select Course Code"
                             />

@@ -216,12 +216,13 @@
     border: 1px solid var(--color-border-light);
 }
 
-.filter-grid-hod {
+.filter-grid-staff-course {
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-lg);
     align-items: center;
 }
+
 
 .filter-actions {
     display: flex;

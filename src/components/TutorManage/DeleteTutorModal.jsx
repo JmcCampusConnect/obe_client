@@ -14,7 +14,7 @@ function DeleteTutorModal({ deleteStaff, cancelDelete, handleConfirmDelete }) {
 
 				<div className="modal-body">
 					<p className="text-lg mb-4 text-center">
-						Are you sure you want to permanently delete the following Tutor record?
+						Are you sure you want to permanently delete the following Tutor record ?
 					</p>
 
 					<div className="del-info space-y-2 p-3 bg-red-50 border border-red-200 rounded-lg">

@@ -19,7 +19,7 @@ const DeleteStaffCourse = ({ isOpen, staff, onClose, onDelete }) => {
                     <button className="modal-close" onClick={onClose}>✕</button>
                 </div>
                 <div className="modal-body">
-                    <p>Are you sure you want to permanently delete the following <strong>Staff Course Assignment</strong>?</p>
+                    <p>Are you sure you want to permanently delete the following <strong>Staff Course Assignment</strong> ?</p>
                     <div className="del-info">
                         <p><strong>Staff : </strong> {staff_name} ({staff_id})</p>
                         <p><strong>Department : </strong> {dept_name} ({dept_id})</p>

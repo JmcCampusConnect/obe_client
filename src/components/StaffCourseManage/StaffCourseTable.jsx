@@ -79,7 +79,7 @@ const StaffCourseTable = ({ staffCourseData, page, pageSize, totalPages, setPage
 								<FontAwesomeIcon icon={faChevronRight} />
 							</button>
 						</div>
-						<div className="dense-info">Showing {visibleRows.length} of {dataToDisplay.length}** entries</div>
+						<div className="dense-info">Showing {visibleRows.length} of {dataToDisplay.length} entries</div>
 					</div>
 				)}
 			</section>
