@@ -46,7 +46,6 @@ function EditHodModal({
 										setEditForm(prev => ({ ...prev, staff_id: "", hod_name: "" }));
 									}
 								}}
-								placeholder="STAFF ID"
 							/>
 						</label>
 
@@ -56,8 +55,7 @@ function EditHodModal({
 								className="input-box-correction"
 								type="text"
 								value={editForm.hod_name || ""}
-								placeholder="HOD NAME"
-								readOnly
+								disabled
 							/>
 						</label>
 
@@ -68,7 +66,6 @@ function EditHodModal({
 								value={editForm.graduate || ""}
 								getOptionLabel={(g) => typeof g === "string" ? g : g.label}
 								onSelect={(g) => setEditForm(prev => ({ ...prev, graduate: getDropdownValue(g) }))}
-								placeholder="GRADUATE"
 							/>
 						</label>
 
@@ -79,7 +76,6 @@ function EditHodModal({
 								value={editForm.category || ""}
 								getOptionLabel={(c) => typeof c === "string" ? c : c.label}
 								onSelect={(c) => setEditForm(prev => ({ ...prev, category: getDropdownValue(c) }))}
-								placeholder="CATEGORY"
 							/>
 						</label>
 
@@ -98,7 +94,6 @@ function EditHodModal({
 										setEditForm(prev => ({ ...prev, dept_id: "", dept_name: "" }));
 									}
 								}}
-								placeholder="DEPT ID"
 							/>
 						</label>
 
@@ -108,8 +103,7 @@ function EditHodModal({
 								className="input-box-correction"
 								type="text"
 								value={editForm.dept_name || ""}
-								placeholder="DEPT NAME"
-								readOnly
+								disabled
 							/>
 						</label>
 					</div>

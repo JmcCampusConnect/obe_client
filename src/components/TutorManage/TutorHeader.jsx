@@ -14,7 +14,7 @@ function TutorHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
                         <div className="search-group">
                             <input
                                 value={searchText}
-                                onChange={(e) => handleSearch(e.target.value)} 
+                                onChange={(e) => handleSearch(e.target.value)}
                                 placeholder="Search by ID, Name, Department..."
                                 className="search-input"
                             />
@@ -27,6 +27,9 @@ function TutorHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
                     <div className="toolbar-right">
                         <button className="btn btn-secondary" onClick={() => handleSearch("")}>
                             Clear Search
+                        </button>
+                        <button className="btn btn-primary" onClick={showPopup}>
+                            <FontAwesomeIcon icon={faPlus} /> Add New Tutor
                         </button>
                     </div>
                 </div>

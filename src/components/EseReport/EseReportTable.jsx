@@ -10,19 +10,6 @@ const EseReportTable = ({ courseCode = [], page, pageSize, totalPages, setPage, 
         return dataToDisplay.slice((page - 1) * pageSize, page * pageSize);
     }, [dataToDisplay, page, pageSize]);
 
-    if (dataToDisplay.length === 0) {
-        return (
-            <main className="crm-content">
-                <section className="card">
-                    <div className="card-header">
-                        <div className="card-title">Ese Report</div>
-                        <div className="card-sub">No records to display</div>
-                    </div>
-                </section>
-            </main>
-        );
-    }
-
     return (
         <main className="crm-content">
             <section className="card">

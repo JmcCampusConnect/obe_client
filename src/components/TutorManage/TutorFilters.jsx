@@ -48,7 +48,7 @@ function TutorFilters({
                     placeholder="Section"
                 />
 
-                <div className="filter-actions">
+                <div className="filter-actions-hod">
                     <button className="btn btn-outline" onClick={handleClearFilters}>
                         Clear Filters
                     </button>

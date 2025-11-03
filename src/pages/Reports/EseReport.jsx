@@ -67,7 +67,7 @@ function EseReport() {
         const worksheet = XLSX.utils.json_to_sheet(worksheetData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "ESE Report");
-        XLSX.writeFile(workbook, "ESE Report.xlsx");
+        XLSX.writeFile(workbook, "Ese Report.xlsx");
     };
 
     const getStatusColor = (statusText) => {

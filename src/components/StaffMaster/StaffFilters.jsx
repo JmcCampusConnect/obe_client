@@ -53,7 +53,7 @@ function StaffFilters({
                     onSelect={(opt) => setStaffDept(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
                     placeholder="Department Name"
                 />
-                <div className="filter-actions">
+                <div className="filter-actions-staffmaster">
                     <button className="btn btn-outline" onClick={handleClearFilters}>
                         Clear Filters
                     </button>

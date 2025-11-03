@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import {
     faHome, faFileAlt, faTachometerAlt, faKey, faSignOutAlt, faGear, faGraduationCap, faLightbulb, faProjectDiagram,
-    faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard, faChartBar
+    faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard, faChartBar,
+    faExclamationTriangle
 }
     from '@fortawesome/free-solid-svg-icons';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
@@ -118,6 +119,12 @@ function Layout() {
             name: 'OBE Terminologies',
             path: `/staff/${urlStaffId}/terminologies`,
             show: user
+        },
+        {
+            icon: faExclamationTriangle,
+            name: 'Data Deletion',
+            path: `/staff/${urlStaffId}/terminologies`,
+            show: urlStaffId === 'ADMIN'
         },
     ]
 

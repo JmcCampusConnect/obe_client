@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../css/Settings.css';
 import { useParams } from 'react-router-dom';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
-import passbg from '../assets/passbg.jpg'
+import passbg from '../assets/passbg.jpg';
+
 function Settings() {
-    
+
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const confirmPasswordRef = useRef(null);
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId } = useParams();
 
@@ -19,32 +21,33 @@ function Settings() {
                     const response = await axios.post(`${apiUrl}/api/passwordchange`, {
                         staff_id: staffId,
                         staff_pass: newPassword,
-                    })
+                    });
                     if (response.data.success) {
                         alert(response.data.message);
                         window.location.reload();
                     }
-                }
-                catch (error) {
+                } catch (error) {
                     alert('An error occurred. Please try Again Later.');
-                    console.error('Login Error: ', error);
+                    console.error('Password Change Error:', error);
                 }
+            } else {
+                alert("New password & confirm password are not same");
             }
-            else {
-                alert("New Password & Confirm Password are not Same")
-            }
-        }
-        else {
-            alert("Fill Both the Fields");
+        } else {
+            alert("Fill both the fields");
             return;
         }
-    }
+    };
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e, field) => {
         if (e.key === 'Enter') {
-            handlePasswordChange();
+            if (field === 'newPassword') {
+                confirmPasswordRef.current.focus();
+            } else if (field === 'confirmPassword') {
+                handlePasswordChange();
+            }
         }
-    }
+    };
 
     return (
         <div className="settings-parent">
@@ -54,22 +57,26 @@ function Settings() {
                 </div>
                 <div className="settings-right-wrapper">
                     <span className="settings-rgt-header">Change Your Password</span>
+
                     <input
                         className="settings-desc-input"
                         type="password"
                         placeholder="New Password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyPress={(e) => handleKeyPress(e, 'newPassword')}
                     />
+
                     <input
                         className="settings-desc-input"
                         type="password"
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyPress={(e) => handleKeyPress(e, 'confirmPassword')}
+                        ref={confirmPasswordRef}
                     />
+
                     <button className="settings-desc-btn" onClick={handlePasswordChange}>
                         <FontAwesomeIcon icon={faKey} className='settings-fa-fa-icons' />
                         <div className='settings-login-desc'>Reset Password</div>
@@ -77,7 +84,7 @@ function Settings() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Settings;

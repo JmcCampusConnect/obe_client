@@ -41,7 +41,6 @@ function AddStaffModal({
                                 value={staffCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setStaffCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                                placeholder="Select Category"
                             />
                         </label>
                         <label>
@@ -51,7 +50,6 @@ function AddStaffModal({
                                 value={deptCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                                placeholder="Select Dept Category"
                             />
                         </label>
                         <label>
@@ -61,7 +59,6 @@ function AddStaffModal({
                                 value={staffDept}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                                 onSelect={(opt) => setStaffDept(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                                placeholder="Select Department"
                             />
                         </label>
                         <label>

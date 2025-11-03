@@ -32,11 +32,11 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
                     className="smsm-inputs dropdown-input"
                     value={inputValue}
                     onChange={(e) => {
-                        onSelect(e.target.value); 
+                        onSelect(e.target.value);
                         setShowDropdown(true);
                     }}
                     onFocus={() => setShowDropdown(true)}
-                    placeholder={placeholder || `Search ${label}...`}
+                    placeholder={placeholder || "" }
                 />
                 {showDropdown && filteredOptions.length > 0 && (
                     <ul className="dropdown-list">

@@ -223,7 +223,7 @@
     align-items: center;
 }
 
-.filter-actions {
+.filter-actions-hod {
     display: flex;
     gap: var(--spacing-lg);
     justify-content: flex-end;

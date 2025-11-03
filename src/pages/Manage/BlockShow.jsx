@@ -15,7 +15,7 @@ function BlockShow() {
                 const res = await axios.get(`${apiUrl}/api/showblock`);
                 if (res.data) setActiveData(res.data);
             } catch (err) {
-                console.error("Error fetching:", err);
+                console.error("Error fetching : ", err);
             }
         })();
     }, []);
@@ -28,10 +28,10 @@ function BlockShow() {
     const handleUpdate = async () => {
         try {
             const res = await axios.post(`${apiUrl}/api/updatelock`, activeData);
-            alert(res.data.message === "Success" ? "✅ Updated successfully!" : "⚠️ Update failed!");
+            alert(res.data.message === "Success" ? "Show block updated successfully!" : "Show block update failed!");
         } catch (err) {
-            console.error("Error updating:", err);
-            alert("❌ Failed to update!");
+            console.error("Error updating show block : ", err);
+            alert("Failed to update!");
         }
     };
 

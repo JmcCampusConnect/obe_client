@@ -53,7 +53,6 @@ function AddHodModal({
 										setNewHodName("");
 									}
 								}}
-								placeholder="Select Staff ID"
 							/>
 						</label>
 
@@ -63,8 +62,7 @@ function AddHodModal({
 								className="input-box-correction"
 								type="text"
 								value={newHodName}
-								placeholder="Select Staff Name"
-								readOnly
+								disabled
 							/>
 						</label>
 
@@ -75,7 +73,6 @@ function AddHodModal({
 								value={newGraduate}
 								getOptionLabel={(g) => typeof g === "string" ? g : g.label}
 								onSelect={(g) => setNewGraduate(typeof g === "string" ? g : g?.value || "")}
-								placeholder="Select Graduate"
 							/>
 						</label>
 
@@ -86,7 +83,6 @@ function AddHodModal({
 								value={newCategory}
 								getOptionLabel={(c) => typeof c === "string" ? c : c.label}
 								onSelect={(c) => setNewCategory(typeof c === "string" ? c : c?.value || "")}
-								placeholder="Select Category"
 							/>
 						</label>
 
@@ -108,7 +104,6 @@ function AddHodModal({
 										setNewDeptName("");
 									}
 								}}
-								placeholder="Select Dept ID"
 							/>
 						</label>
 
@@ -118,8 +113,7 @@ function AddHodModal({
 								className="input-box-correction"
 								type="text"
 								value={newDeptName}
-								placeholder="Select Dept Name"
-								readOnly
+								disabled
 							/>
 						</label>
 					</div>

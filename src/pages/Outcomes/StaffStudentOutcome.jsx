@@ -5,7 +5,7 @@ import '../../css/StaffStudentOutcome.css';
 
 function StaffStudentOutcome() {
 	
-	const apiUrl = process.env.REACT_APP_API_URL;
+	const apiUrl = import.meta.env.VITE_API_URL;
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
 	const [categories, setCategories] = useState([]);
