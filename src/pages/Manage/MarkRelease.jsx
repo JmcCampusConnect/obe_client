@@ -187,7 +187,6 @@ function MarkRelease() {
             <MarkReleaseHeader
                 searchText={searchText}
                 handleSearch={handleSearch}
-                showPopup={() => alert('Add New Feature Coming Soon')}
                 setShowFilters={setShowFilters}
             />
 

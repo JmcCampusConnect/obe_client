@@ -26,9 +26,6 @@ function MarkReleaseHeader({ searchText, handleSearch, showPopup, setShowFilters
                         <button className="btn btn-secondary" onClick={() => handleSearch("")}>
                             Clear Search
                         </button>
-                        <button className="btn btn-primary" onClick={showPopup}>
-                            <FontAwesomeIcon icon={faPlus} /> Add New Course
-                        </button>
                     </div>
                 </div>
             </div>
