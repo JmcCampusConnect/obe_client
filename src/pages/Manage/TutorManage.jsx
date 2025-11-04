@@ -21,6 +21,7 @@ function StaffTutorManage() {
     const [deptDetails, setDeptDetails] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [staffData, setStaffData] = useState([]);
 
     // --- UI/MODAL STATE ---
     const [editingStaff, setEditingStaff] = useState(null);
@@ -51,38 +52,32 @@ function StaffTutorManage() {
     const pageSize = 10;
     const totalPages = Math.ceil(filteredData.length / pageSize);
 
-    // 1. DATA FETCHING EFFECT
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(API_URL);
+    const fetchData = async () => {
 
-                const rawDeptDetails = response.data.deptDetails;
-                const uniqueDeptMap = new Map();
-                rawDeptDetails.forEach(dept => {
-                    if (dept.dept_id) {
-                        uniqueDeptMap.set(dept.dept_id, dept);
-                    }
-                });
-                const uniqueDeptDetails = Array.from(uniqueDeptMap.values());
-
-                setData(response.data.mentorData);
-                setFilteredData(response.data.mentorData);
-                setDeptDetails(uniqueDeptDetails);
-            } catch (err) {
-                console.error("Data Fetching Error:", err);
-                setError(err.message || "Failed to fetch data from the server.");
-            }
-            finally { setLoading(false) }
+        try {
+            const response = await axios.get(API_URL);
+            const rawDeptDetails = response.data.deptDetails;
+            const uniqueDeptMap = new Map();
+            rawDeptDetails.forEach(dept => {
+                if (dept.dept_id) { uniqueDeptMap.set(dept.dept_id, dept) }
+            });
+            const uniqueDeptDetails = Array.from(uniqueDeptMap.values());
+            setData(response.data.mentorData);
+            setStaffData(response.data.staff_data);
+            setFilteredData(response.data.mentorData);
+            setDeptDetails(uniqueDeptDetails);
+        } catch (err) {
+            console.error("Data Fetching Error:", err);
+            setError(err.message || "Failed to fetch data from the server.");
         }
-        fetchData();
-    }, []);
+        finally { setLoading(false) }
+    }
+
+    useEffect(() => { fetchData() }, []);
 
     // 2. SEARCH & FILTER EFFECT
     useEffect(() => {
         let currentData = data;
-
-        // Apply Search
         if (searchText) {
             const lowerSearchText = searchText.toLowerCase();
             currentData = currentData.filter((row) =>
@@ -90,37 +85,23 @@ function StaffTutorManage() {
                 (row.staff_name?.toLowerCase() || "").includes(lowerSearchText) ||
                 (row.category?.toLowerCase() || "").includes(lowerSearchText) ||
                 (row.dept_name?.toLowerCase() || "").includes(lowerSearchText)
-            );
+            )
         }
-
-        // Apply Filters
-        if (filterCategory) {
-            currentData = currentData.filter(row => row.category === filterCategory);
-        }
-        if (filterDeptId) {
-            currentData = currentData.filter(row => row.dept_id === filterDeptId);
-        }
-        if (filterSection) {
-            currentData = currentData.filter(row => row.section === filterSection);
-        }
-
+        if (filterCategory) { currentData = currentData.filter(row => row.category === filterCategory) }
+        if (filterDeptId) { currentData = currentData.filter(row => row.dept_id === filterDeptId) }
+        if (filterSection) { currentData = currentData.filter(row => row.section === filterSection) }
         setFilteredData(currentData);
     }, [data, searchText, filterCategory, filterDeptId, filterSection]);
 
     // 3. PAGINATION EFFECT
-    useEffect(() => {
-        setPage(1);
-    }, [filteredData.length]);
-
+    useEffect(() => { setPage(1) }, [filteredData.length]);
 
     // UTILITY FUNCTIONS
-    const getUniqueValues = (key) => {
-        return [...new Set(data.map((item) => item[key]).filter(Boolean))];
-    }
+    const getUniqueValues = (key) => { return [...new Set(data.map((item) => item[key]).filter(Boolean))] }
 
     const getUniqueStaffsForDropdown = () => {
-        const currentMentorIds = new Set(data.map(m => m.staff_id));
-        return data
+        const currentMentorIds = new Set(staffData.map(m => m.staff_id));
+        return staffData
             .map(staff => ({
                 value: staff.staff_id,
                 label: `${staff.staff_id} - ${staff.staff_name}`
@@ -131,7 +112,6 @@ function StaffTutorManage() {
         value: d.dept_id,
         label: `${d.dept_id} - ${d.dept_name}`
     }));
-
 
     // HANDLERS
     const handleHeaderSearch = (text) => {
@@ -172,7 +152,8 @@ function StaffTutorManage() {
             batch: tuturBatch,
             degree: tuturDegree,
             section: tuturSection,
-        };
+        }
+
         try {
             const response = await axios.post(`${apiUrl}/api/newtutoradded`, newMentor);
             if (response.status === 201) {
@@ -180,12 +161,12 @@ function StaffTutorManage() {
                 setData(newData);
                 setFilteredData(newData);
                 setAddtutur(false);
-                console.log("Mentor has been added successfully.");
+                alert("Mentor has been added successfully.");
                 setNewTuturId(""); setNewtuturName(""); setTuturGraduate(""); setTuturCategory("");
                 setTuturdeptName(""); setTuturDeptId(""); setTuturBatch(""); setTuturDegree(""); setTuturSection("");
             }
         } catch (error) {
-            console.error("Failed to add new mentor:", error);
+            console.error("Failed to add new mentor : ", error);
             const errorMessage = error.response?.data?.message || "Please check server response.";
             alert(`Failed to add new mentor: ${errorMessage}`);
         }
@@ -195,16 +176,12 @@ function StaffTutorManage() {
     const handleEditSave = async () => {
         try {
             await axios.put(`${API_URL}/${editForm.staff_id}`, editForm);
-            const updatedData = data.map((row) =>
-                row.staff_id === editForm.staff_id ? editForm : row
-            );
-            setData(updatedData);
-            setFilteredData(updatedData);
+            await fetchData();
             setEditingStaff(null);
-            console.log("Mentor has been modified successfully");
+            alert("Mentor has been modified successfully");
         } catch (error) {
-            console.error("Failed to update mentor:", error);
-            alert("Failed to update the record. Please check console for details.");
+            console.error("Failed to update mentor : ", error);
+            alert("Failed to update the record.");
         }
     }
 
@@ -216,9 +193,9 @@ function StaffTutorManage() {
             setData(updatedData);
             setFilteredData(updatedData);
             setDeleteStaff(null);
-            console.log("Mentor has been deleted successfully.");
+            alert("Mentor has been deleted successfully.");
         } catch (err) {
-            console.error("Failed to delete mentor:", err);
+            console.error("Failed to delete mentor : ", err);
             alert("Failed to delete the record. Please check console for details.");
         }
     }
@@ -272,6 +249,7 @@ function StaffTutorManage() {
                 newtuturName={newtuturName}
                 setNewtuturName={setNewtuturName}
                 data={data}
+                staffData={staffData}
                 getUniqueValues={getUniqueValues}
                 tuturCategory={tuturCategory}
                 setTuturCategory={setTuturCategory}
@@ -300,6 +278,7 @@ function StaffTutorManage() {
                 getUniqueStaffsForDropdown={getUniqueStaffsForDropdown}
                 getUniqueValues={getUniqueValues}
                 data={data}
+                staffData={staffData}
             />
 
             {/* Delete Tutor Modal */}

@@ -3,7 +3,7 @@ import SearchableDropdown from '../common/SearchableDropdown';
 
 function EditTutorModal({
 	editingStaff, closeEditTutorModal, handleEditSave, editForm, setEditForm,
-	getUniqueStaffsForDropdown, getUniqueValues, data
+	getUniqueStaffsForDropdown, getUniqueValues, data, staffData
 }) {
 
 	if (!editingStaff) return null;
@@ -19,9 +19,33 @@ function EditTutorModal({
 	const degreeOptions = getUniqueValues("degree").map(d => ({ value: d, label: d }));
 	const graduateOptions = getUniqueValues("graduate").map(g => ({ value: g, label: g }));
 	const sectionOptions = getUniqueValues("section").map(s => ({ value: s, label: s }));
-	const deptIdOptions = getUniqueValues("dept_id").map(d => ({ value: d, label: d }));
-	const deptNameOptions = getUniqueValues("dept_name").map(d => ({ value: d, label: d }));
 	const batchOptions = getUniqueValues("batch").map(b => ({ value: b, label: b }));
+
+	const deptOptions = Array.from(
+		new Map(
+			data
+				.filter(d => d.dept_id && d.dept_name)
+				.map(d => [d.dept_id, {
+					value: d.dept_id,
+					label: `${d.dept_id} - ${d.dept_name}`,
+					name: d.dept_name
+				}])
+		).values()
+	);
+
+	const handleDeptSelect = (opt) => {
+		if (opt) {
+			const value = typeof opt === "string" ? opt : opt.value;
+			const selectedDept = deptOptions.find(d => d.value === value);
+			setEditForm(prev => ({
+				...prev,
+				dept_id: value,
+				dept_name: selectedDept ? selectedDept.name : ""
+			}));
+		} else {
+			setEditForm(prev => ({ ...prev, dept_id: "", dept_name: "" }));
+		}
+	}
 
 	return (
 		<div className="modal-overlay">
@@ -33,6 +57,8 @@ function EditTutorModal({
 
 				<div className="modal-body">
 					<div className="form-grid">
+
+						{/* Staff ID */}
 						<label>
 							<div className="label">Staff ID :</div>
 							<SearchableDropdown
@@ -43,7 +69,7 @@ function EditTutorModal({
 									if (typeof opt === "string") {
 										setEditForm(prev => ({ ...prev, staff_id: opt, staff_name: "" }));
 									} else if (opt) {
-										const selectedStaff = data.find(s => s.staff_id === opt.value);
+										const selectedStaff = staffData.find(s => s.staff_id === opt.value);
 										setEditForm(prev => ({
 											...prev,
 											staff_id: opt.value,
@@ -53,22 +79,22 @@ function EditTutorModal({
 										setEditForm(prev => ({ ...prev, staff_id: "", staff_name: "" }));
 									}
 								}}
-								placeholder="Select Staff Id"
 								isDisabled={true}
 							/>
 						</label>
 
+						{/* Tutor Name */}
 						<label>
 							<div className="label">Tutor Name :</div>
 							<input
 								className="input-box-correction"
 								type="text"
 								value={editForm.staff_name || ""}
-								readOnly
-								placeholder="Select Tutor Name"
+								disabled
 							/>
 						</label>
 
+						{/* Category */}
 						<label>
 							<div className="label">Category :</div>
 							<SearchableDropdown
@@ -76,10 +102,10 @@ function EditTutorModal({
 								value={editForm.category || ""}
 								getOptionLabel={getDropdownLabel}
 								onSelect={(opt) => handleDropdownSelect("category", opt)}
-								placeholder="Select Category"
 							/>
 						</label>
 
+						{/* Degree */}
 						<label>
 							<div className="label">Degree :</div>
 							<SearchableDropdown
@@ -87,10 +113,10 @@ function EditTutorModal({
 								value={editForm.degree || ""}
 								getOptionLabel={getDropdownLabel}
 								onSelect={(opt) => handleDropdownSelect("degree", opt)}
-								placeholder="Select Degree"
 							/>
 						</label>
 
+						{/* Graduate */}
 						<label>
 							<div className="label">Graduate :</div>
 							<SearchableDropdown
@@ -98,10 +124,10 @@ function EditTutorModal({
 								value={editForm.graduate || ""}
 								getOptionLabel={getDropdownLabel}
 								onSelect={(opt) => handleDropdownSelect("graduate", opt)}
-								placeholder="Select Graduate"
 							/>
 						</label>
 
+						{/* Section */}
 						<label>
 							<div className="label">Section :</div>
 							<SearchableDropdown
@@ -109,32 +135,32 @@ function EditTutorModal({
 								value={editForm.section || ""}
 								getOptionLabel={getDropdownLabel}
 								onSelect={(opt) => handleDropdownSelect("section", opt)}
-								placeholder="Select Section"
 							/>
 						</label>
 
+						{/* 🟩 Dept ID (ID + Name together) */}
 						<label>
 							<div className="label">Dept ID :</div>
 							<SearchableDropdown
-								options={deptIdOptions}
+								options={deptOptions}
 								value={editForm.dept_id || ""}
-								getOptionLabel={getDropdownLabel}
-								onSelect={(opt) => handleDropdownSelect("dept_id", opt)}
-								placeholder="Select Dept ID"
+								getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
+								onSelect={handleDeptSelect}
 							/>
 						</label>
 
+						{/* 🟩 Dept Name (auto-filled, disabled) */}
 						<label>
 							<div className="label">Dept Name :</div>
-							<SearchableDropdown
-								options={deptNameOptions}
+							<input
+								className="input-box-correction"
+								type="text"
 								value={editForm.dept_name || ""}
-								getOptionLabel={getDropdownLabel}
-								onSelect={(opt) => handleDropdownSelect("dept_name", opt)}
-								placeholder="Select Dept Name"
+								disabled
 							/>
 						</label>
 
+						{/* Batch */}
 						<label>
 							<div className="label">Batch :</div>
 							<SearchableDropdown
@@ -142,7 +168,6 @@ function EditTutorModal({
 								value={editForm.batch || ""}
 								getOptionLabel={getDropdownLabel}
 								onSelect={(opt) => handleDropdownSelect("batch", opt)}
-								placeholder="Select Batch"
 							/>
 						</label>
 					</div>
@@ -154,7 +179,7 @@ function EditTutorModal({
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
 
 export default EditTutorModal;

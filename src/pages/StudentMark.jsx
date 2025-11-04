@@ -39,7 +39,7 @@ function StudentMark() {
                 setMaxMark(response.data);
             }
             catch (err) {
-                console.log('Error Fetching Max Mark :', err);
+                console.log('Error fetching max mark :', err);
             }
         }
         maxMarkSet();
@@ -49,7 +49,7 @@ function StudentMark() {
                 const response = await axios.get(`${apiUrl}/api/showblock`, {});
                 if (response.data) { setLockIntput(response.data) }
             }
-            catch (err) { console.log('Error in Lock :', err) }
+            catch (err) { console.log('Error in lock :', err) }
         }
         InputLock();
 
@@ -93,7 +93,7 @@ function StudentMark() {
                     }
                 }
                 catch (err) {
-                    console.log('Error Fetching Student Details :', err);
+                    console.log('Error fetching student details :', err);
                 }
             };
             stuDetails();
@@ -316,7 +316,7 @@ function StudentMark() {
 
                         setIsSaveConfirmLoading(false);
                         setTimeout(() => {
-                            alert("Marks Submited Successfully");
+                            alert("Marks submited successfully");
                         }, 0);
                         window.location.reload();
                         try {
@@ -324,10 +324,10 @@ function StudentMark() {
                                 activeSection, courseCode, deptName, section, category, button_value, academicSem
                             });
                         }
-                        catch (err) { console.log("Error in Submitting Report") }
+                        catch (err) { console.log("Error in submitting report") }
                     }
                 }
-                catch (err) { alert("Error in Mark Submitting") }
+                catch (err) { alert("Error in submitting marks") }
                 finally { setIsSaveConfirmLoading(false) }
             }
             else { setIsSaveConfirmLoading(false) }
@@ -352,14 +352,14 @@ function StudentMark() {
                 if (response.data.success) {
                     setIsSaveLoading(false);
                     setTimeout(() => {
-                        alert("Marks Saved Successfully");
+                        alert("Marks saved successfully");
                     }, 0);
                     try {
                         const reportResponse = await axios.put(`${apiUrl}/api/report`, {
                             activeSection, courseCode, deptName, section, category, button_value, academicSem
                         });
                     }
-                    catch (err) { console.log("Error in Submitting Report") }
+                    catch (err) { console.log("Error in submitting report") }
                     finally { setIsSaveLoading(false) }
                 }
                 else {
@@ -369,7 +369,7 @@ function StudentMark() {
             }
             catch (err) {
                 setIsSaveLoading(false);
-                alert("Error in Mark Saving");
+                alert("Error in saving marks");
             }
         }
     }

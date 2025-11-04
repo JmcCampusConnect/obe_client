@@ -4,6 +4,7 @@ import axios from "axios";
 import '../css/CourseList.css';
 import { useParams } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
+import Loading from '../assets/load.svg'
 
 function CourseList() {
 
@@ -12,6 +13,7 @@ function CourseList() {
     const [courseData, setCourseData] = useState([]);
     const [academicSem, setAcademicSem] = useState('');
     const [staffName, setStaffName] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStaffName = async () => {
@@ -42,6 +44,7 @@ function CourseList() {
         const fetchCourseMapDetails = async () => {
             if (academicSem) {
                 try {
+                    setLoading(true);
                     const response = await axios.post(`${apiUrl}/api/coursemap`, {
                         staff_id: staffId,
                         academic_sem: academicSem
@@ -65,6 +68,7 @@ function CourseList() {
                                 console.log('Error Fetching Course Status:', err);
                                 return { ...course, status: 'Error' };
                             }
+                            finally { setLoading(false) }
                         })
                     )
                     setCourseData(courseMappingsWithStatus);
@@ -92,6 +96,14 @@ function CourseList() {
                 category: user.category
             }
         })
+    }
+
+    if (loading) {
+        return (
+            <div>
+                <center> <img src={Loading} alt="Loading..." className="img" /> </center>
+            </div>
+        )
     }
 
     return (

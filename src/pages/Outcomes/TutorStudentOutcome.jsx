@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import '../../css/TutorStudentOutcome.css';
+import Loading from '../../assets/load.svg';
 
 function TutorStudentOutcome() {
 
@@ -16,6 +17,7 @@ function TutorStudentOutcome() {
 	const [deptId, setDeptId] = useState('');
 	const [section, setSection] = useState('');
 	const [semester, setSemester] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const academicSemSet = async () => {
@@ -24,17 +26,16 @@ function TutorStudentOutcome() {
 				setAcademicSem(response.data.academic_sem);
 			}
 			catch (err) {
-				console.log('Error Fetching Academic Year:', err);
+				console.log('Error fetching academic year : ', err);
 			}
-		}
+		};
 		academicSemSet();
-
 	}, []);
 
 	useEffect(() => {
 		const fetchacademicSemAndData = async () => {
 			try {
-				const tutorDetails = await axios.post(`${apiUrl}/api/tutordetails`, { staffId })
+				const tutorDetails = await axios.post(`${apiUrl}/api/tutordetails`, { staffId });
 				setCategory(tutorDetails.data.tutorDetails.category);
 				setDepartment(tutorDetails.data.tutorDetails.dept_name);
 				setDeptId(tutorDetails.data.tutorDetails.dept_id);
@@ -42,145 +43,134 @@ function TutorStudentOutcome() {
 				setSection(tutorDetails.data.tutorDetails.section);
 			}
 			catch (error) {
-				console.error("Error Fetching Active Academic Year or Course Data :", error);
-				alert("Failed to fetch Academic Year and Related Data");
+				console.error("Error fetching academic year and related data :", error);
+				alert("Error fetching academic year and related data");
 			}
 		};
 		fetchacademicSemAndData();
 	}, []);
 
-	const handlePopup = () => { setShowSclaPopup(true) }
-	const closePopup = () => { setShowSclaPopup(false) }
+	const handlePopup = () => setShowSclaPopup(true);
+	const closePopup = () => setShowSclaPopup(false);
 
 	const sendData = async () => {
-		const values = await axios.post(`${apiUrl}/api/tutorstuoutcome`, {
-			category, department, deptId, semester, section, academicSem
-		})
-		setOutcomeData(values.data);
-		setOutcomeTable(true);
+		try {
+			setLoading(true);
+			const values = await axios.post(`${apiUrl}/api/tutorstuoutcome`, {
+				category, department, deptId, semester, section, academicSem
+			});
+			setOutcomeData(values.data);
+			setOutcomeTable(true);
+		}
+		catch (error) {
+			console.error("Error fetching student outcome:", error);
+			alert("Failed to fetch student outcome data.");
+		}
+		finally {
+			setLoading(false);
+		}
+	}
+
+	if (loading) {
+		return (
+			<div>
+				<center> <img src={Loading} alt="Loading..." className="img" /> </center>
+			</div>
+		)
 	}
 
 	return (
 		<div className="tso-main">
+			{loading && (
+				<div className="tso-loading-overlay">
+					<img src={Loading} alt="Loading..." className="tso-loading-img" />
+
+				</div>
+			)}
+
 			<div className="tso-dropdown-container">
 				<div className="tso-search-cnt">
 					<span className="tso-label">Academic Year : </span>
-					<input
-						type="text"
-						className="tso-select"
-						value={academicSem}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="tso-select" value={academicSem} readOnly disabled />
 				</div>
 				<div className="tso-search-cnt">
 					<span className="tso-label">Category : </span>
-					<input
-						type="text"
-						className="tso-select"
-						value={category}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="tso-select" value={category} readOnly disabled />
 				</div>
 				<div className="tso-search-cnt">
 					<span className="tso-label">Department : </span>
-					<input
-						type="text"
-						className="tso-select"
-						value={department}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="tso-select" value={department} readOnly disabled />
 				</div>
 				<div className="tso-search-cnt">
 					<span className="tso-label">Class : </span>
-					<input
-						type="text"
-						className="tso-select"
-						value={deptId}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="tso-select" value={deptId} readOnly disabled />
 				</div>
 				<div className="tso-search-cnt">
 					<span className="tso-label">Semester : </span>
-					<input
-						type="text"
-						className="tso-select"
-						value={semester}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="tso-select" value={semester} readOnly disabled />
 				</div>
 				<div className="tso-search-cnt">
 					<span className="tso-label">Section : </span>
-					<input
-						type="text"
-						className="tso-select"
-						value={section}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="tso-select" value={section} readOnly disabled />
 				</div>
 			</div>
+
 			<div className="tso-btn-content">
 				<button className="tso-btn" onClick={sendData}>Fetch Outcome</button>
 			</div>
+
 			{outcomeTable && (
-				<div className="tso-table-container" >
+				<div className="tso-table-container">
 					<div className="tso-header">
 						<div className="tso-header-title1">
-							<h1 className="">JAMAL MOHAMED COLLEGE (Autonomous)</h1>
-							<span>
-								Nationally Accredited with A++ Grade by NAAC (4th Cycle) with CGPA
-								3.69 out of 4.0
-							</span>
+							<h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
+							<span>Nationally Accredited with A++ Grade by NAAC (4th Cycle) with CGPA 3.69 out of 4.0</span>
 							<span>Affiliated to Bharathidasan University</span>
-							<span>TIRUCHIRAPPALLI - 620 020 .</span>
+							<span>TIRUCHIRAPPALLI - 620 020.</span>
 						</div>
 					</div>
 					<div className="tso-header-title2">
 						<h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
 					</div>
+
 					<h2 className='aso-heading' title='Click to View' onClick={handlePopup}>
 						SCLA - Student Cognitive Level Attainment
 					</h2>
+
 					{showSclaPopup && (
 						<div className="alert-overlay">
 							<div className="alert-box">
 								<p>
-									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
+									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels:
 									Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
 									for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
 								</p>
-								<button onClick={closePopup} className="alert-button">
-									OK
-								</button>
+								<button onClick={closePopup} className="alert-button">OK</button>
 							</div>
 						</div>
 					)}
+
 					{outcomeData && outcomeData.length > 0 ? (
 						<table className="tso-table">
 							<thead>
 								<tr>
-									<th className='tso-header' rowSpan={2}>Reg No</th>
-									<th className='tso-header' rowSpan={2}>Course Code</th>
-									<th className='tso-header' colSpan={3}>INTERNAL</th>
-									<th className='tso-header' colSpan={3}>EXTERNAL</th>
-									<th className='tso-header' colSpan={3}>TOTAL</th>
-									<th className='tso-header' rowSpan={2}>GRADE</th>
+									<th rowSpan={2}>Reg No</th>
+									<th rowSpan={2}>Course Code</th>
+									<th colSpan={3}>INTERNAL</th>
+									<th colSpan={3}>EXTERNAL</th>
+									<th colSpan={3}>TOTAL</th>
+									<th rowSpan={2}>GRADE</th>
 								</tr>
 								<tr>
-									<th className='tso-header'>LOT</th>
-									<th className='tso-header'>MOT</th>
-									<th className='tso-header'>HOT</th>
-									<th className='tso-header'>LOT</th>
-									<th className='tso-header'>MOT</th>
-									<th className='tso-header'>HOT</th>
-									<th className='tso-header'>LOT</th>
-									<th className='tso-header'>MOT</th>
-									<th className='tso-header'>HOT</th>
+									<th>LOT</th>
+									<th>MOT</th>
+									<th>HOT</th>
+									<th>LOT</th>
+									<th>MOT</th>
+									<th>HOT</th>
+									<th>LOT</th>
+									<th>MOT</th>
+									<th>HOT</th>
 								</tr>
 							</thead>
 							<tbody>

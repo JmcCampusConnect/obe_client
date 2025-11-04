@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../../css/StudentOutcome.css';
 const apiUrl = import.meta.env.VITE_API_URL;
+import Loading from '../../assets/load.svg'
 
 function StudentOutcome() {
 
@@ -13,57 +14,39 @@ function StudentOutcome() {
     const [hodHandle, setHodHandle] = useState(false);
     const [admin, setAdmin] = useState(false);
     const [staffName, setStaffName] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchStaffName = async () => {
+        const fetchStaffData = async () => {
+            setLoading(true);
             try {
-                const response = await axios.post(`${apiUrl}/staffName`, { staffId });
-                setStaffName(response.data)
-            }
-            catch (err) { }
-        }
-        fetchStaffName();
-    }, [apiUrl, staffId]);
-
-    useEffect(() => {
-        const checkStaffId = async () => {
-            if (staffId === 'ADMIN' || staffId === 'admin' || staffId === 'Admin') {
-                setAdmin(true);
-                return;
-            }
-            else {
-                try {
-                    const response = await axios.post(`${apiUrl}/api/checkstaffId`, {
-                        staff_id: staffId
-                    })
-                    if (response.data) {
-                        if (response.data.courseHandleStaffId) { setCourseHandle(true) }
-                        if (response.data.tutorHandleStaffId) { setTutorHandle(true) }
-                        if (response.data.hodHandleStaffId) { setHodHandle(true) }
+                const staffNameResponse = await axios.post(`${apiUrl}/staffName`, { staffId });
+                setStaffName(staffNameResponse.data);
+                if (staffId === 'ADMIN' || staffId.toLowerCase() === 'admin') { setAdmin(true) }
+                else {
+                    const roleResponse = await axios.post(`${apiUrl}/api/checkstaffId`, { staff_id: staffId });
+                    if (roleResponse.data) {
+                        setCourseHandle(!!roleResponse.data.courseHandleStaffId);
+                        setTutorHandle(!!roleResponse.data.tutorHandleStaffId);
+                        setHodHandle(!!roleResponse.data.hodHandleStaffId);
                     }
                 }
-                catch (err) {
-                    console.log('Error Fetching Data:', err);
-                }
-            }
-        }
-        checkStaffId();
-    }, [staffId]);
+            } catch (err) { console.log('Error fetching staff data : ', err) } finally { setLoading(false) }
+        };
+        fetchStaffData();
+    }, [apiUrl, staffId]);
 
-    const handleCourse = () => {
-        navigate(`/staff/${staffId}/staffstudentoutcome`);
-    }
+    const handleCourse = () => { navigate(`/staff/${staffId}/staffstudentoutcome`) }
+    const handleTutor = () => { navigate(`/staff/${staffId}/tutorstudentoutcome`) }
+    const handleHod = () => { navigate(`/staff/${staffId}/hodstudentoutcome`) }
+    const handleAdmin = () => { navigate(`/staff/${staffId}/adminstudentoutcome`) }
 
-    const handleTutor = () => {
-        navigate(`/staff/${staffId}/tutorstudentoutcome`);
-    }
-
-    const handleHod = () => {
-        navigate(`/staff/${staffId}/hodstudentoutcome`);
-    }
-
-    const handleAdmin = () => {
-        navigate(`/staff/${staffId}/adminstudentoutcome`);
+    if (loading) {
+        return (
+            <div>
+                <center> <img src={Loading} alt="Loading..." className="img" /> </center>
+            </div>
+        )
     }
 
     return (

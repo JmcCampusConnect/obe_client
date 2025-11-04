@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../../css/AdminStudentOutcome.css';
+import Loading from '../../assets/load.svg';
 
 function AdminStudentOutcome() {
-    
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [showSclaPopup, setShowSclaPopup] = useState(false);
     const [categories, setCategories] = useState([]);
@@ -16,9 +17,10 @@ function AdminStudentOutcome() {
     const [selectedClass, setSelectedClass] = useState("");
     const [selectedSection, setSelectedSection] = useState("");
     const [selectedSemester, setSelectedSemester] = useState("");
-    const [outcomeData, setOutcomeData] = useState("");
+    const [outcomeData, setOutcomeData] = useState([]);
     const [academicSem, setAcademicSem] = useState('');
-    const [outcomeTable, setOutcomeTable] = useState('');
+    const [outcomeTable, setOutcomeTable] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchacademicSemAndData = async () => {
@@ -26,25 +28,23 @@ function AdminStudentOutcome() {
                 const yearResponse = await axios.post(`${apiUrl}/activesem`, {});
                 const activeYear = yearResponse.data.academic_sem;
                 setAcademicSem(activeYear);
-                fetchCourseData({ academic_year: activeYear });
+                await fetchCourseData({ academic_year: activeYear });
+            } catch (error) {
+                console.error("Error fetching active academic year :", error);
+                alert("Error fetching active academic year");
             }
-            catch (error) {
-                console.error("Error Fetching Active Academic Year or Course Data :", error);
-                alert("Failed to fetch Academic Year and Related Data");
-            }
-        }
+        };
         fetchacademicSemAndData();
     }, []);
 
-    const handlePopup = () => { setShowSclaPopup(true) }
-    const closePopup = () => { setShowSclaPopup(false) }
+    const handlePopup = () => setShowSclaPopup(true);
+    const closePopup = () => setShowSclaPopup(false);
 
     const fetchCourseData = async (filters) => {
-        try {
-            const response = await axios.get(`${apiUrl}/api/coursemapping`, {
-                params: filters,
-            })
 
+        try {
+
+            const response = await axios.get(`${apiUrl}/api/coursemapping`, { params: filters });
             const data = response.data || [];
 
             if (!filters.category) {
@@ -60,19 +60,18 @@ function AdminStudentOutcome() {
                 setClasses(sortedClasses);
             }
             if (!filters.semester) {
-                const sortedSemesters = [...new Set(data.map((item) => item.semester))].sort((a, b) => a - b); // Assuming semester is numeric
+                const sortedSemesters = [...new Set(data.map((item) => item.semester))].sort((a, b) => a - b);
                 setSemesters(sortedSemesters);
             }
             if (!filters.section) {
                 const sortedSections = [...new Set(data.map((item) => item.section))].sort();
                 setSections(sortedSections);
             }
+        } catch (error) {
+            console.error("Error fetching course data : ", error);
+            alert("Error fetching course data");
         }
-        catch (error) {
-            console.error("Error Fetching Course Data:", error);
-            alert("Failed to Fetch Course Data");
-        }
-    }
+    };
 
     const handleCategoryChange = (value) => {
         setSelectedCategory(value);
@@ -81,20 +80,19 @@ function AdminStudentOutcome() {
         setSelectedSemester("");
         setSelectedSection("");
         fetchCourseData({ academic_sem: academicSem, category: value });
-    }
+    };
 
     const handleDepartmentChange = (value) => {
         setSelectedDepartment(value);
         setSelectedClass("");
         setSelectedSemester("");
         setSelectedSection("");
-        fetchCourseData(
-            {
-                academic_sem: academicSem,
-                category: selectedCategory,
-                dept_name: value,
-            })
-    }
+        fetchCourseData({
+            academic_sem: academicSem,
+            category: selectedCategory,
+            dept_name: value,
+        });
+    };
 
     const handleClassChange = (value) => {
         setSelectedClass(value);
@@ -105,41 +103,54 @@ function AdminStudentOutcome() {
             category: selectedCategory,
             dept_name: selectedDepartment,
             dept_id: value,
-        })
-    }
+        });
+    };
 
     const handleSemesterChange = (value) => {
         setSelectedSemester(value);
         setSelectedSection("");
-        fetchCourseData(
-            {
-                academic_sem: academicSem,
-                category: selectedCategory,
-                dept_name: selectedDepartment,
-                dept_id: selectedClass,
-                semester: value,
-            })
-    }
+        fetchCourseData({
+            academic_sem: academicSem,
+            category: selectedCategory,
+            dept_name: selectedDepartment,
+            dept_id: selectedClass,
+            semester: value,
+        });
+    };
 
     const handleSectionChange = (value) => {
         setSelectedSection(value);
-        fetchCourseData(
-            {
-                academic_sem: academicSem,
-                category: selectedCategory,
-                dept_name: selectedDepartment,
-                dept_id: selectedClass,
-                semester: selectedSemester,
-                section: value,
-            })
-    }
+        fetchCourseData({
+            academic_sem: academicSem,
+            category: selectedCategory,
+            dept_name: selectedDepartment,
+            dept_id: selectedClass,
+            semester: selectedSemester,
+            section: value,
+        });
+    };
 
     const sendData = async () => {
-        const dropDownData = await axios.post(`${apiUrl}/api/adminstuoutcome`, {
-            academicSem, selectedCategory, selectedDepartment, selectedClass, selectedSection, selectedSemester
-        })
-        setOutcomeData(dropDownData.data);
-        setOutcomeTable(true);
+        try {
+            setLoading(true);
+            const dropDownData = await axios.post(`${apiUrl}/api/adminstuoutcome`, {
+                academicSem, selectedCategory, selectedDepartment,
+                selectedClass, selectedSection, selectedSemester
+            });
+            setOutcomeData(dropDownData.data);
+            setOutcomeTable(true);
+        } catch (error) {
+            console.error("Error fetching outcome data:", error);
+            alert("Error fetching outcome data");
+        } finally { setLoading(false) }
+    }
+
+    if (loading) {
+        return (
+            <div>
+                <center> <img src={Loading} alt="Loading..." className="img" /> </center>
+            </div>
+        )
     }
 
     return (
@@ -290,7 +301,7 @@ function AdminStudentOutcome() {
                             </tbody>
                         </table>
                     ) : (
-                        <p className="aso-no-content">No Data Available. Please refine your Search.</p>
+                        <p className="aso-no-content">No data Available. Please refine your search.</p>
                     )}
                 </div>
             )}

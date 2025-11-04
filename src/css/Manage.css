@@ -13,10 +13,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
-    padding: 45px;
+    gap: 30px;
+    padding: 30px;
     background: #f4f6f9;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
 }
 
 /* CONTAINER */

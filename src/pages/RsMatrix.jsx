@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../css/RsMatrix.css';
 const apiUrl = import.meta.env.VITE_API_URL;
+import Loading from '../assets/load.svg'
 
 function RsMatrix() {
 
@@ -15,6 +16,7 @@ function RsMatrix() {
     const [meanOverallScore, setMeanOverallScore] = useState('');
     const [correlation, setCorrelation] = useState('');
     const [staffName, setStaffName] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStaffName = async () => {
@@ -42,6 +44,7 @@ function RsMatrix() {
         const fetchCourseCodes = async () => {
             if (academicSem) {
                 try {
+                    setLoading(true);
                     const response = await axios.post(`${apiUrl}/api/rsmcoursecode`, {
                         staff_id: staffId,
                         academic_sem: academicSem,
@@ -49,6 +52,7 @@ function RsMatrix() {
                     setCourseDetails(response.data);
                 }
                 catch (err) { console.log('Error fetching course codes:', err) }
+                finally { setLoading(false) }
             }
         }
         fetchCourseCodes();
@@ -70,63 +74,16 @@ function RsMatrix() {
         try {
             const response = await axios.get(`${apiUrl}/api/rsmatrix/${course.course_code}`);
             const matrixData = response.data;
-            const updateData = {
-                CO1_0: matrixData.co1_po1 || '',
-                CO1_1: matrixData.co1_po2 || '',
-                CO1_2: matrixData.co1_po3 || '',
-                CO1_3: matrixData.co1_po4 || '',
-                CO1_4: matrixData.co1_po5 || '',
-                CO1_5: matrixData.co1_pso1 || '',
-                CO1_6: matrixData.co1_pso2 || '',
-                CO1_7: matrixData.co1_pso3 || '',
-                CO1_8: matrixData.co1_pso4 || '',
-                CO1_9: matrixData.co1_pso5 || '',
-                CO1_meanScore: matrixData.co1_mean || '',
-                CO2_0: matrixData.co2_po1 || '',
-                CO2_1: matrixData.co2_po2 || '',
-                CO2_2: matrixData.co2_po3 || '',
-                CO2_3: matrixData.co2_po4 || '',
-                CO2_4: matrixData.co2_po5 || '',
-                CO2_5: matrixData.co2_pso1 || '',
-                CO2_6: matrixData.co2_pso2 || '',
-                CO2_7: matrixData.co2_pso3 || '',
-                CO2_8: matrixData.co2_pso4 || '',
-                CO2_9: matrixData.co2_pso5 || '',
-                CO2_meanScore: matrixData.co2_mean || '',
-                CO3_0: matrixData.co3_po1 || '',
-                CO3_1: matrixData.co3_po2 || '',
-                CO3_2: matrixData.co3_po3 || '',
-                CO3_3: matrixData.co3_po4 || '',
-                CO3_4: matrixData.co3_po5 || '',
-                CO3_5: matrixData.co3_pso1 || '',
-                CO3_6: matrixData.co3_pso2 || '',
-                CO3_7: matrixData.co3_pso3 || '',
-                CO3_8: matrixData.co3_pso4 || '',
-                CO3_9: matrixData.co3_pso5 || '',
-                CO3_meanScore: matrixData.co3_mean || '',
-                CO4_0: matrixData.co4_po1 || '',
-                CO4_1: matrixData.co4_po2 || '',
-                CO4_2: matrixData.co4_po3 || '',
-                CO4_3: matrixData.co4_po4 || '',
-                CO4_4: matrixData.co4_po5 || '',
-                CO4_5: matrixData.co4_pso1 || '',
-                CO4_6: matrixData.co4_pso2 || '',
-                CO4_7: matrixData.co4_pso3 || '',
-                CO4_8: matrixData.co4_pso4 || '',
-                CO4_9: matrixData.co4_pso5 || '',
-                CO4_meanScore: matrixData.co4_mean || '',
-                CO5_0: matrixData.co5_po1 || '',
-                CO5_1: matrixData.co5_po2 || '',
-                CO5_2: matrixData.co5_po3 || '',
-                CO5_3: matrixData.co5_po4 || '',
-                CO5_4: matrixData.co5_po5 || '',
-                CO5_5: matrixData.co5_pso1 || '',
-                CO5_6: matrixData.co5_pso2 || '',
-                CO5_7: matrixData.co5_pso3 || '',
-                CO5_8: matrixData.co5_pso4 || '',
-                CO5_9: matrixData.co5_pso5 || '',
-                CO5_meanScore: matrixData.co5_mean || '',
-            };
+            const updateData = {};
+            for (let i = 1; i <= 5; i++) {
+                for (let j = 1; j <= 5; j++) {
+                    updateData[`CO${i}_${j - 1}`] = matrixData[`co${i}_po${j}`] ?? '';
+                }
+                for (let k = 1; k <= 5; k++) {
+                    updateData[`CO${i}_${4 + k}`] = matrixData[`co${i}_pso${k}`] ?? '';
+                }
+                updateData[`CO${i}_meanScore`] = matrixData[`co${i}_mean`] ?? '';
+            }
             setInputValues(updateData)
             setMeanOverallScore(matrixData.mean);
             setCorrelation(matrixData.olrel);
@@ -222,6 +179,14 @@ function RsMatrix() {
             console.error('Error saving data:', err);
             alert('All Fields are Required');
         }
+    }
+
+    if (loading) {
+        return (
+            <div>
+                <center> <img src={Loading} alt="Loading..." className="img" /> </center>
+            </div>
+        )
     }
 
     return (

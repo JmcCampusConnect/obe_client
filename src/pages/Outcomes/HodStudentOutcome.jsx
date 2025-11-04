@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import '../../css/HodStudentOutcome.css';
+import Loading from '../../assets/load.svg'
 
 function HodStudentOutcome() {
-	
+
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
 	const apiUrl = import.meta.env.VITE_API_URL;
@@ -21,8 +22,7 @@ function HodStudentOutcome() {
 	const [selectedSection, setSelectedSection] = useState("");
 	const [outcomeData, setOutcomeData] = useState("");
 	const [outcomeTable, setOutcomeTable] = useState('');
-	const [showCclaPopup, setShowCclaPopup] = useState(false);
-
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchacademicSem = async () => {
@@ -31,10 +31,9 @@ function HodStudentOutcome() {
 				setAcademicSem(response.data.academic_sem || "");
 			}
 			catch (err) {
-				console.error("Error fetching academic year:", err);
+				console.error("Error fetching academic year : ", err);
 			}
-		};
-
+		}
 		fetchacademicSem();
 	}, [apiUrl]);
 
@@ -45,7 +44,7 @@ function HodStudentOutcome() {
 				setCategories(response.data)
 			}
 			catch (err) {
-				console.error("Error fetching HOD data:", err);
+				console.error("Error fetching HOD data : ", err);
 			}
 		}
 		fetchHodData();
@@ -84,8 +83,8 @@ function HodStudentOutcome() {
 			}
 		}
 		catch (error) {
-			console.error("Error Fetching Course Data:", error);
-			alert("Failed to Fetch Course Data");
+			console.error("Error fetching course data : ", error);
+			alert("Error fetching course data");
 		}
 	}
 
@@ -101,7 +100,7 @@ function HodStudentOutcome() {
 			setDepartments(response.data)
 		}
 		catch (error) {
-			console.log('Error Fetching HOD Dept : ', error)
+			console.log('Error fetching department : ', error)
 		}
 	}
 
@@ -157,10 +156,11 @@ function HodStudentOutcome() {
 
 	const sendData = async () => {
 		if (!selectedClass || !selectedSemester || !selectedSection) {
-			alert("Please select Class, Semester, and Section before submitting.");
+			alert("Please select class, semester, and section before submitting.");
 			return;
 		}
 		try {
+			setLoading(true);
 			const payload = {
 				category: categories,
 				department: departments,
@@ -180,7 +180,15 @@ function HodStudentOutcome() {
 		catch (err) {
 			console.error("Error sending data:", err);
 			alert("Failed to send data");
-		}
+		} finally { setLoading(false) }
+	}
+
+	if (loading) {
+		return (
+			<div>
+				<center> <img src={Loading} alt="Loading..." className="img" /> </center>
+			</div>
+		)
 	}
 
 	return (

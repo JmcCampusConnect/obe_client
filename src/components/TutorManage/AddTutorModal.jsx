@@ -2,24 +2,23 @@ import React from 'react';
 import SearchableDropdown from '../common/SearchableDropdown';
 
 function AddTutorModal({
-    addTutur, tututaddClose, getUniqueStaffsForDropdown, newTuturId, setNewTuturId, newtuturName, setNewtuturName,
-	data, getUniqueValues, tuturCategory, setTuturCategory, tuturDegree, setTuturDegree, tuturgraduate, setTuturGraduate,
-	tuturSection, setTuturSection, tuturDeptId, setTuturDeptId, tuturdeptName, setTuturdeptName, tuturBatch, setTuturBatch, handleNewMentor
+    addTutur, tututaddClose, getUniqueStaffsForDropdown, newTuturId, setNewTuturId, newtuturName, setNewtuturName, staffData,
+    data, getUniqueValues, tuturCategory, setTuturCategory, tuturDegree, setTuturDegree, tuturgraduate, setTuturGraduate,
+    tuturSection, setTuturSection, tuturDeptId, setTuturDeptId, tuturdeptName, setTuturdeptName, tuturBatch, setTuturBatch, handleNewMentor
 }) {
     if (!addTutur) return null;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         handleNewMentor();
-    };
+    }
 
     const handleStaffSelect = (opt) => {
         if (typeof opt === "string") {
             setNewTuturId(opt);
-            setNewtuturName("");
         } else if (opt) {
             setNewTuturId(opt.value);
-            setNewtuturName(data.find(s => s.staff_id === opt.value)?.staff_name || "");
+            setNewtuturName(staffData.find(s => s.staff_id === opt.value)?.staff_name || "");
         } else {
             setNewTuturId("");
             setNewtuturName("");
@@ -32,6 +31,25 @@ function AddTutorModal({
 
     const mapUniqueOptions = (key) => getUniqueValues(key).map(v => ({ value: v, label: v }));
 
+    const deptOptions = Array.from(
+        new Map(data
+            .filter(d => d.dept_id && d.dept_name)
+            .map(d => [d.dept_id, { value: d.dept_id, label: `${d.dept_id} - ${d.dept_name}`, name: d.dept_name }])
+        ).values()
+    );
+
+    const handleDeptSelect = (opt) => {
+        if (opt) {
+            const value = typeof opt === "string" ? opt : opt.value;
+            const selectedDept = deptOptions.find(d => d.value === value);
+            setTuturDeptId(value);
+            setTuturdeptName(selectedDept ? selectedDept.name : "");
+        } else {
+            setTuturDeptId("");
+            setTuturdeptName("");
+        }
+    };
+
     return (
         <div className="modal-overlay">
             <div className="modal modal-lg">
@@ -42,6 +60,8 @@ function AddTutorModal({
 
                 <form className="modal-body" onSubmit={handleSubmit}>
                     <div className="form-grid">
+
+                        {/* Staff ID */}
                         <label>
                             <div className="label">Staff ID :</div>
                             <SearchableDropdown
@@ -49,21 +69,21 @@ function AddTutorModal({
                                 value={newTuturId}
                                 getOptionLabel={(opt) => typeof opt === "string" ? opt : opt.label}
                                 onSelect={handleStaffSelect}
-                                placeholder="Select Staff ID"
                             />
                         </label>
 
+                        {/* Tutor Name (disabled) */}
                         <label>
                             <div className="label">Tutor Name :</div>
                             <input
                                 className="input-box-correction"
                                 type="text"
                                 value={newtuturName}
-                                placeholder="Tutor Name (Auto-filled)"
-                                readOnly
+                                disabled
                             />
                         </label>
 
+                        {/* Category */}
                         <label>
                             <div className="label">Category :</div>
                             <SearchableDropdown
@@ -71,10 +91,10 @@ function AddTutorModal({
                                 value={tuturCategory}
                                 getOptionLabel={(c) => (typeof c === "string" ? c : c.label)}
                                 onSelect={handleDropdownSelect(setTuturCategory)}
-                                placeholder="Select Category"
                             />
                         </label>
 
+                        {/* Degree */}
                         <label>
                             <div className="label">Degree :</div>
                             <SearchableDropdown
@@ -82,10 +102,10 @@ function AddTutorModal({
                                 value={tuturDegree}
                                 getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
                                 onSelect={handleDropdownSelect(setTuturDegree)}
-                                placeholder="Select Degree"
                             />
                         </label>
 
+                        {/* Graduate */}
                         <label>
                             <div className="label">Graduate :</div>
                             <SearchableDropdown
@@ -93,10 +113,10 @@ function AddTutorModal({
                                 value={tuturgraduate}
                                 getOptionLabel={(g) => (typeof g === "string" ? g : g.label)}
                                 onSelect={handleDropdownSelect(setTuturGraduate)}
-                                placeholder="Select Graduate"
                             />
                         </label>
 
+                        {/* Section */}
                         <label>
                             <div className="label">Section :</div>
                             <SearchableDropdown
@@ -104,32 +124,32 @@ function AddTutorModal({
                                 value={tuturSection}
                                 getOptionLabel={(s) => (typeof s === "string" ? s : s.label)}
                                 onSelect={handleDropdownSelect(setTuturSection)}
-                                placeholder="Select Section"
                             />
                         </label>
 
+                        {/* 🟩 Dept ID (shows ID + Name) */}
                         <label>
                             <div className="label">Dept ID :</div>
                             <SearchableDropdown
-                                options={mapUniqueOptions("dept_id")}
+                                options={deptOptions}
                                 value={tuturDeptId}
                                 getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
-                                onSelect={handleDropdownSelect(setTuturDeptId)}
-                                placeholder="Select Dept ID"
+                                onSelect={handleDeptSelect}
                             />
                         </label>
 
+                        {/* 🟩 Dept Name (auto-filled & disabled) */}
                         <label>
                             <div className="label">Dept Name :</div>
-                            <SearchableDropdown
-                                options={mapUniqueOptions("dept_name")}
+                            <input
+                                className="input-box-correction"
+                                type="text"
                                 value={tuturdeptName}
-                                getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
-                                onSelect={handleDropdownSelect(setTuturdeptName)}
-                                placeholder="Select Dept Name"
+                                disabled
                             />
                         </label>
 
+                        {/* Batch */}
                         <label>
                             <div className="label">Batch :</div>
                             <SearchableDropdown
@@ -137,7 +157,6 @@ function AddTutorModal({
                                 value={tuturBatch}
                                 getOptionLabel={(b) => (typeof b === "string" ? b : b.label)}
                                 onSelect={handleDropdownSelect(setTuturBatch)}
-                                placeholder="Select Batch"
                             />
                         </label>
                     </div>

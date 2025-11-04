@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import '../../css/StaffStudentOutcome.css';
+import Loading from '../../assets/load.svg';
 
 function StaffStudentOutcome() {
-	
+
 	const apiUrl = import.meta.env.VITE_API_URL;
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
@@ -21,54 +22,53 @@ function StaffStudentOutcome() {
 	const [outcomeData, setOutcomeData] = useState("");
 	const [academicSem, setAcademicSem] = useState('');
 	const [outcomeTable, setOutcomeTable] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchacademicSem = async () => {
 			try {
 				const response = await axios.post(`${apiUrl}/activesem`);
 				setAcademicSem(response.data.academic_sem || "");
-			}
-			catch (err) {
+			} catch (err) {
 				console.error("Error fetching academic year:", err);
-			}
+			} 
 		};
-
 		fetchacademicSem();
 	}, [apiUrl]);
 
 	useEffect(() => {
 		const fetchcategory = async () => {
 			try {
-				const responce = await axios.get(`${apiUrl}/api/category/${staffId}`, {
+				setLoading(true);
+				const response = await axios.get(`${apiUrl}/api/category/${staffId}`, {
 					params: { staffId }
-				})
-				if (responce.data) {
-					setCategories([...new Set(responce.data.map((item) => item.category))].sort());
+				});
+				if (response.data) {
+					setCategories([...new Set(response.data.map((item) => item.category))].sort());
 				}
+			} catch (err) {
+				window.alert("Error fetching category");
+			} finally {
+				setLoading(false);
 			}
-			catch (err) {
-				window.alert("Category Fetching Error ");
-			}
-		}
+		};
 		fetchcategory();
 	}, [apiUrl, staffId]);
 
-	const handlePopup = () => { setShowSclaPopup(true) }
-	const closePopup = () => { setShowSclaPopup(false) }
+	const handlePopup = () => { setShowSclaPopup(true); };
+	const closePopup = () => { setShowSclaPopup(false); };
 
 	const fetchCourseData = async (filters) => {
 		try {
+			setLoading(true);
 			const response = await axios.get(`${apiUrl}/api/stucoursemapping`, {
 				params: filters,
-			})
-
+			});
 			const data = response.data || [];
-
 			if (!filters.category) {
 				const sortedCategories = [...new Set(data.map((item) => item.category))].sort();
 				setCategories(sortedCategories);
 			}
-
 			if (!filters.dept_name) {
 				const sortedDepartments = [...new Set(data.map((item) => item.dept_name))].sort();
 				setDepartments(sortedDepartments);
@@ -85,12 +85,13 @@ function StaffStudentOutcome() {
 				const sortedSections = [...new Set(data.map((item) => item.section))].sort();
 				setSections(sortedSections);
 			}
+		} catch (error) {
+			console.error("Error fetching course data:", error);
+			alert("Error fetching course data");
+		} finally {
+			setLoading(false);
 		}
-		catch (error) {
-			console.error("Error Fetching Course Data:", error);
-			alert("Failed to Fetch Course Data");
-		}
-	}
+	};
 
 	const handleCategoryChange = (value) => {
 		setSelectedCategory(value);
@@ -99,7 +100,7 @@ function StaffStudentOutcome() {
 		setSelectedSection("");
 		setSelectedSemester("");
 		fetchCourseData({ academic_sem: academicSem, category: value, staff_id: staffId });
-	}
+	};
 
 	const handleDepartmentChange = (value) => {
 		setSelectedDepartment(value);
@@ -111,8 +112,8 @@ function StaffStudentOutcome() {
 			category: selectedCategory,
 			dept_name: value,
 			staff_id: staffId
-		})
-	}
+		});
+	};
 
 	const handleClassChange = (value) => {
 		setSelectedClass(value);
@@ -124,8 +125,8 @@ function StaffStudentOutcome() {
 			dept_name: departments,
 			dept_id: value,
 			staff_id: staffId
-		})
-	}
+		});
+	};
 
 	const handleSemesterChange = (value) => {
 		setSelectedSemester(value);
@@ -137,8 +138,8 @@ function StaffStudentOutcome() {
 			dept_id: selectedClass,
 			semester: value,
 			staff_id: staffId
-		})
-	}
+		});
+	};
 
 	const handleSectionChange = (value) => {
 		setSelectedSection(value);
@@ -150,11 +151,12 @@ function StaffStudentOutcome() {
 			semester: selectedSemester,
 			section: value,
 			staff_id: staffId
-		})
-	}
+		});
+	};
 
 	const sendData = async () => {
 		try {
+			setLoading(true);
 			const dropDownData = await axios.post(`${apiUrl}/api/staffstuoutcome`, {
 				academicSem, selectedCategory, selectedDepartment, selectedClass, selectedSection, selectedSemester, staffId
 			});
@@ -162,10 +164,19 @@ function StaffStudentOutcome() {
 				setOutcomeData(dropDownData.data);
 				setOutcomeTable(true);
 			}
-		}
-		catch (err) {
+		} catch (err) {
 			console.log("Error", err);
+		} finally {
+			setLoading(false);
 		}
+	};
+
+	if (loading) {
+		return (
+			<div>
+				<center> <img src={Loading} alt="Loading..." className="img" /> </center>
+			</div>
+		)
 	}
 
 	return (
@@ -173,13 +184,7 @@ function StaffStudentOutcome() {
 			<div className="sso-dropdown-container">
 				<div className="sso-search-cnt">
 					<span className="sso-label">Academic Year : </span>
-					<input
-						type="text"
-						className="sso-select"
-						value={academicSem}
-						readOnly
-						disabled
-					/>
+					<input type="text" className="sso-select" value={academicSem} readOnly disabled />
 				</div>
 				<div className="sso-search-cnt">
 					<span className="sso-label">Category : </span>
@@ -241,13 +246,12 @@ function StaffStudentOutcome() {
 				<button className="sso-btn" onClick={sendData}>Fetch Outcome</button>
 			</div>
 			{outcomeTable && (
-				<div className="sso-table-container" >
+				<div className="sso-table-container">
 					<div className="sso-header">
 						<div className="sso-header-title1">
 							<h1 className="">JAMAL MOHAMED COLLEGE (Autonomous)</h1>
 							<span>
-								Nationally Accredited with A++ Grade by NAAC (4th Cycle) with CGPA
-								3.69 out of 4.0
+								Nationally Accredited with A++ Grade by NAAC (4th Cycle) with CGPA 3.69 out of 4.0
 							</span>
 							<span>Affiliated to Bharathidasan University</span>
 							<span>TIRUCHIRAPPALLI - 620 020 .</span>
@@ -256,14 +260,14 @@ function StaffStudentOutcome() {
 					<div className="sso-header-title2">
 						<h3>OUTCOME BASED EDUCATION - {academicSem}</h3>
 					</div>
-					<h2 className='aso-heading' title='Click to View' onClick={handlePopup}>
+					<h2 className="aso-heading" title="Click to View" onClick={handlePopup}>
 						SCLA - Student Cognitive Level Attainment
 					</h2>
 					{showSclaPopup && (
 						<div className="alert-overlay">
 							<div className="alert-box">
 								<p>
-									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels :
+									The attainment level for each student in a course is calculated by analyzing their performance across three cognitive levels:
 									Lower-Order Thinking (LOT), Medium-Order Thinking (MOT), and Higher-Order Thinking (HOT). Each cognitive level is assessed
 									for Continuous Internal Assessment (CIA) and End-Semester Examination (ESE).
 								</p>
@@ -277,40 +281,40 @@ function StaffStudentOutcome() {
 						<table className="sso-table">
 							<thead>
 								<tr>
-									<th className='sso-header' rowSpan={2}>Reg No</th>
-									<th className='sso-header' rowSpan={2}>Course Code</th>
-									<th className='sso-header' colSpan={3}>INTERNAL</th>
-									<th className='sso-header' colSpan={3}>EXTERNAL</th>
-									<th className='sso-header' colSpan={3}>TOTAL</th>
-									<th className='sso-header' rowSpan={2}>GRADE</th>
+									<th className="sso-header" rowSpan={2}>Reg No</th>
+									<th className="sso-header" rowSpan={2}>Course Code</th>
+									<th className="sso-header" colSpan={3}>INTERNAL</th>
+									<th className="sso-header" colSpan={3}>EXTERNAL</th>
+									<th className="sso-header" colSpan={3}>TOTAL</th>
+									<th className="sso-header" rowSpan={2}>GRADE</th>
 								</tr>
 								<tr>
-									<th className='sso-header'>LOT</th>
-									<th className='sso-header'>MOT</th>
-									<th className='sso-header'>HOT</th>
-									<th className='sso-header'>LOT</th>
-									<th className='sso-header'>MOT</th>
-									<th className='sso-header'>HOT</th>
-									<th className='sso-header'>LOT</th>
-									<th className='sso-header'>MOT</th>
-									<th className='sso-header'>HOT</th>
+									<th className="sso-header">LOT</th>
+									<th className="sso-header">MOT</th>
+									<th className="sso-header">HOT</th>
+									<th className="sso-header">LOT</th>
+									<th className="sso-header">MOT</th>
+									<th className="sso-header">HOT</th>
+									<th className="sso-header">LOT</th>
+									<th className="sso-header">MOT</th>
+									<th className="sso-header">HOT</th>
 								</tr>
 							</thead>
 							<tbody>
 								{outcomeData.map((item, index) => (
 									<tr key={index}>
-										<td className='aso-content'>{item.reg_no}</td>
-										<td className='aso-content'>{item.course_code}</td>
-										<td className='aso-content-cia'>{item.lot_attainment}</td>
-										<td className='aso-content-cia'>{item.mot_attainment}</td>
-										<td className='aso-content-cia'>{item.hot_attainment}</td>
-										<td className='aso-content-ese'>{item.elot_attainment}</td>
-										<td className='aso-content-ese'>{item.emot_attainment}</td>
-										<td className='aso-content-ese'>{item.ehot_attainment}</td>
-										<td className='aso-content-all'>{item.overAll_lot}</td>
-										<td className='aso-content-all'>{item.overAll_mot}</td>
-										<td className='aso-content-all'>{item.overAll_hot}</td>
-										<td className='aso-content'>{item.final_grade}</td>
+										<td className="aso-content">{item.reg_no}</td>
+										<td className="aso-content">{item.course_code}</td>
+										<td className="aso-content-cia">{item.lot_attainment}</td>
+										<td className="aso-content-cia">{item.mot_attainment}</td>
+										<td className="aso-content-cia">{item.hot_attainment}</td>
+										<td className="aso-content-ese">{item.elot_attainment}</td>
+										<td className="aso-content-ese">{item.emot_attainment}</td>
+										<td className="aso-content-ese">{item.ehot_attainment}</td>
+										<td className="aso-content-all">{item.overAll_lot}</td>
+										<td className="aso-content-all">{item.overAll_mot}</td>
+										<td className="aso-content-all">{item.overAll_hot}</td>
+										<td className="aso-content">{item.final_grade}</td>
 									</tr>
 								))}
 							</tbody>
@@ -324,4 +328,4 @@ function StaffStudentOutcome() {
 	)
 }
 
-export default StaffStudentOutcome
+export default StaffStudentOutcome;

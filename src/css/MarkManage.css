@@ -7,7 +7,7 @@
 .mark-mng-main {
     display: flex;
     flex-direction: column;
-    padding: 35px;
+    padding: 30px;
     gap: 45px;
     font-family: "Segoe UI", Arial, sans-serif;
     margin: auto;

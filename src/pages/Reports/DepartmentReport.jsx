@@ -149,7 +149,7 @@ function DepartmentReport() {
         const worksheet = XLSX.utils.json_to_sheet(data, { header: headers });
         const workbook = { Sheets: { 'Report': worksheet }, SheetNames: ['Report'] };
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        saveAs(new Blob([excelBuffer]), `Dept Report ${new Date().toISOString().split('T')[0]}.xlsx`);
+        saveAs(new Blob([excelBuffer]), `OBE - Mark Entry Report ${new Date().toISOString().split('T')[0]}.xlsx`);
     };
 
     if (!academicYear || deptStatusReport.length === 0) {

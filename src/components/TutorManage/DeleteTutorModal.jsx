@@ -6,7 +6,7 @@ function DeleteTutorModal({ deleteStaff, cancelDelete, handleConfirmDelete }) {
 
 	return (
 		<div className="modal-overlay">
-			<div className="modal modal-md">
+			<div className="modal modal-md"> 
 				<div className="modal-header">
 					<h3>Confirm Delete</h3>
 					<button className="modal-close" onClick={cancelDelete}>✕</button>
@@ -27,7 +27,7 @@ function DeleteTutorModal({ deleteStaff, cancelDelete, handleConfirmDelete }) {
 					<div className="modal-actions mt-6">
 						<button
 							className="btn btn-danger"
-							onClick={() => handleConfirmDelete(deleteStaff)}
+							onClick={() => handleConfirmDelete(deleteStaff.staff_id)}
 						>
 							Delete
 						</button>
