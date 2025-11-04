@@ -106,7 +106,11 @@ function DepartmentReport() {
 
     const filteredReport = deptStatusReport.filter((d) => {
         const status = getActiveField(d);
-        const matchesSearch = d.course_code?.toLowerCase().includes(searchTerm.toLowerCase());
+        const term = searchTerm.toLowerCase();
+        const matchesSearch =
+            !term ||
+            d.staff_id?.toLowerCase().includes(term) ||
+            d.staff_name?.toLowerCase().includes(term);
         const matchesDropdown =
             (!filterDeptId || d.dept_name === filterDeptId) &&
             (!filterStaffId || d.staff_id === filterStaffId) &&

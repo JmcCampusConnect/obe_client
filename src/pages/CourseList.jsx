@@ -45,6 +45,7 @@ function CourseList() {
             if (academicSem) {
                 try {
                     setLoading(true);
+                    if (staffId === 'ADMIN') {  setLoading(false)}
                     const response = await axios.post(`${apiUrl}/api/coursemap`, {
                         staff_id: staffId,
                         academic_sem: academicSem
@@ -74,7 +75,7 @@ function CourseList() {
                     setCourseData(courseMappingsWithStatus);
                 }
                 catch (err) {
-                    console.log('Error fetching data:', err);
+                    console.log('Error fetching data of coursemapping : ', err);
                 }
             }
         }

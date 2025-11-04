@@ -55,25 +55,24 @@ function StaffHodManage() {
 		setPage(1);
 	}, [data, searchText, filterCategory, filterGraduate, filterDeptId]);
 
+	const fetchHods = async () => {
+		try {
+			const response = await axios.get(API_URL);
+			const hods = Array.isArray(response.data) ? response.data : response.data?.hods || [];
+			const order = ["AIDED", "SFM", "SFW"];
+			const sortedData = hods
+				.filter(item => item && item.category)
+				.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
+			setData(sortedData);
+			setFilteredData(sortedData);
+		} catch (err) {
+			console.error("Error fetching HODs : ", err);
+			setError(err.message);
+		} finally { setLoading(false) }
+	}
+
 	// Fetch HODs
-	useEffect(() => {
-		const fetchHods = async () => {
-			try {
-				const response = await axios.get(API_URL);
-				const hods = Array.isArray(response.data) ? response.data : response.data?.hods || [];
-				const order = ["AIDED", "SFM", "SFW"];
-				const sortedData = hods
-					.filter(item => item && item.category)
-					.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
-				setData(sortedData);
-				setFilteredData(sortedData);
-			} catch (err) {
-				console.error("Error fetching HODs : ", err);
-				setError(err.message);
-			} finally { setLoading(false) }
-		}
-		fetchHods();
-	}, [API_URL]);
+	useEffect(() => { fetchHods() }, [API_URL]);
 
 	// Fetch dropdown values for staff and departments
 	useEffect(() => {
@@ -148,13 +147,7 @@ function StaffHodManage() {
 		applyAllFilters(searchText, newCategory, newGraduate, newDeptId);
 	};
 
-	const clearAllFilters = () => {
-		handleFilterChange({
-			category: "",
-			graduate: "",
-			deptId: ""
-		});
-	};
+	const clearAllFilters = () => { handleFilterChange({ category: "", graduate: "", deptId: "" }) }
 
 	// Modal Handlers
 	const resetAddHodForm = () => { setNewStaffId(""); setNewHodName(""); setNewGraduate(""); setNewCategory(""); setNewDeptName(""); setNewDeptId(""); }
@@ -167,6 +160,7 @@ function StaffHodManage() {
 
 	// Add Hod
 	const handleSaveNewHod = async () => {
+
 		try {
 			const newHodAdded = await axios.post(`${apiUrl}/api/newhodadded`, {
 				staff_id: newStaffId,
@@ -180,15 +174,12 @@ function StaffHodManage() {
 			if (newHodAdded.data && newHodAdded.data.newHod) {
 				alert('Hod has been added successfully');
 				const newHod = newHodAdded.data.newHod;
-				// Re-sort data after adding the new HOD
 				const order = ["AIDED", "SFM", "SFW"];
 				const updatedData = [...data, newHod]
 					.filter(item => item && item.category)
 					.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
-
 				setData(updatedData);
 				closeAddHodModal();
-				// setFilteredData will be updated by the useEffect hook watching `data`
 			} else {
 				alert("Error: New HOD data missing from response.");
 				closeAddHodModal();
@@ -204,18 +195,11 @@ function StaffHodManage() {
 	// Edit HOD
 	const handleSaveEditedHod = async () => {
 		try {
-			await axios.put(`${API_URL}/${originalStaffId}`, editForm); // Use originalStaffId for PUT endpoint
-
-			const updatedData = data.map(row =>
-				// Compare by the *original* staff ID and update with the *new* form data
-				row.staff_id === originalStaffId ? { ...row, ...editForm } : row
-			);
-
+			await axios.put(`${API_URL}/${originalStaffId}`, editForm);
+			const updatedData = data.map(row => row.staff_id === originalStaffId ? { ...row, ...editForm } : row )
 			setData(updatedData);
 			alert("HOD has been modified successfully.");
 			closeEditHodModal();
-			// setFilteredData will be updated by the useEffect hook watching `data`
-
 		} catch (err) {
 			console.error("Error editing HOD:", err);
 			alert("Failed to update the record. Please try again.")
@@ -224,8 +208,8 @@ function StaffHodManage() {
 
 	// Delete HOD
 	const handleConfirmDelete = async (hod) => {
+
 		try {
-			// The delete endpoint uses staff_id from the hod object.
 			await axios.delete(`${API_URL}/${hod.staff_id}`, {
 				data: {
 					staff_id: hod.staff_id,
@@ -245,10 +229,9 @@ function StaffHodManage() {
 			setData(updatedData);
 			alert("Hod has been deleted successfully.");
 			cancelDelete();
-			// setFilteredData will be updated by the useEffect hook watching `data`
 
 		} catch (err) {
-			console.error("Error deleting HOD:", err);
+			console.error("Error deleting HOD : ", err);
 			alert("Failed to delete the record. Please try again.")
 		}
 	}

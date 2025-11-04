@@ -29,8 +29,10 @@ const HodReportTable = ({
                             <thead>
                                 <tr>
                                     <th style={{ minWidth: 100 }}>S No</th>
-                                    <th style={{ minWidth: 300 }}>Staff Name</th>
+                                    <th style={{ minWidth: 100 }}>Staff Id</th>
+                                    <th style={{ minWidth: 310 }}>Staff Name</th>
                                     <th style={{ minWidth: 150 }}>Class</th>
+                                    <th style={{ minWidth: 150 }}>Course Code</th>
                                     <th style={{ minWidth: 250 }}>Course Title</th>
                                     <th style={{ width: 100 }}>CIA 1</th>
                                     <th style={{ width: 100 }}>CIA 2</th>
@@ -50,9 +52,13 @@ const HodReportTable = ({
                                             <tr key={globalIndex}>
                                                 <td>{globalIndex}</td>
                                                 <td className="name-cell" style={{ textTransform: "uppercase" }}>
+                                                    {dept.staff_id || "-"}
+                                                </td>
+                                                <td className="name-cell" style={{ textTransform: "uppercase" }}>
                                                     {dept.staff_name || "-"}
                                                 </td>
                                                 <td>{classText}</td>
+                                                <td>{dept.course_code || "-"}</td>
                                                 <td>{dept.course_title || "-"}</td>
                                                 <td className={`hod-repo-td-status ${getStatusClassLocal(dept.cia_1)}`}>
                                                     {dept.cia_1 || "-"}

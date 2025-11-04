@@ -6,18 +6,9 @@ function Staff() {
 
     const { staffId } = useParams();
     const navigate = useNavigate();
-
-    const handleStaffMaster = () => {
-        navigate(`/staff/${staffId}/staffmastermanage`);
-    }
-
-    const handleHodManage = () => {
-        navigate(`/staff/${staffId}/hodmanage`);
-    }
-
-    const handleTutorManage = () => {
-        navigate(`/staff/${staffId}/tutormanage`);
-    }
+    const handleStaffMaster = () => { navigate(`/staff/${staffId}/staffmastermanage`) }
+    const handleHodManage = () => { navigate(`/staff/${staffId}/hodmanage`) }
+    const handleTutorManage = () => {  navigate(`/staff/${staffId}/tutormanage`) }
 
     return (
         <div className='staff-main'>

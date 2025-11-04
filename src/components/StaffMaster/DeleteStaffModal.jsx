@@ -1,7 +1,7 @@
 import React from 'react';
 
 function DeleteStaffModal({
-    deletestaff, staffDeleteClose, deletestaffname, deletestaffid, Confirmdelete
+    deletestaff, staffDeleteClose, deletestaffname, deletestaffid, confirmDelete
 }) {
 
     if (!deletestaff) return null;
@@ -19,7 +19,7 @@ function DeleteStaffModal({
                         <strong>{deletestaffname}</strong> ({deletestaffid})
                     </p>
                     <div className="modal-actions">
-                        <button className="btn btn-danger" onClick={Confirmdelete}>
+                        <button className="btn btn-danger" onClick={confirmDelete}>
                             Delete
                         </button>
                         <button className="btn btn-outline" onClick={staffDeleteClose}>

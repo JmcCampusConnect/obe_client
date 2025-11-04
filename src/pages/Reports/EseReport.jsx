@@ -7,7 +7,7 @@ import EseReportFilters from "../../components/EseReport/EseReportFilters";
 import EseReportHeader from "../../components/EseReport/EseReportHeader";
 
 function EseReport() {
-    
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [courseCode, setCourseCode] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -39,10 +39,13 @@ function EseReport() {
                 item.course_title.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesCourseCode =
                 !filterCourseCode || item.course_code === filterCourseCode;
-            const matchesStatus = !filterStatus || item.status === filterStatus;
+            const normalizedStatus = item.status ? item.status.toLowerCase() : "incomplete";
+            const matchesStatus =
+                !filterStatus || normalizedStatus === filterStatus.toLowerCase();
             return matchesSearch && matchesCourseCode && matchesStatus;
-        });
+        })
     }, [courseCode, searchTerm, filterCourseCode, filterStatus]);
+
 
     const totalPages = Math.ceil(filteredCourses.length / pageSize);
 
@@ -83,13 +86,14 @@ function EseReport() {
 
     return (
         <div className="ese-repo-main">
-            
+
             <EseReportHeader
                 searchText={searchTerm}
                 handleSearch={handleSearch}
                 handleDownload={handleDownload}
                 setShowFilters={setShowFilters}
             />
+
             <EseReportFilters
                 showFilters={showFilters}
                 clearAllFilters={clearAllFilters}
@@ -99,9 +103,10 @@ function EseReport() {
                 setFilterStatus={setFilterStatus}
                 courseCodeOptions={courseCode.map((c) => ({
                     value: c.course_code,
-                    label: c.course_code,
+                    label: `${c.course_code} - ${c.course_title}`,
                 }))}
             />
+
             <EseReportTable
                 courseCode={filteredCourses}
                 page={page}

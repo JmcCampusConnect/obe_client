@@ -9,7 +9,7 @@ import StaffCourseHeader from '../../components/StaffCourseManage/StaffCourseHea
 import StaffCourseFilter from '../../components/StaffCourseManage/StaffCourseFilter';
 
 const StaffCourseManage = () => {
-    
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [staffData, setStaffData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -44,15 +44,16 @@ const StaffCourseManage = () => {
 
     const fixField = val => (Array.isArray(val) ? val[0] || '' : val);
 
+    const fetchStaffDetails = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/api/staffcoursemanage`);
+            setStaffData(response.data);
+        } catch (error) {
+            console.error('Error fetching staff data:', error);
+        }
+    }
+
     useEffect(() => {
-        const fetchStaffDetails = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/staffcoursemanage`);
-                setStaffData(response.data);
-            } catch (error) {
-                console.error('Error fetching staff data:', error);
-            }
-        };
         fetchStaffDetails();
     }, [apiUrl]);
 
@@ -265,7 +266,7 @@ const StaffCourseManage = () => {
                 setIsAddModalOpen(false);
             }
         } catch (error) {
-            console.error(error);
+            console.error('Error in adding staff : ', error);
             alert('Failed to save staff.');
         }
     };
@@ -282,6 +283,7 @@ const StaffCourseManage = () => {
             const response = await axios.post(`${apiUrl}/api/staffCourseEdit`, cleanEditStaff);
             if (response.data.ok) {
                 alert('Staff course edited successfully!');
+                fetchStaffDetails();
                 setIsEditModalOpen(false);
             }
         } catch (error) {

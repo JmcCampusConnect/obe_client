@@ -1,7 +1,7 @@
 import React from "react";
 import SearchableDropdown from "../common/SearchableDropdown";
 
-function RsMartixReportFilters({
+function EseReportFilters({
     showFilters,
     clearAllFilters,
     filterCourseCode,
@@ -17,8 +17,8 @@ function RsMartixReportFilters({
     if (!showFilters) return null;
 
     return (
-        <div className="crm-filters bg-white p-6 rounded-xl shadow-lg border border-sky-100 mb-6">
-            <div className="filter-grid-dept-report grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="crm-filters">
+            <div className="filter-grid-ese-report">
 
                 <SearchableDropdown
                     options={courseCodeOptions}
@@ -38,16 +38,14 @@ function RsMartixReportFilters({
                     onSelect={(opt) => setFilterStatus(getOptionValue(opt))}
                     placeholder="Status"
                 />
-                <button
-                    className="btn btn-outline"
-                    onClick={clearAllFilters}
-                >
+            </div>
+            <div className="filter-actions">
+                <button className="btn btn-outline" onClick={clearAllFilters}>
                     Clear Filters
                 </button>
             </div>
-           
         </div>
     )
 }
 
-export default RsMartixReportFilters;
+export default EseReportFilters;

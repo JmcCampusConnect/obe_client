@@ -9,7 +9,7 @@ import '../../css/HodReport.css';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function HodReport() {
-    
+
     const { staffId } = useParams();
     const [deptStatus, setDeptStatus] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -35,17 +35,29 @@ function HodReport() {
     }, [staffId]);
 
     const staffOptions = useMemo(() => {
-        const unique = [...new Set(deptStatus.map(d => d.staff_id))];
-        return unique.map(v => ({ value: v, label: v }));
+        const uniqueStaff = new Map();
+        deptStatus.forEach(d => {
+            const key = d.staff_id;
+            if (!uniqueStaff.has(key)) {
+                uniqueStaff.set(key, { value: d.staff_id, label: `${d.staff_id} - ${d.staff_name || ""}`.trim() });
+            }
+        });
+        return Array.from(uniqueStaff.values());
+    }, [deptStatus]);
+
+    const courseCodeOptions = useMemo(() => {
+        const uniqueCourses = new Map();
+        deptStatus.forEach(d => {
+            const key = d.course_code;
+            if (!uniqueCourses.has(key)) {
+                uniqueCourses.set(key, { value: d.course_code, label: `${d.course_code} - ${d.course_title || ""}`.trim() });
+            }
+        });
+        return Array.from(uniqueCourses.values());
     }, [deptStatus]);
 
     const deptOptions = useMemo(() => {
         const unique = [...new Set(deptStatus.map(d => d.dept_id))];
-        return unique.map(v => ({ value: v, label: v }));
-    }, [deptStatus]);
-
-    const courseCodeOptions = useMemo(() => {
-        const unique = [...new Set(deptStatus.map(d => d.course_code))];
         return unique.map(v => ({ value: v, label: v }));
     }, [deptStatus]);
 
@@ -60,10 +72,12 @@ function HodReport() {
             const lower = searchTerm.toLowerCase();
             data = data.filter((item) =>
                 (item.staff_id?.toLowerCase() || "").includes(lower) ||
+                (item.staff_name?.toLowerCase() || "").includes(lower) ||
                 (item.dept_id?.toLowerCase() || "").includes(lower) ||
                 (item.course_code?.toLowerCase() || "").includes(lower) ||
+                (item.course_title?.toLowerCase() || "").includes(lower) ||
                 (item.section?.toLowerCase() || "").includes(lower)
-            );
+            )
         }
         const applyFilter = (value, field) => {
             if (!value) return data;
@@ -100,6 +114,7 @@ function HodReport() {
 
     return (
         <div className="staff-management-shell">
+
             <HodReportHeader
                 searchText={searchTerm}
                 handleSearch={setSearchTerm}

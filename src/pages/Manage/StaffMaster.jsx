@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import "../../css/StaffMaster.css";
-
-// Import the new components
 import StaffHeader from "../../components/StaffMaster/StaffHeader";
 import StaffFilters from "../../components/StaffMaster/StaffFilters";
 import StaffTable from "../../components/StaffMaster/StaffTable";
@@ -63,19 +61,21 @@ function StaffMaster() {
     const [page, setPage] = useState(1);
     const pageSize = 12;
 
+    const fetchStaff = async () => {
+        try {
+            const resp = await axios.get(`${apiUrl}/api/staffdetails`);
+            if (resp.data) {
+                setStaffData(resp.data);
+                setFilteredData(resp.data);
+            }
+        } catch (err) {
+            console.error("Error fetching staff:", err);
+        }
+    };
+
     // --- Data Fetching ---
     useEffect(() => {
-        const fetchStaff = async () => {
-            try {
-                const resp = await axios.get(`${apiUrl}/api/staffdetails`);
-                if (resp.data) {
-                    setStaffData(resp.data);
-                    setFilteredData(resp.data);
-                }
-            } catch (err) {
-                console.error("Error fetching staff:", err);
-            }
-        };
+
         fetchStaff();
         loadDepartments();
     }, [apiUrl]);
@@ -99,19 +99,21 @@ function StaffMaster() {
         }
     };
 
-    // --- Modals Handlers ---
     const showPopup = async () => {
         setPopup(true);
         await loadDepartments();
-    };
+    }
+
     const hidepopup = () => {
         setPopup(false);
         resetForm();
     };
+
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setCheckboxValues(prev => ({ ...prev, [name]: checked }));
     };
+
     const resetForm = () => {
         setStaffId(""); setStaffName(""); setStaffDept(""); setStaffCategory("");
         setDeptCategory(""); setStaffpassword("");
@@ -121,25 +123,25 @@ function StaffMaster() {
             input: false, manage: false, rsm: true, setting: true
         });
     };
+
     const staffEditClose = () => setEdit(false);
     const staffDeleteClose = () => setDeletestaff(false);
 
-    // --- CRUD Operations ---
     const savenewstaff = async (e) => {
+
         e.preventDefault();
         if (!staffId || !staffName || !staffDept || !staffCategory || !staffpassword) {
             window.alert("All fields are required");
             return;
         }
+
         const newStaffData = {
-            staff_id: staffId,
-            staff_name: staffName,
-            staff_dept: staffDept,
-            staff_category: staffCategory,
-            dept_category: deptCategory,
-            password: staffpassword,
+            staff_id: staffId, staff_name: staffName,
+            staff_dept: staffDept, staff_category: staffCategory,
+            dept_category: deptCategory, password: staffpassword,
             permissions: checkboxValues
-        };
+        }
+
         try {
             const resp = await axios.post(`${apiUrl}/api/newstaff`, newStaffData);
             if (resp.data) {
@@ -150,10 +152,10 @@ function StaffMaster() {
                 hidepopup();
             }
         } catch (err) {
-            console.error("Error adding staff:", err);
+            console.error("Error adding staff : ", err);
             window.alert("Error adding staff");
         }
-    };
+    }
 
     const handleEdit = async (id, name, pass, dept, staff_category, dept_category) => {
         setNewstaffid(id);
@@ -181,7 +183,7 @@ function StaffMaster() {
             }
             staffEditClose();
         } catch (err) {
-            console.error("Error updating staff:", err);
+            console.error("Error updating staff : ", err);
             window.alert("Error updating staff");
         }
     };
@@ -192,7 +194,7 @@ function StaffMaster() {
         setDeletestaff(true);
     };
 
-    const Confirmdelete = async () => {
+    const confirmDelete = async () => {
         try {
             const resp = await axios.post(`${apiUrl}/api/staffdelete`, { deletestaffid });
             if (resp.data) {
@@ -202,7 +204,7 @@ function StaffMaster() {
                 staffDeleteClose();
             }
         } catch (err) {
-            console.error("Error deleting staff:", err);
+            console.error("Error deleting staff : ", err);
             window.alert("Error deleting staff");
         }
     };
@@ -252,7 +254,7 @@ function StaffMaster() {
             )
         })
         setFilteredData(filtered);
-        setPage(1); 
+        setPage(1);
     }
 
     const applyFinalFilters = () => {
@@ -268,7 +270,7 @@ function StaffMaster() {
             )
         })
         setFilteredData(filtered);
-        setPage(1); 
+        setPage(1);
     }
 
     const totalPages = Math.max(1, Math.ceil(filteredData.length / pageSize));
@@ -359,7 +361,7 @@ function StaffMaster() {
                     staffDeleteClose={staffDeleteClose}
                     deletestaffname={deletestaffname}
                     deletestaffid={deletestaffid}
-                    Confirmdelete={Confirmdelete}
+                    confirmDelete={confirmDelete}
                 />
             )}
         </div>
