@@ -20,15 +20,17 @@ function ScopeManage() {
                 const response = await axios.get(`${apiUrl}/api/scopeset`);
                 const data = response.data.map(item => ({
                     ...item,
+                    dashboard: item.dashboard === 1 ? 1 : 0,
                     course_list: item.course_list === 1 ? 1 : 0,
+                    relationship_matrix: item.relationship_matrix === 1 ? 1 : 0,
                     course_outcome: item.course_outcome === 1 ? 1 : 0,
                     student_outcome: item.student_outcome === 1 ? 1 : 0,
                     program_outcome: item.program_outcome === 1 ? 1 : 0,
                     program_specific_outcome: item.program_specific_outcome === 1 ? 1 : 0,
                     work_progress_report: item.work_progress_report === 1 ? 1 : 0,
                     input_files: item.input_files === 1 ? 1 : 0,
-                    manage: item.manage === 1 ? 1 : 0,
-                    relationship_matrix: item.relationship_matrix === 1 ? 1 : 0,
+                    obe_report: item.obe_report === 1 ? 1 : 0,
+                    work_progress_report: item.work_progress_report === 1 ? 1 : 0,
                     settings: item.settings === 1 ? 1 : 0,
                 }));
                 setScopeData(data);
@@ -46,7 +48,8 @@ function ScopeManage() {
         setSearchText(text);
         const lowerCaseSearch = text.toLowerCase();
         const filterList = scopeData.filter(scope =>
-            (scope.staff_id?.toLowerCase() || '').includes(lowerCaseSearch)
+            (scope.staff_id?.toLowerCase() || '').includes(lowerCaseSearch) ||
+            (scope.staff_name?.toLowerCase() || '').includes(lowerCaseSearch)
         );
         setFilteredData(filterList);
         setPage(1);
@@ -77,7 +80,9 @@ function ScopeManage() {
         const updates = {};
         scopeData.forEach(item => {
             updates[item.staff_id] = {
+                dashboard: item.dashboard,
                 course_list: item.course_list,
+                relationship_matrix: item.relationship_matrix,
                 course_outcome: item.course_outcome,
                 student_outcome: item.student_outcome,
                 program_outcome: item.program_outcome,
@@ -85,7 +90,7 @@ function ScopeManage() {
                 work_progress_report: item.work_progress_report,
                 input_files: item.input_files,
                 manage: item.manage,
-                relationship_matrix: item.relationship_matrix,
+                obe_report: item.obe_report,
                 settings: item.settings,
             };
         });

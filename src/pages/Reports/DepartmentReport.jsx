@@ -62,20 +62,34 @@ function DepartmentReport() {
                     academic_sem: academicYear,
                     dept_name: dept === "alldepartments" ? "ALL" : dept
                 });
+
                 setDeptStatusReport(response.data);
                 setDepts([...new Set(response.data.map(d => d.dept_name))].map(v => ({ value: v, label: v })));
-                setStaffOptions(response.data.map(d => ({ value: d.staff_id, label: `${d.staff_id} - ${d.staff_name}` })));
-                setCourseCodeOptions(response.data.map(d => ({
-                    value: d.course_code,
-                    label: d.course_title
-                        ? `${d.course_code} - ${d.course_title}`
-                        : d.course_code
-                })));
+                const uniqueStaff = Array.from(
+                    new Map(
+                        response.data.map(d => [d.staff_id, { value: d.staff_id, label: `${d.staff_id} - ${d.staff_name}` }])
+                    ).values()
+                );
+                setStaffOptions(uniqueStaff);
+                const uniqueCourses = Array.from(
+                    new Map(
+                        response.data.map(d => [d.course_code, {
+                            value: d.course_code,
+                            label: d.course_title
+                                ? `${d.course_code} - ${d.course_title}`
+                                : d.course_code
+                        }])
+                    ).values()
+                );
+                setCourseCodeOptions(uniqueCourses);
+                const uniqueSections = [...new Set(response.data.map(d => d.section))]
+                    .filter(Boolean)
+                    .map(v => ({ value: v, label: v }));
+                setSectionOptions(uniqueSections);
 
-                setSectionOptions([...new Set(response.data.map(d => d.section))].map(v => ({ value: v, label: v })));
             } catch (err) {
                 alert('Error fetching status report.');
-                console.log(err);
+                console.log('Error fetching status report : ', err);
             }
         };
         fetchDeptStatusReport();
@@ -110,7 +124,11 @@ function DepartmentReport() {
         const matchesSearch =
             !term ||
             d.staff_id?.toLowerCase().includes(term) ||
-            d.staff_name?.toLowerCase().includes(term);
+            d.staff_name?.toLowerCase().includes(term) ||
+            d.dept_name?.toLowerCase().includes(term) ||
+            d.course_code?.toLowerCase().includes(term) ||
+            d.section?.toLowerCase().includes(term) ||
+            d.course_title?.toLowerCase().includes(term);
         const matchesDropdown =
             (!filterDeptId || d.dept_name === filterDeptId) &&
             (!filterStaffId || d.staff_id === filterStaffId) &&

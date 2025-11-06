@@ -32,7 +32,7 @@ function Manage() {
     const handleAcademicSem = async () => {
         try {
             await axios.put(`${apiUrl}/academic`, { academicsem });
-            window.alert("Academic Year Set Successfully");
+            window.alert("Academic year set successfully");
             window.location.reload();
         } catch (err) {
             console.error('Error ', err);

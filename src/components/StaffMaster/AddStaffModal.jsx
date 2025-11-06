@@ -63,7 +63,7 @@ function AddStaffModal({
                         </label>
                         <label>
                             <div className="label">Password :</div>
-                            <input type="password" value={staffpassword} onChange={(e) => setStaffpassword(e.target.value)} required />
+                            <input type="text" value={staffpassword} onChange={(e) => setStaffpassword(e.target.value)} required />
                         </label>
                     </div>
 

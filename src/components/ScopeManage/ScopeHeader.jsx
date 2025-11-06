@@ -15,7 +15,7 @@ function ScopeHeader({ searchText, handleSearch, handleSave }) {
                             <input
                                 type="text"
                                 className="search-input"
-                                placeholder="Search by Staff ID..."
+                                placeholder="Search by Staff ID or Name..."
                                 value={searchText}
                                 onChange={handleSearch}
                             />

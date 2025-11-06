@@ -26,7 +26,7 @@ function StaffMaster() {
     const [staffDept, setStaffDept] = useState("");
     const [staffCategory, setStaffCategory] = useState("");
     const [deptCategory, setDeptCategory] = useState("");
-    const [staffpassword, setStaffpassword] = useState("");
+    const [staffpassword, setStaffpassword] = useState("JMC");
 
     // Edit modal fields
     const [newstaffid, setNewstaffid] = useState("");
@@ -44,7 +44,7 @@ function StaffMaster() {
     // Departments & permissions
     const [staff_Dept, setStaff_Dept] = useState([]);
     const [checkboxValues, setCheckboxValues] = useState({
-        dashboard: true, course: true, co: false, so: false,
+        dashboard: true, course: true, co: true, so: true,
         po: false, pso: false, wpr: false, obereport: false,
         input: false, manage: false, rsm: true, setting: true
     });

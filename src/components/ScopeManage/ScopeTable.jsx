@@ -8,15 +8,17 @@ const ScopeTable = ({
 }) => {
 
     const columns = [
+        { key: 'dashboard', label: 'DB' },
         { key: 'course_list', label: 'Course' },
+        { key: 'relationship_matrix', label: 'RSM' },
         { key: 'course_outcome', label: 'CO' },
         { key: 'student_outcome', label: 'SO' },
         { key: 'program_outcome', label: 'PO' },
         { key: 'program_specific_outcome', label: 'PSO' },
-        { key: 'work_progress_report', label: 'Report' },
+        { key: 'work_progress_report', label: 'WPR' },
         { key: 'input_files', label: 'Input' },
+        { key: 'obe_report', label: 'Report' },
         { key: 'manage', label: 'Manage' },
-        { key: 'relationship_matrix', label: 'RSM' },
         { key: 'settings', label: 'Settings' },
     ];
 
@@ -36,7 +38,7 @@ const ScopeTable = ({
                         <table className="scope-table crm-table" role="table" aria-label="Scope Data Access Management">
                             <thead className="scope-table-head">
                                 <tr>
-                                    <th className="scope-table-header-checkbox">Options</th>
+                                    <th className="scope-table-header-checkbox" colSpan={2}>Options to check all</th>
                                     {columns.map(col => (
                                         <th key={col.key} className="scope-table-header-checkbox">
                                             <input
@@ -50,6 +52,7 @@ const ScopeTable = ({
                                 </tr>
                                 <tr className="scope-table-options">
                                     <th className="scope-table-header" style={{ minWidth: 150 }}>STAFF ID</th>
+                                    <th className="scope-table-header" style={{ minWidth: 350 }}>STAFF Name</th>
                                     {columns.map(col => (
                                         <th key={col.key + '-label'} className="scope-table-header" style={{ minWidth: 100 }}>{col.label}</th>
                                     ))}
@@ -63,6 +66,9 @@ const ScopeTable = ({
                                             <tr key={scopeItem.staff_id} className="scope-staffid">
                                                 <td className={rowIndex % 2 === 0 ? 'scope-dark' : 'scope-light'}>
                                                     {scopeItem.staff_id}
+                                                </td>
+                                                <td className={rowIndex % 2 === 0 ? 'scope-dark' : 'scope-light'}>
+                                                    {scopeItem.staff_name}
                                                 </td>
                                                 {columns.map(col => (
                                                     <td key={col.key} className={rowIndex % 2 === 0 ? 'scope-dark' : 'scope-light'}>

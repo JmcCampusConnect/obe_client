@@ -32,6 +32,7 @@ const DepartmentReportTable = ({
 									<th style={{ minWidth: 250 }}>Staff Name</th>
 									<th style={{ minWidth: 200 }}>Dept Name</th>
 									<th style={{ minWidth: 150 }}>Course Code</th>
+									<th style={{ minWidth: 350 }}>Course Title</th>
 									<th style={{ minWidth: 120 }}>Category</th>
 									<th style={{ minWidth: 100 }}>Section</th>
 									<th style={{ minWidth: 120 }}>Status</th>
@@ -51,6 +52,7 @@ const DepartmentReportTable = ({
 												<td className="name-cell" style={{textTransform: 'uppercase'}}>{dept?.staff_name || "-"}</td>
 												<td>{dept?.dept_name || "-"}</td>
 												<td>{dept?.course_code || "-"}</td>
+												<td>{dept?.course_title || "-"}</td>
 												<td>{dept?.category || "-"}</td>
 												<td>{dept?.section || "-"}</td>
 												<td style={{ fontWeight: 'bold', ...statusColor }}>{statusText}</td>

@@ -7,7 +7,7 @@ function DepartmentReportFilter({
     filterSection, setFilterSection, sectionOptions, filterStatus, setFilterStatus
 }) {
 
-    const categoryOptions = [
+    const categoryOptions = [ 
         { value: "AIDED", label: "AIDED" },
         { value: "SFM", label: "SFM" },
         { value: "SFW", label: "SFW" }

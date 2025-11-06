@@ -65,6 +65,7 @@ function MarkRelease() {
     }, [apiUrl]);
 
     useEffect(() => {
+
         if (!originalData) return;
 
         const getUnique = (key) => {
@@ -79,10 +80,7 @@ function MarkRelease() {
                 uniqueStaff[item.staff_id] = `${item.staff_id} - ${item.staff_name}`;
             }
         });
-        const staffList = Object.keys(uniqueStaff).map(id => ({
-            value: id,
-            label: uniqueStaff[id]
-        }));
+        const staffList = Object.keys(uniqueStaff).map(id => ({ value: id, label: uniqueStaff[id] }))
 
         // Course Options (course_code + course_title)
         const uniqueCourse = {};
@@ -91,10 +89,7 @@ function MarkRelease() {
                 uniqueCourse[item.course_code] = `${item.course_code} - ${item.course_title}`;
             }
         });
-        const courseList = Object.keys(uniqueCourse).map(code => ({
-            value: code,
-            label: uniqueCourse[code]
-        }));
+        const courseList = Object.keys(uniqueCourse).map(code => ({ value: code, label: uniqueCourse[code] }))
 
         setDeptOptions(getUnique("dept_id"));
         setSectionOptions(getUnique("section"));
@@ -152,11 +147,7 @@ function MarkRelease() {
             const checkData = [...prevData];
             const actualIndex = index + (page - 1) * pageSize;
             if (!checkData[actualIndex]) return prevData;
-
-            checkData[actualIndex] = {
-                ...checkData[actualIndex],
-                [field]: value ? 2 : 1,
-            };
+            checkData[actualIndex] = { ...checkData[actualIndex], [field]: value ? 2 : 1 }
             return checkData;
         });
     };
@@ -164,10 +155,11 @@ function MarkRelease() {
     const handleUpdate = async (index) => {
         const data = filteredData[index];
         try {
-            const res = await axios.put(`${apiUrl}/api/reportrelease`, data);
-            alert(res.data?.success ? "Release Updated Successfully" : "Update Failed");
+            const response = await axios.put(`${apiUrl}/api/reportrelease`, data);
+            console.log(response.data)
+            alert(response.data?.message ? "Release updated successfully" : "Update failed");
         } catch (err) {
-            console.error("Update error:", err);
+            console.error("Error in updating release : ", err);
             alert("Error updating release status");
         }
     };
@@ -183,7 +175,7 @@ function MarkRelease() {
 
     return (
         <div className="staff-management-shell">
-            
+
             <MarkReleaseHeader
                 searchText={searchText}
                 handleSearch={handleSearch}
