@@ -30,7 +30,6 @@ function ScopeManage() {
                     work_progress_report: item.work_progress_report === 1 ? 1 : 0,
                     input_files: item.input_files === 1 ? 1 : 0,
                     obe_report: item.obe_report === 1 ? 1 : 0,
-                    work_progress_report: item.work_progress_report === 1 ? 1 : 0,
                     settings: item.settings === 1 ? 1 : 0,
                 }));
                 setScopeData(data);
