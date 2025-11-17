@@ -12,7 +12,6 @@ import AddTutorModal from "../../components/TutorManage/AddTutorModal";
 function StaffTutorManage() {
 
     // --- API CONFIG ---
-    const API_URL = "http://localhost:5000/api/mentor";
     const apiUrl = import.meta.env.VITE_API_URL;
 
     // --- MAIN DATA STATE ---
@@ -55,7 +54,7 @@ function StaffTutorManage() {
     const fetchData = async () => {
 
         try {
-            const response = await axios.get(API_URL);
+            const response = await axios.get(`${apiUrl}/api/mentor`);
             const rawDeptDetails = response.data.deptDetails;
             const uniqueDeptMap = new Map();
             rawDeptDetails.forEach(dept => {
@@ -175,7 +174,7 @@ function StaffTutorManage() {
     // CRUD - Edit Mentor
     const handleEditSave = async () => {
         try {
-            await axios.put(`${API_URL}/${editForm.staff_id}`, editForm);
+            await axios.put(`${apiUrl}/api/mentor/${editForm.staff_id}`, editForm);
             await fetchData();
             setEditingStaff(null);
             alert("Mentor has been modified successfully");

@@ -13,7 +13,6 @@ import DeleteHodModal from "../../components/HodManage/DeleteHodModal";
 
 function StaffHodManage() {
 
-	const API_URL = "http://localhost:5000/api/hod";
 	const apiUrl = import.meta.env.VITE_API_URL;
 
 	// States
@@ -57,7 +56,7 @@ function StaffHodManage() {
 
 	const fetchHods = async () => {
 		try {
-			const response = await axios.get(API_URL);
+			const response = await axios.get(`${apiUrl}/api/hod`);
 			const hods = Array.isArray(response.data) ? response.data : response.data?.hods || [];
 			const order = ["AIDED", "SFM", "SFW"];
 			const sortedData = hods
@@ -72,7 +71,7 @@ function StaffHodManage() {
 	}
 
 	// Fetch HODs
-	useEffect(() => { fetchHods() }, [API_URL]);
+	useEffect(() => { fetchHods() }, [`${apiUrl}/api/hod`]);
 
 	// Fetch dropdown values for staff and departments
 	useEffect(() => {
@@ -195,7 +194,7 @@ function StaffHodManage() {
 	// Edit HOD
 	const handleSaveEditedHod = async () => {
 		try {
-			await axios.put(`${API_URL}/${originalStaffId}`, editForm);
+			await axios.put(`${`${apiUrl}/api/hod`}/${originalStaffId}`, editForm);
 			const updatedData = data.map(row => row.staff_id === originalStaffId ? { ...row, ...editForm } : row )
 			setData(updatedData);
 			alert("HOD has been modified successfully.");
@@ -210,7 +209,7 @@ function StaffHodManage() {
 	const handleConfirmDelete = async (hod) => {
 
 		try {
-			await axios.delete(`${API_URL}/${hod.staff_id}`, {
+			await axios.delete(`${`${apiUrl}/api/hod`}/${hod.staff_id}`, {
 				data: {
 					staff_id: hod.staff_id,
 					dept_id: hod.dept_id,
