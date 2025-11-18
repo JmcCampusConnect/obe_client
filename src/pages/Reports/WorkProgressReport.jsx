@@ -1,89 +1,100 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
-import '../../css/WorkProgressReport.css'
+import '../../css/WorkProgressReport.css';
+import Loading from '../../assets/load.svg';  
 
 function WorkProgressReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId } = useParams();
     const navigate = useNavigate();
+
     const [academicSem, setAcademicSem] = useState('');
     const [reportDeptName, setReportDeptName] = useState([]);
     const [admin, setAdmin] = useState(false);
     const [mentor, setMentor] = useState(false);
     const [hod, setHod] = useState(false);
     const [staffName, setStaffName] = useState('');
+    const [loading, setLoading] = useState(true);   
 
     useEffect(() => {
         const checkStaffId = async () => {
-            if (staffId === 'ADMIN' || staffId === 'Admin' || staffId === 'admin') { setAdmin(true) }
-            else {
-                try {
-                    const response = await axios.post(`${apiUrl}/api/chkstaffId`, { staff_id: staffId })
+            try {
+                if (staffId.toUpperCase() === 'ADMIN') {
+                    setAdmin(true);
+                } else {
+                    const response = await axios.post(`${apiUrl}/api/chkstaffId`, { staff_id: staffId });
                     if (response.data) {
-                        if (response.data.tutorHandleStaffId) { setMentor(true) }
-                        if (response.data.hodHandleStaffId) { setHod(true) }
+                        if (response.data.tutorHandleStaffId) setMentor(true);
+                        if (response.data.hodHandleStaffId) setHod(true);
                     }
                 }
-                catch (err) { console.log('Error fetching data:', err) }
+            } catch (err) {
+                console.log('Error fetching data:', err);
             }
-        }
+        };
         checkStaffId();
-    }, [staffId])
+    }, [staffId]);
 
     useEffect(() => {
         const academicSemSet = async () => {
             try {
-                const response = await axios.post(`${apiUrl}/activesem`, {});
+                const response = await axios.post(`${apiUrl}/activesem`);
                 setAcademicSem(response.data.academic_sem);
+            } catch (err) {
+                alert('Error fetching Academic Year.');
             }
-            catch (err) { alert('Error fetching Academic Year.') }
-        }
+        };
         academicSemSet();
-
-    }, [])
+    }, []);
 
     useEffect(() => {
         const fetchStaffName = async () => {
             try {
                 const response = await axios.post(`${apiUrl}/staffName`, { staffId });
-                setStaffName(response.data)
+                setStaffName(response.data);
+            } catch (err) {
+                console.log('Error Fetching Staff Name:', err);
             }
-            catch (err) { console.log('Error Fetching Staff Name : ', err) }
-        }
+        };
         fetchStaffName();
     }, [apiUrl, staffId]);
-
 
     useEffect(() => {
         const fetchStatusReport = async () => {
             if (academicSem) {
                 try {
-                    const response = await axios.post(`${apiUrl}/api/statusDeptName`, {
-                        academicSem,
-                    })
-                    const sortedDepartments = response.data.sort((a, b) => a.localeCompare(b))
+                    const response = await axios.post(`${apiUrl}/api/statusDeptName`, { academicSem });
+                    const sortedDepartments = response.data.sort((a, b) => a.localeCompare(b));
                     setReportDeptName(sortedDepartments);
-                }
-                catch (err) {
+                } catch (err) {
                     alert('Error fetching status report.');
-                    console.log('Error fetching data:', err);
+                } finally {
+                    setLoading(false);  
                 }
             }
-        }
+        };
         fetchStatusReport();
     }, [academicSem]);
 
     const handleDeptReport = (dept) => {
-        if (dept === "ALL") { navigate(`/staff/${staffId}/alldepartments/departmentreport`) }
-        else { navigate(`/staff/${staffId}/${dept}/departmentreport`) }
-    }
+        if (dept === "ALL") navigate(`/staff/${staffId}/alldepartments/departmentreport`);
+        else navigate(`/staff/${staffId}/${dept}/departmentreport`);
+    };
 
     const handleMatrixReport = () => navigate(`/staff/${staffId}/matrixreport`);
     const handleEseReport = () => navigate(`/staff/${staffId}/esereport`);
     const handleHod = () => navigate(`/staff/${staffId}/hodreport`);
     const handleMentor = () => navigate(`/staff/${staffId}/tutorreport`);
+
+    if (loading) {
+        return (
+            <div>
+                <center><img src={Loading} alt="Loading..." className="img" /></center>
+            </div>
+        );
+    }
 
     return (
         <div className='report-main'>
@@ -95,6 +106,7 @@ function WorkProgressReport() {
                     <span className="course-staff">Staff Id :</span> {staffId}
                 </p>
             </div>
+
             {(admin || hod || mentor) ? (
                 <div className='course-content-box'>
                     <div className='course-entire-box'>
@@ -112,12 +124,12 @@ function WorkProgressReport() {
             ) : (
                 <div className='course-content-box'>
                     <div className="rsmatrix-no-code">
-                        <p>No Report Found for this ID</p>
+                        <p>No report found for this ID</p>
                     </div>
                 </div>
             )}
         </div>
-    )
+    );
 }
 
 export default WorkProgressReport;

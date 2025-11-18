@@ -36,7 +36,7 @@ function RsMatrixReport() {
                 const response = await axios.post(`${apiUrl}/activesem`, {});
                 setAcademicYear(response.data.academic_sem);
             } catch (err) {
-                console.error("Error fetching Academic Year : ", err);
+                console.error("Error fetching academic year : ", err);
             }
         };
         academicYearSet();
@@ -71,7 +71,7 @@ function RsMatrixReport() {
                 const uniqueSections = [...new Set(response.data.map(item => item.section))].filter(Boolean);
                 setSectionOptions(uniqueSections.map(sec => ({ value: sec, label: sec })));
             } catch (err) {
-                console.error("Error Fetching Data:", err);
+                console.error("Error fetching data : ", err);
             }
         };
 
@@ -85,7 +85,7 @@ function RsMatrixReport() {
                     setComCount(response.data.completeCount);
                 }
             } catch (err) {
-                console.error("Error Fetching Status Report count:", err);
+                console.error("Error fetching status report count:", err);
             }
         };
 
