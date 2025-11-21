@@ -3,15 +3,21 @@ import "../../css/StaffMaster.css";
 
 function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, placeholder }) {
 
+    const [inputValue, setInputValue] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
-    const inputValue = typeof value === "string" ? value : value?.value || "";
+    useEffect(() => {
+        if (typeof value === "string") {
+            setInputValue(value);
+        } else if (value) {
+            setInputValue(getOptionLabel(value));
+        }
+    }, [value, getOptionLabel]);
 
-    const filteredOptions = options.filter(opt => {
-        const labelStr = getOptionLabel(opt) || "";
-        return labelStr.toLowerCase().includes(inputValue.toLowerCase());
-    });
+    const filteredOptions = options.filter(opt =>
+        getOptionLabel(opt).toLowerCase().includes(inputValue.toLowerCase())
+    );
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -31,20 +37,36 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
                     type="text"
                     className="smsm-inputs dropdown-input"
                     value={inputValue}
+                    placeholder={placeholder || ""}
+                    onFocus={() => setShowDropdown(true)}
                     onChange={(e) => {
-                        onSelect(e.target.value);
+                        setInputValue(e.target.value);
                         setShowDropdown(true);
                     }}
-                    onFocus={() => setShowDropdown(true)}
-                    placeholder={placeholder || "" }
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (filteredOptions.length > 0) {
+                                const selected = filteredOptions[0];
+                                onSelect(selected);
+                                setShowDropdown(false);
+                                setTimeout(() => {
+                                    dropdownRef.current
+                                        ?.querySelector("input")
+                                        ?.blur();
+                                }, 50);
+                            }
+                        }
+                    }}
                 />
+
                 {showDropdown && filteredOptions.length > 0 && (
                     <ul className="dropdown-list">
                         {filteredOptions.map((opt, idx) => (
                             <li
                                 key={idx}
                                 className="dropdown-item"
-                                onClick={() => {
+                                onMouseDown={() => {
                                     onSelect(opt);
                                     setShowDropdown(false);
                                 }}
@@ -54,11 +76,10 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
                         ))}
                     </ul>
                 )}
+
             </div>
         </div>
-    );
+    )
 }
-
-
 
 export default SearchableDropdown;

@@ -105,25 +105,28 @@ function LoginPage() {
                 <span className="log-desc-para">LOGIN TO YOUR ACCOUNT</span>
 
                 <input
+                    name="staffId"
+                    autoComplete="username"
                     className="log-desc-input"
                     type="text"
                     placeholder="Enter Staff ID"
                     value={staffId}
                     onChange={(e) => setStaffId(e.target.value)}
-                    onKeyPress={(e) => handleKeyPress(e, 'staffId')}
+                    onKeyDown={(e) => handleKeyPress(e, 'staffId')}
                 />
 
                 <div className="w-full relative">
                     <input
+                        name="password"
+                        autoComplete="current-password"
                         className="log-desc-input"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, 'password')}
                         ref={passwordInputRef}
+                        onKeyDown={(e) => handleKeyPress(e, 'password')}
                     />
-
                     <span
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                         onClick={() => setShowPassword(!showPassword)}
