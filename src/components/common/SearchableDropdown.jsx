@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../css/StaffMaster.css";
 
-function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, placeholder }) {
+function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, placeholder, error }) {
 
     const [inputValue, setInputValue] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
-        if (typeof value === "string") {
-            setInputValue(value);
-        } else if (value) {
-            setInputValue(getOptionLabel(value));
+        if (value) {
+            const selectedOption = options.find(opt =>
+                (typeof opt === "string" ? opt : opt.value) === value
+            )
+            if (selectedOption) {
+                setInputValue(getOptionLabel(selectedOption));
+            } else {
+                setInputValue(value);
+            }
+        } else {
+            setInputValue("");
         }
-    }, [value, getOptionLabel]);
+    }, [value, getOptionLabel, options]);
 
     const filteredOptions = options.filter(opt =>
         getOptionLabel(opt).toLowerCase().includes(inputValue.toLowerCase())
@@ -29,32 +36,37 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const handleSelect = (opt) => {
+        onSelect(opt);
+        setInputValue(getOptionLabel(opt));
+        setShowDropdown(false);
+        setTimeout(() => {
+            dropdownRef.current
+                ?.querySelector("input")
+                ?.blur();
+        }, 50);
+    }
+
     return (
         <div className="smsh-form" ref={dropdownRef}>
             {label && <label className="smsh-edit-search-label">{label}</label>}
             <div className="relative">
                 <input
                     type="text"
-                    className="smsm-inputs dropdown-input"
+                    className={`smsm-inputs dropdown-input ${error ? 'input-error' : ''}`}
                     value={inputValue}
                     placeholder={placeholder || ""}
                     onFocus={() => setShowDropdown(true)}
                     onChange={(e) => {
                         setInputValue(e.target.value);
                         setShowDropdown(true);
+                        if (e.target.value !== value) { onSelect("") }
                     }}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             e.preventDefault();
                             if (filteredOptions.length > 0) {
-                                const selected = filteredOptions[0];
-                                onSelect(selected);
-                                setShowDropdown(false);
-                                setTimeout(() => {
-                                    dropdownRef.current
-                                        ?.querySelector("input")
-                                        ?.blur();
-                                }, 50);
+                                handleSelect(filteredOptions[0]);
                             }
                         }
                     }}
@@ -66,10 +78,7 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
                             <li
                                 key={idx}
                                 className="dropdown-item"
-                                onMouseDown={() => {
-                                    onSelect(opt);
-                                    setShowDropdown(false);
-                                }}
+                                onMouseDown={() => handleSelect(opt)}
                             >
                                 {getOptionLabel(opt)}
                             </li>

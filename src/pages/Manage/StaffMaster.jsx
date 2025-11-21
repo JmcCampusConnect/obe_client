@@ -41,6 +41,9 @@ function StaffMaster() {
     const [deletestaffid, setDeletestaffid] = useState("");
     const [deletestaffname, setDeletestaffname] = useState("");
 
+    const [errors, setErrors] = useState({});
+    const [editErrors, setEditErrors] = useState({});
+
     // Departments & permissions
     const [staff_Dept, setStaff_Dept] = useState([]);
     const [checkboxValues, setCheckboxValues] = useState({
@@ -73,14 +76,11 @@ function StaffMaster() {
         }
     };
 
-    // --- Data Fetching ---
     useEffect(() => {
-
         fetchStaff();
         loadDepartments();
     }, [apiUrl]);
 
-    // --- Filtering Logic ---
     useEffect(() => {
         const filtered = performFiltering(
             staffData, searchText,
@@ -89,6 +89,13 @@ function StaffMaster() {
         );
         setFilteredData(filtered);
     }, [staffData, searchText, staffCategory, staffDept, filterDeptCategory]);
+
+
+    const handleClearFiltersOnClose = () => {
+        setStaffCategory("");
+        setStaffDept("");
+        setFilterDeptCategory("");
+    };
 
     const loadDepartments = async () => {
         try {
@@ -116,7 +123,7 @@ function StaffMaster() {
 
     const resetForm = () => {
         setStaffId(""); setStaffName(""); setStaffDept(""); setStaffCategory("");
-        setDeptCategory(""); setStaffpassword("");
+        setDeptCategory(""); setStaffpassword("JMC");
         setCheckboxValues({
             dashboard: true, course: true, co: false, so: false,
             po: false, pso: false, wpr: false, obereport: false,
@@ -130,10 +137,24 @@ function StaffMaster() {
     const savenewstaff = async (e) => {
 
         e.preventDefault();
-        if (!staffId || !staffName || !staffDept || !staffCategory || !staffpassword) {
-            window.alert("All fields are required");
+
+        // --- Custom Validation Logic ---
+        const newErrors = {};
+        if (!staffId) newErrors.staffId = "Staff ID is required";
+        if (!staffName) newErrors.staffName = "Staff Name is required";
+        if (!staffDept) newErrors.staffDept = "Department is required";
+        if (!staffCategory) newErrors.staffCategory = "Staff Category is required";
+        if (!staffpassword) newErrors.staffpassword = "Password is required";
+        if (!deptCategory) newErrors.deptCategory = "Dept Category is required";
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) {
+            // Prevent form submission if there are errors
             return;
         }
+        // --- End Custom Validation Logic ---
+
 
         const newStaffData = {
             staff_id: staffId, staff_name: staffName,
@@ -170,23 +191,39 @@ function StaffMaster() {
     };
 
     const updatestaff = async () => {
+
+        const newErrors = {};
+        if (!newstaffname) newErrors.newstaffname = "Staff Name is required";
+        if (!newStaffCategory) newErrors.newStaffCategory = "Staff Category is required";
+        if (!newDeptCategory) newErrors.newDeptCategory = "Dept Category is required";
+        if (!newdept) newErrors.newdept = "Department is required";
+
+        setEditErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) return;
+
         try {
             const resp = await axios.put(`${apiUrl}/api/staffupdate`, {
-                newstaffid, newstaffname, newpassword, newdept, newStaffCategory, newDeptCategory, oldpassword
+                newstaffid, newstaffname, newpassword, newdept,
+                newStaffCategory, newDeptCategory, oldpassword
             });
+
             if (resp.data) {
                 const updatedStaff = resp.data.updatedStaff || resp.data;
-                const updatedList = staffData.map(s => s.staff_id === updatedStaff.staff_id ? updatedStaff : s);
+                const updatedList = staffData.map(s =>
+                    s.staff_id === updatedStaff.staff_id ? updatedStaff : s
+                );
                 setStaffData(updatedList);
                 setFilteredData(updatedList);
                 window.alert("Staff updated successfully");
             }
             staffEditClose();
         } catch (err) {
-            console.error("Error updating staff : ", err);
+            console.error("Error updating staff:", err);
             window.alert("Error updating staff");
         }
     };
+
 
     const handleDelete = (dstaffid, dstaffname) => {
         setDeletestaffid(dstaffid);
@@ -291,6 +328,7 @@ function StaffMaster() {
                 handleSearch={handleSearch}
                 showPopup={showPopup}
                 setShowFilters={setShowFilters}
+                handleClearFiltersOnClose={handleClearFiltersOnClose}
             />
 
             <StaffFilters
@@ -325,6 +363,8 @@ function StaffMaster() {
             />
 
             <AddStaffModal
+                errors={errors}
+                setErrors={setErrors}
                 popup={popup}
                 hidepopup={hidepopup}
                 staffId={staffId} setStaffId={setStaffId}
@@ -352,6 +392,8 @@ function StaffMaster() {
                     newpassword={newpassword} setNewpassword={setNewpassword}
                     updatestaff={updatestaff}
                     staff_Dept={staff_Dept}
+                    editErrors={editErrors}
+                    setEditErrors={setEditErrors}
                 />
             )}
 

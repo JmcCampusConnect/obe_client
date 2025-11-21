@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchableDropdown from '../common/SearchableDropdown';
+
+const ErrorMessage = ({ message }) => {
+    return message ? <div className="error-message" style={{ color: 'red', marginTop: '5px' }}>{message}</div> : null;
+};
 
 function AddStaffModal({
     popup, hidepopup, staffId, setStaffId, staffName, setStaffName, staffDept, setStaffDept,
     staffCategory, setStaffCategory, deptCategory, setDeptCategory, staffpassword, setStaffpassword,
-    savenewstaff, staff_Dept, checkboxValues, handleCheckboxChange
+    savenewstaff, staff_Dept, checkboxValues, handleCheckboxChange, errors, setErrors
 }) {
 
     if (!popup) return null;
@@ -14,7 +18,13 @@ function AddStaffModal({
         { value: "SFM", label: "SFM" },
         { value: "SFW", label: "SFW" },
         { value: "AIDED", label: "AIDED" }
-    ]
+    ];
+
+    useEffect(() => {
+        if (!popup) {
+            setErrors({});
+        }
+    }, [popup, setErrors]);
 
     return (
         <div className="modal-overlay">
@@ -28,11 +38,27 @@ function AddStaffModal({
                     <div className="form-grid">
                         <label>
                             <div className="label">Staff ID :</div>
-                            <input className='input-box-correction' value={staffId} onChange={(e) => setStaffId(e.target.value)} required />
+                            <input
+                                className={`input-box-correction ${errors.staffId ? 'input-error' : ''}`}
+                                value={staffId}
+                                onChange={(e) => {
+                                    setStaffId(e.target.value);
+                                    if (errors.staffId) setErrors(prev => ({ ...prev, staffId: '' }));
+                                }}
+                            />
+                            <ErrorMessage message={errors.staffId} />
                         </label>
                         <label>
                             <div className="label">Staff Name :</div>
-                            <input className='input-box-correction' value={staffName} onChange={(e) => setStaffName(e.target.value)} required />
+                            <input
+                                className={`input-box-correction ${errors.staffName ? 'input-error' : ''}`}
+                                value={staffName}
+                                onChange={(e) => {
+                                    setStaffName(e.target.value);
+                                    if (errors.staffName) setErrors(prev => ({ ...prev, staffName: '' }));
+                                }}
+                            />
+                            <ErrorMessage message={errors.staffName} />
                         </label>
                         <label>
                             <div className="label">Staff Category :</div>
@@ -40,8 +66,13 @@ function AddStaffModal({
                                 options={categoryOptions}
                                 value={staffCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
-                                onSelect={(opt) => setStaffCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
+                                onSelect={(opt) => {
+                                    setStaffCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""));
+                                    if (errors.staffCategory) setErrors(prev => ({ ...prev, staffCategory: '' }));
+                                }}
+                                error={errors.staffCategory} 
                             />
+                            <ErrorMessage message={errors.staffCategory} />
                         </label>
                         <label>
                             <div className="label">Dept Category :</div>
@@ -49,8 +80,13 @@ function AddStaffModal({
                                 options={categoryOptions}
                                 value={deptCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
-                                onSelect={(opt) => setDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
+                                onSelect={(opt) => {
+                                    setDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""));
+                                    if (errors.deptCategory) setErrors(prev => ({ ...prev, deptCategory: '' }));
+                                }}
+                                error={errors.deptCategory} 
                             />
+                            <ErrorMessage message={errors.deptCategory} />
                         </label>
                         <label>
                             <div className="label">Department :</div>
@@ -58,12 +94,26 @@ function AddStaffModal({
                                 options={departmentOptions}
                                 value={staffDept}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
-                                onSelect={(opt) => setStaffDept(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
+                                onSelect={(opt) => {
+                                    setStaffDept(typeof opt === "string" ? opt : (opt ? opt.value : ""));
+                                    if (errors.staffDept) setErrors(prev => ({ ...prev, staffDept: '' }));
+                                }}
+                                error={errors.staffDept} 
                             />
+                            <ErrorMessage message={errors.staffDept} />
                         </label>
                         <label>
                             <div className="label">Password :</div>
-                            <input type="text" value={staffpassword} onChange={(e) => setStaffpassword(e.target.value)} required />
+                            <input
+                                type="text"
+                                className={errors.staffpassword ? 'input-error' : ''}
+                                value={staffpassword}
+                                onChange={(e) => {
+                                    setStaffpassword(e.target.value);
+                                    if (errors.staffpassword) setErrors(prev => ({ ...prev, staffpassword: '' }));
+                                }}
+                            />
+                            <ErrorMessage message={errors.staffpassword} />
                         </label>
                     </div>
 
