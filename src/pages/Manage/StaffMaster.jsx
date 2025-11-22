@@ -7,10 +7,12 @@ import StaffTable from "../../components/StaffMaster/StaffTable";
 import AddStaffModal from "../../components/StaffMaster/AddStaffModal";
 import EditStaffModal from "../../components/StaffMaster/EditStaffModal";
 import DeleteStaffModal from "../../components/StaffMaster/DeleteStaffModal";
+import Loading from '../../assets/load.svg'
 
 function StaffMaster() {
 
     const [staffData, setStaffData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filterDeptCategory, setFilterDeptCategory] = useState("");
     const [filteredData, setFilteredData] = useState([]);
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -66,6 +68,7 @@ function StaffMaster() {
 
     const fetchStaff = async () => {
         try {
+            setLoading(true);
             const resp = await axios.get(`${apiUrl}/api/staffdetails`);
             if (resp.data) {
                 setStaffData(resp.data);
@@ -73,7 +76,7 @@ function StaffMaster() {
             }
         } catch (err) {
             console.error("Error fetching staff:", err);
-        }
+        } finally { setLoading(false) }
     };
 
     useEffect(() => {
@@ -107,6 +110,8 @@ function StaffMaster() {
     };
 
     const showPopup = async () => {
+        resetForm();
+        setErrors({});
         setPopup(true);
         await loadDepartments();
     }
@@ -319,6 +324,14 @@ function StaffMaster() {
         const start = (page - 1) * pageSize;
         return filteredData.slice(start, start + pageSize);
     }, [filteredData, page]);
+
+    if (loading) {
+        return (
+            <div>
+                <center> <img src={Loading} alt="Loading..." className="img" /> </center>
+            </div>
+        )
+    }
 
     return (
         <div className="staff-management-shell">
