@@ -74,6 +74,12 @@ function StaffTutorManage() {
 
     useEffect(() => { fetchData() }, []);
 
+    useEffect(() => {
+        if (!showFilters) {
+            clearAllFilters();
+        }
+    }, [showFilters]);
+
     // 2. SEARCH & FILTER EFFECT
     useEffect(() => {
         let currentData = data;

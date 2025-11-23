@@ -51,7 +51,7 @@ const TutorTable = ({
 													<FontAwesomeIcon icon={faEdit} />
 												</button>
 											</td>
-											<td>
+											<td> 
 												<button
 													className="icon-btn del"
 													title="Delete"

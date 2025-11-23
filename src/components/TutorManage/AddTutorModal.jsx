@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchableDropdown from '../common/SearchableDropdown';
 
 function AddTutorModal({
-    addTutur, tututaddClose, getUniqueStaffsForDropdown, newTuturId, setNewTuturId, newtuturName, setNewtuturName, staffData,
-    data, getUniqueValues, tuturCategory, setTuturCategory, tuturDegree, setTuturDegree, tuturgraduate, setTuturGraduate,
-    tuturSection, setTuturSection, tuturDeptId, setTuturDeptId, tuturdeptName, setTuturdeptName, tuturBatch, setTuturBatch, handleNewMentor
+    addTutur, tututaddClose, getUniqueStaffsForDropdown, newTuturId, setNewTuturId,
+    newtuturName, setNewtuturName, staffData, data, getUniqueValues,
+    tuturCategory, setTuturCategory, tuturDegree, setTuturDegree, tuturgraduate,
+    setTuturGraduate, tuturSection, setTuturSection, tuturDeptId, setTuturDeptId,
+    tuturdeptName, setTuturdeptName, tuturBatch, setTuturBatch, handleNewMentor
 }) {
+
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        if (!addTutur) {
+            setErrors({});
+        }
+    }, [addTutur]);
+
     if (!addTutur) return null;
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!newTuturId) newErrors.newTuturId = "Please select a Staff ID";
+        if (!tuturCategory) newErrors.tuturCategory = "Please select Category";
+        if (!tuturDegree) newErrors.tuturDegree = "Please select Degree";
+        if (!tuturgraduate) newErrors.tuturgraduate = "Please select Graduate type";
+        if (!tuturSection) newErrors.tuturSection = "Please select Section";
+        if (!tuturDeptId) newErrors.tuturDeptId = "Please select Department";
+        if (!tuturBatch) newErrors.tuturBatch = "Please select Batch";
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
         handleNewMentor();
-    }
+    };
 
     const handleStaffSelect = (opt) => {
         if (typeof opt === "string") {
@@ -25,11 +53,11 @@ function AddTutorModal({
         }
     };
 
-    const handleDropdownSelect = (setter) => (opt) => {
+    const handleDropdownSelect = (setter) => (opt) =>
         setter(opt ? (typeof opt === "string" ? opt : opt.value) : "");
-    };
 
-    const mapUniqueOptions = (key) => getUniqueValues(key).map(v => ({ value: v, label: v }));
+    const mapUniqueOptions = (key) =>
+        getUniqueValues(key).map(v => ({ value: v, label: v }));
 
     const deptOptions = Array.from(
         new Map(data
@@ -61,7 +89,7 @@ function AddTutorModal({
                 <form className="modal-body" onSubmit={handleSubmit}>
                     <div className="form-grid">
 
-                        {/* Staff ID */}
+                        {/* STAFF ID */}
                         <label>
                             <div className="label">Staff ID :</div>
                             <SearchableDropdown
@@ -70,105 +98,134 @@ function AddTutorModal({
                                 getOptionLabel={(opt) => typeof opt === "string" ? opt : opt.label}
                                 onSelect={handleStaffSelect}
                             />
+                            {errors.newTuturId && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.newTuturId}
+                                </span>
+                            )}
                         </label>
 
-                        {/* Tutor Name (disabled) */}
+                        {/* TUTOR NAME */}
                         <label>
                             <div className="label">Tutor Name :</div>
-                            <input
-                                className="input-box-correction"
-                                type="text"
-                                value={newtuturName}
-                                disabled
-                            />
+                            <input className="input-box-correction" type="text" value={newtuturName} disabled />
                         </label>
 
-                        {/* Category */}
+                        {/* CATEGORY */}
                         <label>
                             <div className="label">Category :</div>
                             <SearchableDropdown
                                 options={mapUniqueOptions("category")}
                                 value={tuturCategory}
-                                getOptionLabel={(c) => (typeof c === "string" ? c : c.label)}
+                                getOptionLabel={(c) => typeof c === "string" ? c : c.label}
                                 onSelect={handleDropdownSelect(setTuturCategory)}
                             />
+                            {errors.tuturCategory && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.tuturCategory}
+                                </span>
+                            )}
                         </label>
 
-                        {/* Degree */}
+                        {/* DEGREE */}
                         <label>
                             <div className="label">Degree :</div>
                             <SearchableDropdown
                                 options={mapUniqueOptions("degree")}
                                 value={tuturDegree}
-                                getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
+                                getOptionLabel={(d) => typeof d === "string" ? d : d.label}
                                 onSelect={handleDropdownSelect(setTuturDegree)}
                             />
+                            {errors.tuturDegree && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.tuturDegree}
+                                </span>
+                            )}
                         </label>
 
-                        {/* Graduate */}
+                        {/* GRADUATE */}
                         <label>
                             <div className="label">Graduate :</div>
                             <SearchableDropdown
                                 options={mapUniqueOptions("graduate")}
                                 value={tuturgraduate}
-                                getOptionLabel={(g) => (typeof g === "string" ? g : g.label)}
+                                getOptionLabel={(g) => typeof g === "string" ? g : g.label}
                                 onSelect={handleDropdownSelect(setTuturGraduate)}
                             />
+                            {errors.tuturgraduate && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.tuturgraduate}
+                                </span>
+                            )}
                         </label>
 
-                        {/* Section */}
+                        {/* SECTION */}
                         <label>
                             <div className="label">Section :</div>
                             <SearchableDropdown
                                 options={mapUniqueOptions("section")}
                                 value={tuturSection}
-                                getOptionLabel={(s) => (typeof s === "string" ? s : s.label)}
+                                getOptionLabel={(s) => typeof s === "string" ? s : s.label}
                                 onSelect={handleDropdownSelect(setTuturSection)}
                             />
+                            {errors.tuturSection && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.tuturSection}
+                                </span>
+                            )}
                         </label>
 
-                        {/* 🟩 Dept ID (shows ID + Name) */}
+                        {/* DEPT ID */}
                         <label>
                             <div className="label">Dept ID :</div>
                             <SearchableDropdown
                                 options={deptOptions}
                                 value={tuturDeptId}
-                                getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
+                                getOptionLabel={(d) => typeof d === "string" ? d : d.label}
                                 onSelect={handleDeptSelect}
                             />
+                            {errors.tuturDeptId && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.tuturDeptId}
+                                </span>
+                            )}
                         </label>
 
-                        {/* 🟩 Dept Name (auto-filled & disabled) */}
+                        {/* DEPT NAME */}
                         <label>
                             <div className="label">Dept Name :</div>
-                            <input
-                                className="input-box-correction"
-                                type="text"
-                                value={tuturdeptName}
-                                disabled
-                            />
+                            <input className="input-box-correction" type="text" value={tuturdeptName} disabled />
                         </label>
 
-                        {/* Batch */}
+                        {/* BATCH */}
                         <label>
                             <div className="label">Batch :</div>
                             <SearchableDropdown
                                 options={mapUniqueOptions("batch")}
                                 value={tuturBatch}
-                                getOptionLabel={(b) => (typeof b === "string" ? b : b.label)}
+                                getOptionLabel={(b) => typeof b === "string" ? b : b.label}
                                 onSelect={handleDropdownSelect(setTuturBatch)}
                             />
+                            {errors.tuturBatch && (
+                                <span className="error-message" style={{ color: 'red', marginTop: 5, display: 'block' }}>
+                                    {errors.tuturBatch}
+                                </span>
+                            )}
                         </label>
+
                     </div>
 
                     <div className="modal-actions">
                         <button type="submit" className="btn btn-primary">SAVE</button>
-                        <button type="button" className="btn btn-outline" onClick={tututaddClose}>CANCEL</button>
+                        <button type="button" className="btn btn-outline" onClick={tututaddClose}>
+                            CANCEL
+                        </button>
                     </div>
+
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
 export default AddTutorModal;

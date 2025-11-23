@@ -1,5 +1,3 @@
-// components/TutorManage/TutorFilters.jsx
-
 import React from 'react';
 import SearchableDropdown from '../common/SearchableDropdown';
 
