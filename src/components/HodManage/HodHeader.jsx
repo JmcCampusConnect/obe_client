@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-function HodHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
+function HodHeader({ searchText, handleSearch, showPopup, setShowFilters, clearAllFilters }) {
 
 	return (
 		<header className="app-header">
@@ -16,7 +16,18 @@ function HodHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
 								placeholder="Search by ID, Name, Department..."
 								className="search-input"
 							/>
-							<button className="filter-button" onClick={() => setShowFilters(v => !v)} title="Filters">
+							<button
+								className="filter-button"
+								onClick={() => {
+									setShowFilters(v => {
+										if (v === true) {
+											clearAllFilters();
+										}
+										return !v;
+									});
+								}}
+								title="Filters"
+							>
 								<FontAwesomeIcon icon={faFilter} />
 							</button>
 						</div>

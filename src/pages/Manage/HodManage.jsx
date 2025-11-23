@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
-import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import '../../css/HodManage.css';
 import Loading from '../../assets/load.svg';
+import axios from "axios";
 import HodTable from "../../components/HodManage/HodTable";
 import HodHeader from "../../components/HodManage/HodHeader";
 import HodFilters from "../../components/HodManage/HodFilters";
@@ -25,6 +23,7 @@ function StaffHodManage() {
 	const [filterCategory, setFilterCategory] = useState("");
 	const [filterGraduate, setFilterGraduate] = useState("");
 	const [filterDeptId, setFilterDeptId] = useState("");
+	const [typedStaffId, setTypedStaffId] = useState("");
 
 	// Pagination States
 	const [page, setPage] = useState(1);
@@ -152,7 +151,7 @@ function StaffHodManage() {
 	const resetAddHodForm = () => { setNewStaffId(""); setNewHodName(""); setNewGraduate(""); setNewCategory(""); setNewDeptName(""); setNewDeptId(""); }
 	const openAddHodModal = () => { setAddHodModal(true); resetAddHodForm(); }
 	const closeAddHodModal = () => { setAddHodModal(false); resetAddHodForm(); }
-	const openEditHodModal = (row) => { setEditingHod(row); setEditForm({ ...row }); setOriginalStaffId(row.staff_id); }
+	const openEditHodModal = (row) => { setEditingHod(row); setEditForm({ ...row }); setOriginalStaffId(row.staff_id); setTypedStaffId(row.staff_id); }
 	const closeEditHodModal = () => { setEditingHod(null); setEditForm({}); setOriginalStaffId(null); }
 	const openDeleteHodModal = (row) => { setDeleteHod(row); }
 	const cancelDelete = () => { setDeleteHod(null) }
@@ -195,7 +194,7 @@ function StaffHodManage() {
 	const handleSaveEditedHod = async () => {
 		try {
 			await axios.put(`${`${apiUrl}/api/hod`}/${originalStaffId}`, editForm);
-			const updatedData = data.map(row => row.staff_id === originalStaffId ? { ...row, ...editForm } : row )
+			const updatedData = data.map(row => row.staff_id === originalStaffId ? { ...row, ...editForm } : row)
 			setData(updatedData);
 			alert("HOD has been modified successfully.");
 			closeEditHodModal();
@@ -235,16 +234,26 @@ function StaffHodManage() {
 		}
 	}
 
-	if (loading) return (<div> <center> <img src={Loading} alt="Loading spinner" className="img" /> </center> </div>)
+	if (loading) return (
+		<div>
+			<center>
+				<img src={Loading} alt="Loading spinner" className="img" />
+			</center>
+		</div>
+	)
+
 	if (error) return <div>Error : {error}</div>;
 
 	return (
+
 		<div className="staff-management-shell">
+
 			<HodHeader
 				searchText={searchText}
 				handleSearch={handleSearch}
 				showPopup={openAddHodModal}
 				setShowFilters={setShowFilters}
+				clearAllFilters={clearAllFilters}
 			/>
 
 			<HodFilters
@@ -268,6 +277,7 @@ function StaffHodManage() {
 				openEditHodModal={openEditHodModal}
 				openDeleteHodModal={openDeleteHodModal}
 			/>
+
 			<AddHodModal
 				popup={addHodModal}
 				closeAddHodModal={closeAddHodModal}
@@ -296,6 +306,8 @@ function StaffHodManage() {
 				setEditForm={setEditForm}
 				staff={staff}
 				depts={depts}
+				typedStaffId={typedStaffId}
+				setTypedStaffId={setTypedStaffId}
 			/>
 
 			<DeleteHodModal

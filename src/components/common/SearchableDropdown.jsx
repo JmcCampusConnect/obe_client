@@ -57,11 +57,18 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
                     value={inputValue}
                     placeholder={placeholder || ""}
                     onFocus={() => setShowDropdown(true)}
+                    // onChange={(e) => {
+                    //     setInputValue(e.target.value);
+                    //     setShowDropdown(true);
+                    //     if (e.target.value !== value) { onSelect("") }
+                    // }}
                     onChange={(e) => {
-                        setInputValue(e.target.value);
+                        const text = e.target.value;
+                        setInputValue(text);
                         setShowDropdown(true);
-                        if (e.target.value !== value) { onSelect("") }
+                        onSelect(text);
                     }}
+
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             e.preventDefault();

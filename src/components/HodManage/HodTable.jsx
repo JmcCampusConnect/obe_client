@@ -42,7 +42,7 @@ const HodTable = ({
 											<td>{row?.category || "-"}</td>
 											<td>{row?.dept_id || "-"}</td>
 											<td>{row?.staff_id || "-"}</td>
-											<td className="name-cell">{row?.hod_name || "-"}</td>
+											<td>{row?.hod_name || "-"}</td>
 											<td>{row?.dept_name || "-"}</td>
 											<td>
 												<button

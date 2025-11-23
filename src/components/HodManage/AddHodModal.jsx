@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchableDropdown from '../common/SearchableDropdown';
 
 function AddHodModal({
-	popup, staff, newStaffId, setNewStaffId, newHodName, setNewHodName, newGraduate, setNewGraduate, 
-	newCategory, setNewCategory, depts, newDeptId, setNewDeptId, newDeptName, setNewDeptName, 
+	popup, staff, newStaffId, setNewStaffId, newHodName, setNewHodName, newGraduate, setNewGraduate,
+	newCategory, setNewCategory, depts, newDeptId, setNewDeptId, newDeptName, setNewDeptName,
 	handleSaveNewHod, closeAddHodModal
 }) {
 
+	const [errors, setErrors] = useState({});
+
+	useEffect(() => {
+		if (!popup) { setErrors({}) }
+	}, [popup]);
+
 	if (!popup) return null;
+
+	const validateForm = () => {
+
+		const newErrors = {};
+
+		if (!newStaffId) newErrors.newStaffId = "Please select a Staff ID";
+		if (!newGraduate) newErrors.newGraduate = "Please select Graduate type";
+		if (!newCategory) newErrors.newCategory = "Please select a Category";
+		if (!newDeptId) newErrors.newDeptId = "Please select a Department";
+
+		setErrors(newErrors);
+
+		return Object.keys(newErrors).length === 0;
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (!validateForm()) return;
+		handleSaveNewHod();
+	};
 
 	const graduateOptions = [
 		{ value: "UG", label: "UG" },
@@ -20,11 +46,6 @@ function AddHodModal({
 		{ value: "SFW", label: "SFW" }
 	];
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		handleSaveNewHod();
-	};
-
 	return (
 		<div className="modal-overlay">
 			<div className="modal modal-lg">
@@ -35,12 +56,18 @@ function AddHodModal({
 
 				<form className="modal-body" onSubmit={handleSubmit}>
 					<div className="form-grid">
+
+						{/* STAFF ID */}
 						<label>
 							<div className="label">Staff ID :</div>
 							<SearchableDropdown
 								options={staff}
 								value={newStaffId}
-								getOptionLabel={(s) => typeof s === "string" ? s : `${s.staff_id} - ${s.staff_name}`}
+								getOptionLabel={(s) =>
+									typeof s === "string"
+										? s
+										: `${s.staff_id} - ${s.staff_name}`
+								}
 								onSelect={(s) => {
 									if (typeof s === "string") {
 										setNewStaffId(s);
@@ -54,8 +81,12 @@ function AddHodModal({
 									}
 								}}
 							/>
+							{errors.newStaffId && (
+								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block', display: 'block' }}>{errors.newStaffId}</span>
+							)}
 						</label>
 
+						{/* HOD NAME */}
 						<label>
 							<div className="label">HOD Name :</div>
 							<input
@@ -66,32 +97,53 @@ function AddHodModal({
 							/>
 						</label>
 
+						{/* GRADUATE */}
 						<label>
 							<div className="label">Graduate :</div>
 							<SearchableDropdown
 								options={graduateOptions}
 								value={newGraduate}
-								getOptionLabel={(g) => typeof g === "string" ? g : g.label}
-								onSelect={(g) => setNewGraduate(typeof g === "string" ? g : g?.value || "")}
+								getOptionLabel={(g) =>
+									typeof g === "string" ? g : g.label
+								}
+								onSelect={(g) =>
+									setNewGraduate(typeof g === "string" ? g : g?.value || "")
+								}
 							/>
+							{errors.newGraduate && (
+								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block' }}>{errors.newGraduate}</span>
+							)}
 						</label>
 
+						{/* CATEGORY */}
 						<label>
 							<div className="label">Category :</div>
 							<SearchableDropdown
 								options={categoryOptions}
 								value={newCategory}
-								getOptionLabel={(c) => typeof c === "string" ? c : c.label}
-								onSelect={(c) => setNewCategory(typeof c === "string" ? c : c?.value || "")}
+								getOptionLabel={(c) =>
+									typeof c === "string" ? c : c.label
+								}
+								onSelect={(c) =>
+									setNewCategory(typeof c === "string" ? c : c?.value || "")
+								}
 							/>
+							{errors.newCategory && (
+								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block' }}>{errors.newCategory}</span>
+							)}
 						</label>
 
+						{/* DEPT ID */}
 						<label>
 							<div className="label">Dept ID :</div>
 							<SearchableDropdown
 								options={depts}
 								value={newDeptId}
-								getOptionLabel={(d) => typeof d === "string" ? d : `${d.dept_id} - ${d.dept_name}`}
+								getOptionLabel={(d) =>
+									typeof d === "string"
+										? d
+										: `${d.dept_id} - ${d.dept_name}`
+								}
 								onSelect={(d) => {
 									if (typeof d === "string") {
 										setNewDeptId(d);
@@ -105,8 +157,12 @@ function AddHodModal({
 									}
 								}}
 							/>
+							{errors.newDeptId && (
+								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block' }}>{errors.newDeptId}</span>
+							)}
 						</label>
 
+						{/* DEPT NAME */}
 						<label>
 							<div className="label">Dept Name :</div>
 							<input
@@ -120,7 +176,9 @@ function AddHodModal({
 
 					<div className="modal-actions">
 						<button type="submit" className="btn btn-primary">Save</button>
-						<button type="button" className="btn btn-outline" onClick={closeAddHodModal}>Cancel</button>
+						<button type="button" className="btn btn-outline" onClick={closeAddHodModal}>
+							Cancel
+						</button>
 					</div>
 				</form>
 			</div>
