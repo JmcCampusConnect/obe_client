@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-function DepartmentReportHeader({ searchText, handleSearch, handleDownload, setShowFilters }) {
+function DepartmentReportHeader({ searchText, handleSearch, handleDownload, setShowFilters, clearAllFilters }) {
 
     return (
         <header className="app-header">
@@ -18,7 +18,14 @@ function DepartmentReportHeader({ searchText, handleSearch, handleDownload, setS
                             />
                             <button
                                 className="filter-button"
-                                onClick={() => setShowFilters(v => !v)}
+                                onClick={() => setShowFilters(prev => {
+                                    const next = !prev;
+                                    if (!next) {
+                                        clearAllFilters();
+                                    }
+                                    return next;
+                                })}
+
                                 title="Toggle Filters"
                             >
                                 <FontAwesomeIcon icon={faFilter} />

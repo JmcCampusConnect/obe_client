@@ -14,7 +14,9 @@ function DepartmentReport() {
     const apiUrl = import.meta.env.VITE_API_URL;
     const { dept } = useParams();
 
-    const [activeSection, setActiveSection] = useState('1');
+    const [activeSection, setActiveSection] = useState(
+        dept === "alldepartments" ? "all" : "1"
+    );
     const [academicYear, setAcademicYear] = useState('');
     const [deptStatusReport, setDeptStatusReport] = useState([]);
     const [filter, setFilter] = useState({
@@ -55,6 +57,14 @@ function DepartmentReport() {
     }, []);
 
     useEffect(() => {
+        if (dept === "alldepartments") {
+            setActiveSection("all");
+        } else {
+            setActiveSection("1");
+        }
+    }, [dept]);
+
+    useEffect(() => {
         const fetchDeptStatusReport = async () => {
             if (!academicYear) return;
             try {
@@ -75,13 +85,12 @@ function DepartmentReport() {
                     new Map(
                         response.data.map(d => [d.course_code, {
                             value: d.course_code,
-                            label: d.course_title
-                                ? `${d.course_code} - ${d.course_title}`
-                                : d.course_code
+                            label: d.course_title ? `${d.course_code} - ${d.course_title}` : d.course_code
                         }])
                     ).values()
                 );
                 setCourseCodeOptions(uniqueCourses);
+
                 const uniqueSections = [...new Set(response.data.map(d => d.section))]
                     .filter(Boolean)
                     .map(v => ({ value: v, label: v }));
@@ -97,18 +106,15 @@ function DepartmentReport() {
 
     const handleSearch = (term) => setSearchTerm(term);
 
-    const getActiveField = (dept) => {
-        switch (activeSection) {
-            case '1': return dept.cia_1;
-            case '2': return dept.cia_2;
-            case '3': return dept.ass_1;
-            case '4': return dept.ass_2;
-            default: return '';
-        }
-    };
+    const getStatus = (v) =>
+        v === 0 ? "Incomplete" :
+            v === 1 ? "Processing" :
+                v === 2 ? "Completed" : "";
 
-    const getStatus = (v) => v === 0 ? 'Incomplete' : v === 1 ? 'Processing' : v === 2 ? 'Completed' : '';
-    const getStatusColor = (v) => v === 0 ? { color: 'red' } : v === 1 ? { color: 'blue' } : v === 2 ? { color: 'green' } : {};
+    const getStatusColor = (v) =>
+        v === 0 ? { color: "red" } :
+            v === 1 ? { color: "blue" } :
+                v === 2 ? { color: "green" } : {};
 
     const clearAllFilters = () => {
         setFilterCategory('');
@@ -116,11 +122,32 @@ function DepartmentReport() {
         setFilterStaffId('');
         setFilterCourseCode('');
         setFilterSection('');
+        setFilterStatus('');
     };
 
-    const filteredReport = deptStatusReport.filter((d) => {
-        const status = getActiveField(d);
+    const expandedAllRows = deptStatusReport.flatMap((d) => {
+        return [
+            { ...d, part: "CIA - 1", value: d.cia_1 },
+            { ...d, part: "CIA - 2", value: d.cia_2 },
+            { ...d, part: "ASS - 1", value: d.ass_1 },
+            { ...d, part: "ASS - 2", value: d.ass_2 }
+        ];
+    });
+
+    const baseReport = dept === "alldepartments" && activeSection === "all"
+        ? expandedAllRows
+        : deptStatusReport;
+
+    const filteredReport = baseReport.filter((d) => {
+        const status = (dept === "alldepartments" && activeSection === "all")
+            ? d.value
+            : (activeSection === "1" ? d.cia_1 :
+                activeSection === "2" ? d.cia_2 :
+                    activeSection === "3" ? d.ass_1 :
+                        d.ass_2);
+
         const term = searchTerm.toLowerCase();
+
         const matchesSearch =
             !term ||
             d.staff_id?.toLowerCase().includes(term) ||
@@ -129,6 +156,7 @@ function DepartmentReport() {
             d.course_code?.toLowerCase().includes(term) ||
             d.section?.toLowerCase().includes(term) ||
             d.course_title?.toLowerCase().includes(term);
+
         const matchesDropdown =
             (!filterDeptId || d.dept_name === filterDeptId) &&
             (!filterStaffId || d.staff_id === filterStaffId) &&
@@ -136,56 +164,41 @@ function DepartmentReport() {
             (!filterCourseCode || d.course_code === filterCourseCode) &&
             (!filterSection || d.section === filterSection) &&
             (!filterStatus || getStatus(status) === filterStatus);
+
         if (!matchesSearch || !matchesDropdown) return false;
+
         if (filter.all) return true;
         if (status === 0 && filter.incomplete) return true;
         if (status === 1 && filter.processing) return true;
         if (status === 2 && filter.completed) return true;
-        return false;
-    })
 
-    const sortedReport = [...filteredReport].sort((a, b) => getActiveField(a) - getActiveField(b));
+        return false;
+    });
+
+    const sortedReport = [...filteredReport].sort((a, b) => {
+        const v1 = (dept === "alldepartments" && activeSection === "all") ? a.value : getStatus(a);
+        const v2 = (dept === "alldepartments" && activeSection === "all") ? b.value : getStatus(b);
+        return v1 - v2;
+    });
+
     const totalPages = Math.ceil(sortedReport.length / pageSize);
 
     useEffect(() => setPage(1), [filter, searchTerm, activeSection]);
 
-    const handleDownload = () => {
-        const headers = [
-            'Staff Id', 'Staff Name', 'Dept Name', 'Course Code',
-            'Category', 'Section', 'CIA-1', 'CIA-2', 'ASS-1', 'ASS-2', 'Overall Status'
-        ];
-        const data = deptStatusReport.map(d => ({
-            'Staff Id': d.staff_id,
-            'Staff Name': d.staff_name,
-            'Dept Name': d.dept_name,
-            'Course Code': d.course_code,
-            'Category': d.category,
-            'Section': d.section,
-            'CIA-1': getStatus(d.cia_1),
-            'CIA-2': getStatus(d.cia_2),
-            'ASS-1': getStatus(d.ass_1),
-            'ASS-2': getStatus(d.ass_2),
-            'Overall Status': [d.cia_1, d.cia_2, d.ass_1, d.ass_2].every(v => v === 2) ? 'Finished' : 'Pending'
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(data, { header: headers });
-        const workbook = { Sheets: { 'Report': worksheet }, SheetNames: ['Report'] };
-        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        saveAs(new Blob([excelBuffer]), `OBE - Mark Entry Report ${new Date().toISOString().split('T')[0]}.xlsx`);
-    };
-
     if (!academicYear || deptStatusReport.length === 0) {
-        return <div><center><img src={Loading} alt="Loading data" className="img" /></center></div>;
+        return <div><center><img src={Loading} className="img" /></center></div>;
     }
 
     return (
+
         <div className="staff-management-shell">
 
             <DepartmentReportHeader
                 searchText={searchTerm}
                 handleSearch={handleSearch}
-                handleDownload={handleDownload}
+                handleDownload={() => { }}
                 setShowFilters={setShowFilters}
+                clearAllFilters={clearAllFilters}
             />
 
             <DepartmentReportFilter
@@ -205,15 +218,39 @@ function DepartmentReport() {
 
             <div className="dept-main-div">
                 <div className="section-toggle-group">
-                    {["1", "2", "3", "4"].map((val, idx) => (
+                    {dept === "alldepartments" && (
                         <button
-                            key={val}
-                            className={`section-toggle-btn ${activeSection === val ? "active" : ""}`}
-                            onClick={() => setActiveSection(val)}
+                            className={`section-toggle-btn ${activeSection === "all" ? "active" : ""}`}
+                            onClick={() => setActiveSection("all")}
+                            style={{ background: "#2c7be5", color: "#fff" }}
                         >
-                            {idx < 2 ? `CIA - ${idx + 1}` : `ASS - ${idx - 1}`}
+                            ALL
                         </button>
-                    ))}
+                    )}
+                    <button
+                        className={`section-toggle-btn ${activeSection === "1" ? "active" : ""}`}
+                        onClick={() => setActiveSection("1")}
+                    >
+                        CIA - 1
+                    </button>
+                    <button
+                        className={`section-toggle-btn ${activeSection === "2" ? "active" : ""}`}
+                        onClick={() => setActiveSection("2")}
+                    >
+                        CIA - 2
+                    </button>
+                    <button
+                        className={`section-toggle-btn ${activeSection === "3" ? "active" : ""}`}
+                        onClick={() => setActiveSection("3")}
+                    >
+                        ASS - 1
+                    </button>
+                    <button
+                        className={`section-toggle-btn ${activeSection === "4" ? "active" : ""}`}
+                        onClick={() => setActiveSection("4")}
+                    >
+                        ASS - 2
+                    </button>
                 </div>
             </div>
 
@@ -224,11 +261,11 @@ function DepartmentReport() {
                 totalPages={totalPages}
                 setPage={setPage}
                 getStatus={getStatus}
-                getActiveField={getActiveField}
                 getStatusColor={getStatusColor}
+                isAllMode={dept === "alldepartments" && activeSection === "all"}
             />
         </div>
-    )
+    );
 }
 
 export default DepartmentReport;

@@ -4,11 +4,10 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 
 const DepartmentReportTable = ({
 	sortedReport = [], page, pageSize, totalPages,
-	setPage, getStatus, getActiveField, getStatusColor,
+	setPage, getStatus, getStatusColor, isAllMode
 }) => {
 
 	const dataToDisplay = Array.isArray(sortedReport) ? sortedReport : [];
-
 	const visibleRows = dataToDisplay.slice((page - 1) * pageSize, page * pageSize);
 
 	return (
@@ -24,8 +23,9 @@ const DepartmentReportTable = ({
 
 				<div className="table-frame">
 					<div className="table-scroll">
-						<table className="crm-table" role="table" aria-label="Department Report Table">
+						<table className="crm-table">
 							<thead>
+
 								<tr>
 									<th style={{ width: 60 }}>S.No</th>
 									<th style={{ minWidth: 120 }}>Staff ID</th>
@@ -35,35 +35,41 @@ const DepartmentReportTable = ({
 									<th style={{ minWidth: 350 }}>Course Title</th>
 									<th style={{ minWidth: 120 }}>Category</th>
 									<th style={{ minWidth: 100 }}>Section</th>
+									{isAllMode && <th style={{ minWidth: 100 }}>Part</th>}
 									<th style={{ minWidth: 120 }}>Status</th>
 								</tr>
 							</thead>
 
 							<tbody>
+
 								{visibleRows.length > 0 ? (
-									visibleRows.map((dept, idx) => {
-										const activeField = getActiveField(dept);
-										const statusText = getStatus(activeField);
-										const statusColor = getStatusColor(activeField);
+									visibleRows.map((d, idx) => {
+										const status = isAllMode ? d.value : d.value ?? d.status;
+										const statusText = getStatus(status);
+										const statusColor = getStatusColor(status);
+
 										return (
 											<tr key={idx}>
 												<td>{(page - 1) * pageSize + idx + 1}</td>
-												<td>{dept?.staff_id || "-"}</td>
-												<td className="name-cell" style={{textTransform: 'uppercase'}}>{dept?.staff_name || "-"}</td>
-												<td>{dept?.dept_name || "-"}</td>
-												<td>{dept?.course_code || "-"}</td>
-												<td>{dept?.course_title || "-"}</td>
-												<td>{dept?.category || "-"}</td>
-												<td>{dept?.section || "-"}</td>
-												<td style={{ fontWeight: 'bold', ...statusColor }}>{statusText}</td>
+												<td>{d.staff_id}</td>
+												<td style={{ textTransform: "uppercase" }}>{d.staff_name}</td>
+												<td>{d.dept_name}</td>
+												<td>{d.course_code}</td>
+												<td>{d.course_title}</td>
+												<td>{d.category}</td>
+												<td>{d.section}</td>
+
+												{isAllMode && <td>{d.part}</td>}
+												<td style={{ fontWeight: "bold", ...statusColor }}>{statusText}</td>
 											</tr>
 										);
 									})
 								) : (
 									<tr>
-										<td colSpan="8" className="no-data"> No records to display </td>
+										<td colSpan={isAllMode ? 10 : 9} className="no-data">No records to display</td>
 									</tr>
 								)}
+
 							</tbody>
 						</table>
 					</div>
@@ -71,22 +77,17 @@ const DepartmentReportTable = ({
 
 				{dataToDisplay.length > 0 && (
 					<div className="card-footer">
+
 						<div className="pagination">
-							<button
-								className="pg-btn"
-								onClick={() => setPage((p) => Math.max(1, p - 1))}
-								disabled={page === 1}
-							>
+							<button className="pg-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
 								<FontAwesomeIcon icon={faChevronLeft} />
 							</button>
+
 							<div className="pg-info">
 								Page {page} of {totalPages}
 							</div>
-							<button
-								className="pg-btn"
-								onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-								disabled={page === totalPages}
-							>
+
+							<button className="pg-btn" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
 								<FontAwesomeIcon icon={faChevronRight} />
 							</button>
 						</div>
@@ -94,8 +95,10 @@ const DepartmentReportTable = ({
 						<div className="dense-info">
 							Showing {visibleRows.length} of {dataToDisplay.length} entries
 						</div>
+
 					</div>
 				)}
+
 			</section>
 		</main>
 	)
