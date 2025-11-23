@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-function MarkReleaseHeader({ searchText, handleSearch, showPopup, setShowFilters }) {
+function MarkReleaseHeader({ searchText, handleSearch, showPopup, setShowFilters, clearAllFilters }) {
 
     return (
         <header className="app-header">
@@ -16,9 +16,20 @@ function MarkReleaseHeader({ searchText, handleSearch, showPopup, setShowFilters
                                 placeholder="Search by ID, Name, Department..."
                                 className="search-input"
                             />
-                            <button className="filter-button" onClick={() => setShowFilters(v => !v)} title="Toggle Filters">
+                            <button
+                                className="filter-button"
+                                onClick={() => {
+                                    setShowFilters(prev => {
+                                        const newState = !prev;
+                                        if (!newState) clearAllFilters(); 
+                                        return newState;
+                                    });
+                                }}
+                                title="Toggle Filters"
+                            >
                                 <FontAwesomeIcon icon={faFilter} />
                             </button>
+
                         </div>
                     </div>
 

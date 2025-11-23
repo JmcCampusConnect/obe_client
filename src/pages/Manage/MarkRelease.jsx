@@ -147,7 +147,7 @@ function MarkRelease() {
             const checkData = [...prevData];
             const actualIndex = index + (page - 1) * pageSize;
             if (!checkData[actualIndex]) return prevData;
-            checkData[actualIndex] = { ...checkData[actualIndex], [field]: value ? 2 : 1 }
+            checkData[actualIndex] = { ...checkData[actualIndex], [field]: value ? 1 : 2 }
             return checkData;
         });
     };
@@ -180,6 +180,7 @@ function MarkRelease() {
                 searchText={searchText}
                 handleSearch={handleSearch}
                 setShowFilters={setShowFilters}
+                clearAllFilters={clearAllFilters}
             />
 
             <MarkReleaseFilters

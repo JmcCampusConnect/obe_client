@@ -768,6 +768,14 @@
     transform: scale(1.03);
 }
 
+.staffcourse-toggle:not(:checked) {
+    background: linear-gradient(145deg, #e53935, #ef5350) !important;
+}
+
+.staffcourse-toggle:not(:checked)::before {
+    background-color: #ffebee;
+}
+
 .staffcourse-td {
     text-align: center;
 }

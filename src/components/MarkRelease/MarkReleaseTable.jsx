@@ -55,7 +55,7 @@ const MarkReleaseTable = ({
                                                     <input
                                                         type="checkbox"
                                                         className="staffcourse-toggle"
-                                                        checked={reportItem.cia_1 === 2}
+                                                        checked={reportItem.cia_1 === 0 || reportItem.cia_1 === 1}
                                                         onChange={(e) => handleCheckbox(dataIndex, 'cia_1', e.target.checked)}
                                                     />
                                                 </td>
@@ -63,7 +63,7 @@ const MarkReleaseTable = ({
                                                     <input
                                                         type="checkbox"
                                                         className="staffcourse-toggle"
-                                                        checked={reportItem.cia_2 === 2}
+                                                         checked={reportItem.cia_2 === 0 || reportItem.cia_2 === 1}
                                                         onChange={(e) => handleCheckbox(dataIndex, 'cia_2', e.target.checked)}
                                                     />
                                                 </td>
@@ -71,7 +71,7 @@ const MarkReleaseTable = ({
                                                     <input
                                                         type="checkbox"
                                                         className="staffcourse-toggle"
-                                                        checked={reportItem.ass_1 === 2}
+                                                        checked={reportItem.ass_1 === 0 || reportItem.ass_1 === 1}
                                                         onChange={(e) => handleCheckbox(dataIndex, 'ass_1', e.target.checked)}
                                                     />
                                                 </td>
@@ -79,7 +79,7 @@ const MarkReleaseTable = ({
                                                     <input
                                                         type="checkbox"
                                                         className="staffcourse-toggle"
-                                                        checked={reportItem.ass_2 === 2}
+                                                        checked={reportItem.ass_2 === 0 || reportItem.ass_2 === 1}
                                                         onChange={(e) => handleCheckbox(dataIndex, 'ass_2', e.target.checked)}
                                                     />
                                                 </td>
