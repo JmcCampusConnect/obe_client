@@ -83,7 +83,7 @@ function AddHodModal({
 								}}
 							/>
 							{errors.newStaffId && (
-								<span className="error-message" style={{ color: 'red', marginTop: '5px', display: 'block', display: 'block' }}>{errors.newStaffId}</span>
+								<span className="error-message" style={{ color: 'red', marginTop: '5px', display: 'block' }}>{errors.newStaffId}</span>
 							)}
 						</label>
 

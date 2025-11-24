@@ -9,6 +9,15 @@ const StaffCourseTable = ({ staffCourseData, page, pageSize, totalPages, setPage
 	const handleEditClick = handleOpenEditModal;
 	const handleDelete = setDeleteStaff;
 
+	const getYearLabel = (semester) => {
+		const sem = Number(semester);
+		if (!sem) return "-";
+		if (sem === 1 || sem === 2) return "I";
+		if (sem === 3 || sem === 4) return "II";
+		if (sem === 5 || sem === 6) return "III";
+		return "-";
+	};
+
 	return (
 		<main className="crm-content">
 			<section className="card">
@@ -26,10 +35,9 @@ const StaffCourseTable = ({ staffCourseData, page, pageSize, totalPages, setPage
 									<th style={{ minWidth: 120 }}>Staff ID</th>
 									<th style={{ minWidth: 250 }}>Staff Name</th>
 									<th style={{ minWidth: 100 }}>Category</th>
-									<th style={{ minWidth: 120 }}>Dept ID</th>
+									<th style={{ minWidth: 180 }}>Class</th>
 									<th style={{ minWidth: 150 }}>Course Code</th>
 									<th style={{ minWidth: 300 }}>Course Title</th>
-									<th style={{ minWidth: 100 }}>Section</th>
 									<th style={{ width: 50 }}>Edit</th>
 									<th style={{ width: 50 }}>Delete</th>
 								</tr>
@@ -40,12 +48,13 @@ const StaffCourseTable = ({ staffCourseData, page, pageSize, totalPages, setPage
 										<tr key={idx}>
 											<td>{(page - 1) * pageSize + idx + 1}</td>
 											<td>{staff?.staff_id || "-"}</td>
-											<td className="name-cell">{staff?.staff_name || "-"}</td>
+											<td>{staff?.staff_name || "-"}</td>
 											<td>{staff?.category || "-"}</td>
-											<td>{staff?.dept_id || "-"}</td>
+											<td>
+												{`${getYearLabel(staff?.semester)} ${staff?.dept_id || "-"} ${staff?.section || "-"}`}
+											</td>
 											<td>{staff?.course_code || "-"}</td>
 											<td>{staff?.course_title || "-"}</td>
-											<td>{staff?.section || "-"}</td>
 											<td>
 												<button className="icon-btn edit" title="Edit" onClick={() => handleEditClick(staff)}>
 													<FontAwesomeIcon icon={faEdit} />
@@ -60,7 +69,7 @@ const StaffCourseTable = ({ staffCourseData, page, pageSize, totalPages, setPage
 									))
 								) : (
 									<tr>
-										<td colSpan="10" className="no-data">No records to display</td>
+										<td colSpan="9" className="no-data">No records to display</td>
 									</tr>
 								)}
 							</tbody>

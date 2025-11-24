@@ -44,7 +44,8 @@ function Manage() {
     const handleScopeManage = () => navigate(`/staff/${staffId}/scopemanage`);
     const handleRelease = () => navigate(`/staff/${staffId}/markrelease`);
     const handleMarkManage = () => navigate(`/staff/${staffId}/markmanage`);
-    const handleCourseMapManage = () => navigate(`/staff/${staffId}/staffcoursemapmanage`);
+    // const handleCourseMapManage = () => navigate(`/staff/${staffId}/staffcoursemapmanage`);
+    const handleCourseMapManage = () => alert("Ready Soon!");
     const handleStudentManage = () => navigate(`/staff/${staffId}/studentmanage`);
     const handleShowBlock = () => navigate(`/staff/${staffId}/showandblock`);
 

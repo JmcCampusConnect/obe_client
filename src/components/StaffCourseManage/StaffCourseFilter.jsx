@@ -62,12 +62,12 @@ function StaffCourseFilter({
                     placeholder="Section"
                 />
 
+            </div>
                 <div className="filter-actions">
                     <button className="btn btn-outline" onClick={clearAllFilters}>
                         Clear Filters
                     </button>
                 </div>
-            </div>
         </div>
     )
 }

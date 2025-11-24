@@ -41,6 +41,7 @@ const StaffCourseManage = () => {
     const [filterStaffId, setFilterStaffId] = useState('');
     const [filterCourseCode, setFilterCourseCode] = useState('');
     const [filterSection, setFilterSection] = useState('');
+    const [errors, setErrors] = useState({});
 
     const fixField = val => (Array.isArray(val) ? val[0] || '' : val);
 
@@ -126,16 +127,10 @@ const StaffCourseManage = () => {
     };
 
     const filteredStaffData = useMemo(() => {
-        const searchedData = staffData.filter(staff => {
+        const searchedData = staffData.filter((staff) => {
             const lower = searchTerm.toLowerCase();
-            return (
-                staff.section?.toLowerCase().includes(lower) ||
-                staff.dept_id?.toLowerCase().includes(lower) ||
-                staff.course_title?.toLowerCase().includes(lower) ||
-                staff.course_code?.toLowerCase().includes(lower) ||
-                staff.staff_id?.toLowerCase().includes(lower) ||
-                staff.category?.toLowerCase().includes(lower) ||
-                staff.staff_name?.toLowerCase().includes(lower)
+            return Object.values(staff).some(value =>
+                value?.toString().toLowerCase().includes(lower)
             );
         });
         return searchedData.filter(staff => {
@@ -245,19 +240,34 @@ const StaffCourseManage = () => {
     };
 
     const handleSaveStaff = async () => {
+
+        const newErrors = {};
+
+        if (!selectedStaffId) newErrors.selectedStaffId = "Staff ID is required";
+        if (!selectedCategory) newErrors.selectedCategory = "Category is required";
+        if (!selectedDeptId) newErrors.selectedDeptId = "Department ID is required";
+        if (!selectedSemester) newErrors.selectedSemester = "Semester is required";
+        if (!selectedSection) newErrors.selectedSection = "Section is required";
+        if (!selectedCourseCode) newErrors.selectedCourseCode = "Course Code is required";
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+        setErrors({});
+
         const payload = {
             staff_id: selectedStaffId?.toString().trim() || '',
             staff_name: staffName,
             category: selectedCategory,
             dept_id: selectedDeptId,
             dept_name: deptName,
-            degree,
-            batch,
+            degree, batch,
             semester: selectedSemester,
             section: selectedSection,
             course_code: selectedCourseCode,
             course_title: courseTitle,
-        };
+        }
         try {
             const response = await axios.post(`${apiUrl}/api/scmNewStaff`, payload);
             if (response.status === 201) {
@@ -269,7 +279,8 @@ const StaffCourseManage = () => {
             console.error('Error in adding staff : ', error);
             alert('Failed to save staff.');
         }
-    };
+        saveStaffCourse();
+    }
 
     const handleSaveEditStaff = async () => {
         try {
@@ -290,7 +301,7 @@ const StaffCourseManage = () => {
             console.error(error);
             alert('Failed to edit staff course.');
         }
-    };
+    }
 
     const handleDeleteStaff = async (s_no, staff_id, course_code, category, section, dept_id) => {
         try {
@@ -308,14 +319,25 @@ const StaffCourseManage = () => {
         }
     };
 
+    const toggleFilters = () => {
+        setShowFilters(prev => {
+            const newState = !prev;
+            if (!newState) { clearAllFilters() }
+            return newState;
+        });
+    };
+
+
     return (
         <div className="staff-management-shell">
+
             <StaffCourseHeader
                 searchText={searchTerm}
                 handleSearch={setSearchTerm}
                 showPopup={() => setIsAddModalOpen(true)}
-                setShowFilters={setShowFilters}
+                setShowFilters={toggleFilters}
             />
+
             <StaffCourseFilter
                 showFilters={showFilters}
                 filterCategory={filterCategory}
@@ -334,6 +356,7 @@ const StaffCourseManage = () => {
                 sectionOptions={sectionOptions}
                 clearAllFilters={clearAllFilters}
             />
+
             <StaffCourseTable
                 staffCourseData={filteredStaffData}
                 page={page}
@@ -343,6 +366,7 @@ const StaffCourseManage = () => {
                 handleOpenEditModal={handleOpenEditModal}
                 setDeleteStaff={setDeleteStaff}
             />
+
             <AddModal
                 isOpen={isAddModalOpen}
                 closeModal={() => setIsAddModalOpen(false)}
@@ -373,7 +397,10 @@ const StaffCourseManage = () => {
                 batch={batch}
                 handleAddInputChange={e => setBatch(e.target.value)}
                 handleSaveStaff={handleSaveStaff}
+                errors={errors}
+                setErrors={setErrors}
             />
+
             <EditModal
                 staffData={staffData}
                 isOpen={isEditModalOpen}
@@ -480,6 +507,7 @@ const StaffCourseManage = () => {
                 }}
                 handleSaveEditStaff={handleSaveEditStaff}
             />
+            
             <DeleteModal
                 isOpen={!!deleteStaff}
                 staff={deleteStaff}
