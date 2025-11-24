@@ -61,6 +61,7 @@ function AddHodModal({
 						<label>
 							<div className="label">Staff ID :</div>
 							<SearchableDropdown
+								useMode="add"
 								options={staff}
 								value={newStaffId}
 								getOptionLabel={(s) =>
@@ -82,7 +83,7 @@ function AddHodModal({
 								}}
 							/>
 							{errors.newStaffId && (
-								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block', display: 'block' }}>{errors.newStaffId}</span>
+								<span className="error-message" style={{ color: 'red', marginTop: '5px', display: 'block', display: 'block' }}>{errors.newStaffId}</span>
 							)}
 						</label>
 
@@ -101,6 +102,7 @@ function AddHodModal({
 						<label>
 							<div className="label">Graduate :</div>
 							<SearchableDropdown
+								useMode="add"
 								options={graduateOptions}
 								value={newGraduate}
 								getOptionLabel={(g) =>
@@ -111,7 +113,7 @@ function AddHodModal({
 								}
 							/>
 							{errors.newGraduate && (
-								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block' }}>{errors.newGraduate}</span>
+								<span className="error-message" style={{ color: 'red', marginTop: '5px', display: 'block' }}>{errors.newGraduate}</span>
 							)}
 						</label>
 
@@ -119,6 +121,7 @@ function AddHodModal({
 						<label>
 							<div className="label">Category :</div>
 							<SearchableDropdown
+								useMode="add"
 								options={categoryOptions}
 								value={newCategory}
 								getOptionLabel={(c) =>
@@ -129,7 +132,7 @@ function AddHodModal({
 								}
 							/>
 							{errors.newCategory && (
-								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block' }}>{errors.newCategory}</span>
+								<span className="error-message" style={{ color: 'red', marginTop: '5px', display: 'block' }}>{errors.newCategory}</span>
 							)}
 						</label>
 
@@ -137,6 +140,7 @@ function AddHodModal({
 						<label>
 							<div className="label">Dept ID :</div>
 							<SearchableDropdown
+								useMode="add"
 								options={depts}
 								value={newDeptId}
 								getOptionLabel={(d) =>
@@ -158,7 +162,7 @@ function AddHodModal({
 								}}
 							/>
 							{errors.newDeptId && (
-								<span className="error-message" style={{ color: 'red',  marginTop: '5px', display: 'block' }}>{errors.newDeptId}</span>
+								<span className="error-message" style={{ color: 'red', marginTop: '5px', display: 'block' }}>{errors.newDeptId}</span>
 							)}
 						</label>
 

@@ -63,6 +63,7 @@ function AddStaffModal({
                         <label>
                             <div className="label">Staff Category :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={categoryOptions}
                                 value={staffCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
@@ -70,13 +71,14 @@ function AddStaffModal({
                                     setStaffCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""));
                                     if (errors.staffCategory) setErrors(prev => ({ ...prev, staffCategory: '' }));
                                 }}
-                                error={errors.staffCategory} 
+                                error={errors.staffCategory}
                             />
                             <ErrorMessage message={errors.staffCategory} />
                         </label>
                         <label>
                             <div className="label">Dept Category :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={categoryOptions}
                                 value={deptCategory}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
@@ -84,13 +86,14 @@ function AddStaffModal({
                                     setDeptCategory(typeof opt === "string" ? opt : (opt ? opt.value : ""));
                                     if (errors.deptCategory) setErrors(prev => ({ ...prev, deptCategory: '' }));
                                 }}
-                                error={errors.deptCategory} 
+                                error={errors.deptCategory}
                             />
                             <ErrorMessage message={errors.deptCategory} />
                         </label>
                         <label>
                             <div className="label">Department :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={departmentOptions}
                                 value={staffDept}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
@@ -98,7 +101,7 @@ function AddStaffModal({
                                     setStaffDept(typeof opt === "string" ? opt : (opt ? opt.value : ""));
                                     if (errors.staffDept) setErrors(prev => ({ ...prev, staffDept: '' }));
                                 }}
-                                error={errors.staffDept} 
+                                error={errors.staffDept}
                             />
                             <ErrorMessage message={errors.staffDept} />
                         </label>

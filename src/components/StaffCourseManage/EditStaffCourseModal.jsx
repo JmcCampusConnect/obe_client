@@ -50,6 +50,7 @@ const EditStaffCourseModal = ({
                         <label>
                             <div className="label">Staff ID :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={staffIdOptions}
                                 value={editStaff.staff_id || ""}
                                 getOptionLabel={opt => opt.label}
@@ -77,6 +78,7 @@ const EditStaffCourseModal = ({
                         <label>
                             <div className="label">Category :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={categoryOptions}
                                 value={editStaff.category || ""}
                                 getOptionLabel={opt => opt.label}
@@ -93,6 +95,7 @@ const EditStaffCourseModal = ({
                         <label>
                             <div className="label">Dept ID :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={deptIdOptions}
                                 value={editStaff.dept_id || ""}
                                 getOptionLabel={opt => opt.label}
@@ -132,6 +135,7 @@ const EditStaffCourseModal = ({
                         <label>
                             <div className="label">Semester :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={semesterOptions}
                                 value={semesterOptions.find(opt => opt.value === String(editStaff.semester)) || ""}
                                 getOptionLabel={opt => opt.label}
@@ -148,6 +152,7 @@ const EditStaffCourseModal = ({
                         <label>
                             <div className="label">Section :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={sectionOptions}
                                 value={editStaff.section || ""}
                                 getOptionLabel={opt => opt.label}
@@ -163,6 +168,7 @@ const EditStaffCourseModal = ({
                         <label>
                             <div className="label">Course Code :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={courseCodeOptions}
                                 value={editStaff.course_code || ""}
                                 getOptionLabel={opt => opt.label}

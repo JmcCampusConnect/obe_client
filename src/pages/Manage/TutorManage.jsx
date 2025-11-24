@@ -84,15 +84,15 @@ function StaffTutorManage() {
     useEffect(() => {
         let currentData = data;
         if (searchText) {
-            const lowerSearchText = searchText.toLowerCase();
-            currentData = currentData.filter((row) =>
-                (row.staff_id?.toLowerCase() || "").includes(lowerSearchText) ||
-                (row.staff_name?.toLowerCase() || "").includes(lowerSearchText) ||
-                (row.category?.toLowerCase() || "").includes(lowerSearchText) ||
-                (row.dept_name?.toLowerCase() || "").includes(lowerSearchText)
-            )
+            const lower = searchText.toLowerCase();
+            currentData = currentData.filter((row) => {
+                const rowString = Object.values(row)
+                    .join(" ")
+                    .toLowerCase();
+                return rowString.includes(lower);
+            });
         }
-        if (filterCategory) { currentData = currentData.filter(row => row.category === filterCategory) }
+        if (filterCategory) { currentData = currentData.filter(row => row.category === filterCategory)}
         if (filterDeptId) { currentData = currentData.filter(row => row.dept_id === filterDeptId) }
         if (filterSection) { currentData = currentData.filter(row => row.section === filterSection) }
         setFilteredData(currentData);

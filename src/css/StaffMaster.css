@@ -785,3 +785,8 @@
     background: #f1f5ff;
     color: #1f4fef;
 }
+
+.highlighted-option {
+    background-color: #e6f2ff !important;
+    color: #000;
+}

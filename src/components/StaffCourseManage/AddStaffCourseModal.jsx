@@ -50,6 +50,7 @@ function AddStaffCourseModal({
                         <label>
                             <div className="label">Staff ID:</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={staffIdOptions || []}
                                 value={findOption(staffIdOptions, selectedStaffId)}
                                 getOptionLabel={opt => opt?.label || ""}
@@ -77,6 +78,7 @@ function AddStaffCourseModal({
                         <label>
                             <div className="label">Category:</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={categoryOptions || []}
                                 value={findOption(categoryOptions, selectedCategory)}
                                 getOptionLabel={opt => opt?.label || ""}
@@ -88,6 +90,7 @@ function AddStaffCourseModal({
                         <label>
                             <div className="label">Dept ID:</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={deptIdOptions || []}
                                 value={findOption(deptIdOptions, selectedDeptId)}
                                 getOptionLabel={opt => opt?.label || ""}
@@ -121,6 +124,7 @@ function AddStaffCourseModal({
                         <label>
                             <div className="label">Semester:</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={semesterOptions || []}
                                 value={findOption(semesterOptions, selectedSemester)}
                                 getOptionLabel={opt => opt?.label || ""}
@@ -132,6 +136,7 @@ function AddStaffCourseModal({
                         <label>
                             <div className="label">Section:</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={sectionOptions || []}
                                 value={findOption(sectionOptions, selectedSection)}
                                 getOptionLabel={opt => opt?.label || ""}
@@ -143,6 +148,7 @@ function AddStaffCourseModal({
                         <label>
                             <div className="label">Course Code:</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={courseCodeOptions || []}
                                 value={findOption(courseCodeOptions, selectedCourseCode)}
                                 getOptionLabel={opt => opt?.label || ""}

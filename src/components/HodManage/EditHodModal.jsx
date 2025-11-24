@@ -54,7 +54,7 @@ function EditHodModal({
 		typeof opt === "string" ? opt : (opt ? opt.value : "");
 
 	const validateForm = () => {
-		
+
 		const newErrors = {};
 
 		if (!editForm.staff_id) newErrors.staff_id = "Please select Staff ID";
@@ -87,6 +87,7 @@ function EditHodModal({
 						<label>
 							<div className="label">Staff ID :</div>
 							<SearchableDropdown
+								useMode="edit"
 								options={staff}
 								value={typedStaffId}
 								getOptionLabel={(s) =>
@@ -119,6 +120,7 @@ function EditHodModal({
 							<div className="label">Graduate :</div>
 
 							<SearchableDropdown
+								useMode="edit"
 								options={graduateOptions}
 								value={editForm.graduate || ""}
 								getOptionLabel={(g) =>
@@ -143,6 +145,7 @@ function EditHodModal({
 						<label>
 							<div className="label">Category :</div>
 							<SearchableDropdown
+								useMode="edit"
 								options={categoryOptions}
 								value={editForm.category || ""}
 								getOptionLabel={(c) =>
@@ -167,6 +170,7 @@ function EditHodModal({
 						<label>
 							<div className="label">Dept ID :</div>
 							<SearchableDropdown
+								useMode="edit"
 								options={depts}
 								value={editForm.dept_id || ""}
 								getOptionLabel={(d) =>

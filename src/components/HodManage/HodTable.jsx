@@ -24,10 +24,10 @@ const HodTable = ({
 							<thead>
 								<tr>
 									<th style={{ width: 60 }}>S.No</th>
-									<th style={{ minWidth: 120 }}>Category</th>
-									<th style={{ minWidth: 100 }}>Dept ID</th>
 									<th style={{ minWidth: 100 }}>Staff ID</th>
 									<th style={{ minWidth: 250 }}>HOD / MID Name</th>
+									<th style={{ minWidth: 120 }}>Category</th>
+									<th style={{ minWidth: 100 }}>Dept ID</th>
 									<th style={{ minWidth: 200 }}>Department Name</th>
 									<th style={{ width: 50 }}>Edit</th>
 									<th style={{ width: 50 }}>Delete</th>
@@ -39,10 +39,10 @@ const HodTable = ({
 									visibleRows.map((row, idx) => (
 										<tr key={idx}>
 											<td>{(page - 1) * pageSize + idx + 1}</td>
-											<td>{row?.category || "-"}</td>
-											<td>{row?.dept_id || "-"}</td>
 											<td>{row?.staff_id || "-"}</td>
 											<td>{row?.hod_name || "-"}</td>
+											<td>{row?.category || "-"}</td>
+											<td>{row?.dept_id || "-"}</td>
 											<td>{row?.dept_name || "-"}</td>
 											<td>
 												<button

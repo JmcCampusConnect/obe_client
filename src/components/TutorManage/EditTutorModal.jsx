@@ -56,7 +56,7 @@ function EditTutorModal({
     };
 
     const validateForm = () => {
-		 
+
         const newErrors = {};
 
         if (!editForm.staff_id) newErrors.staff_id = "Please select Staff ID";
@@ -92,6 +92,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Staff ID :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={staffIdOptions}
                                 value={editForm.staff_id || ""}
                                 getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
@@ -124,6 +125,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Category :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={categoryOptions}
                                 value={editForm.category || ""}
                                 getOptionLabel={getLabel}
@@ -136,6 +138,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Degree :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={degreeOptions}
                                 value={editForm.degree || ""}
                                 getOptionLabel={getLabel}
@@ -148,6 +151,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Graduate :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={graduateOptions}
                                 value={editForm.graduate || ""}
                                 getOptionLabel={getLabel}
@@ -160,6 +164,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Section :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={sectionOptions}
                                 value={editForm.section || ""}
                                 getOptionLabel={getLabel}
@@ -172,6 +177,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Dept ID :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={deptOptions}
                                 value={editForm.dept_id || ""}
                                 getOptionLabel={(d) => (typeof d === "string" ? d : d.label)}
@@ -190,6 +196,7 @@ function EditTutorModal({
                         <label>
                             <div className="label">Batch :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={batchOptions}
                                 value={editForm.batch || ""}
                                 getOptionLabel={getLabel}

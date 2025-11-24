@@ -255,33 +255,32 @@ function StaffMaster() {
     const handleSearch = (text) => {
         setSearchText(text);
         const lower = (text || "").toLowerCase();
-        const filtered = staffData.filter(s => {
+        const filtered = staffData.filter((s) => {
+            const values = Object.values(s).join(" ").toLowerCase();
             return (
                 (appliedStaffCategory ? s.staff_category === appliedStaffCategory : true) &&
                 (appliedStaffDept ? s.staff_dept === appliedStaffDept : true) &&
                 (appliedFilterDeptCategory ? s.dept_category === appliedFilterDeptCategory : true) &&
-                ((lower === "") ||
-                    (s.staff_name || "").toLowerCase().includes(lower) ||
-                    (s.staff_id || "").toLowerCase().includes(lower))
-            )
-        })
+                (lower === "" || values.includes(lower))
+            );
+        });
         setFilteredData(filtered);
         setPage(1);
-    }
+    };
+
 
     const performFiltering = (data, search, category, dept, deptCategory) => {
         const lower = (search || "").toLowerCase();
-        return data.filter(s => {
+        return data.filter((s) => {
+            const values = Object.values(s).join(" ").toLowerCase();
             return (
                 (category ? s.staff_category === category : true) &&
                 (dept ? s.staff_dept === dept : true) &&
                 (deptCategory ? s.dept_category === deptCategory : true) &&
-                ((lower === "") ||
-                    (s.staff_name || "").toLowerCase().includes(lower) ||
-                    (s.staff_id || "").toLowerCase().includes(lower))
-            )
-        })
-    }
+                (lower === "" || values.includes(lower))
+            );
+        });
+    };
 
     const applyAllFilters = (currentSearchText, currentStaffData) => {
         const lower = (currentSearchText || "").toLowerCase();

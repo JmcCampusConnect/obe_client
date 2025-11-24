@@ -63,6 +63,7 @@ function EditStaffModal({
                         <label>
                             <div className="label">Staff Category :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={categoryOptions}
                                 value={newStaffCategory}
                                 onSelect={(opt) => setNewStaffCategory(opt ? opt.value : "")}
@@ -76,6 +77,7 @@ function EditStaffModal({
                         <label>
                             <div className="label">Dept Category :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={categoryOptions}
                                 value={newDeptCategory}
                                 onSelect={(opt) => setNewDeptCategory(opt ? opt.value : "")}
@@ -89,6 +91,7 @@ function EditStaffModal({
                         <label>
                             <div className="label">Department :</div>
                             <SearchableDropdown
+                                useMode="edit"
                                 options={departmentOptions}
                                 value={newdept}
                                 onSelect={(opt) => setNewdept(opt ? opt.value : "")}

@@ -35,7 +35,7 @@ function TutorFilters({
                     value={filterDeptId}
                     getOptionLabel={(opt) => (typeof opt === "string" ? opt : opt.label)}
                     onSelect={(opt) => setFilterDeptId(typeof opt === "string" ? opt : (opt ? opt.value : ""))}
-                    placeholder="Department"
+                    placeholder="Department Id"
                 />
                 
                 <SearchableDropdown

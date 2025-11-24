@@ -5,8 +5,19 @@ import { faEdit, faTrash, faChevronLeft, faChevronRight } from "@fortawesome/fre
 const TutorTable = ({
 	filteredData, page, pageSize, totalPages, setPage, handleEditClick, handleDelete,
 }) => {
+
 	const dataToDisplay = Array.isArray(filteredData) ? filteredData : [];
 	const visibleRows = dataToDisplay.slice((page - 1) * pageSize, page * pageSize);
+
+	const getYearLabel = (batch) => {
+		const currentYear = new Date().getFullYear();
+		if (!batch) return "-";
+		const diff = currentYear - Number(batch);
+		if (diff === 0) return "I";
+		if (diff === 1) return "II";
+		if (diff === 2) return "III";
+		return "-";
+	}
 
 	return (
 		<main className="crm-content">
@@ -25,23 +36,24 @@ const TutorTable = ({
 									<th style={{ minWidth: 120 }}>Staff ID</th>
 									<th style={{ minWidth: 250 }}>Mentor Name</th>
 									<th style={{ minWidth: 100 }}>Category</th>
+									<th style={{ minWidth: 180 }}>Class</th>
 									<th style={{ minWidth: 200 }}>Department Name</th>
-									<th style={{ minWidth: 100 }}>Section</th>
 									<th style={{ width: 50 }}>Edit</th>
 									<th style={{ width: 50 }}>Delete</th>
 								</tr>
 							</thead>
-
 							<tbody>
 								{visibleRows.length > 0 ? (
 									visibleRows.map((row, idx) => (
 										<tr key={idx}>
 											<td>{(page - 1) * pageSize + idx + 1}</td>
 											<td>{row?.staff_id || "-"}</td>
-											<td className="name-cell">{row?.staff_name || "-"}</td>
+											<td>{row?.staff_name || "-"}</td>
 											<td>{row?.category || "-"}</td>
+											<td>
+												{`${getYearLabel(row?.batch)} ${row?.dept_id || "-"} ${row?.section || "-"}`}
+											</td>
 											<td>{row?.dept_name || "-"}</td>
-											<td>{row?.section || "-"}</td>
 											<td>
 												<button
 													className="icon-btn edit"
@@ -51,7 +63,7 @@ const TutorTable = ({
 													<FontAwesomeIcon icon={faEdit} />
 												</button>
 											</td>
-											<td> 
+											<td>
 												<button
 													className="icon-btn del"
 													title="Delete"

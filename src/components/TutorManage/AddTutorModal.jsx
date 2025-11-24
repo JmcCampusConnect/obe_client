@@ -93,6 +93,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Staff ID :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={getUniqueStaffsForDropdown()}
                                 value={newTuturId}
                                 getOptionLabel={(opt) => typeof opt === "string" ? opt : opt.label}
@@ -115,6 +116,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Category :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={mapUniqueOptions("category")}
                                 value={tuturCategory}
                                 getOptionLabel={(c) => typeof c === "string" ? c : c.label}
@@ -131,6 +133,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Degree :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={mapUniqueOptions("degree")}
                                 value={tuturDegree}
                                 getOptionLabel={(d) => typeof d === "string" ? d : d.label}
@@ -147,6 +150,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Graduate :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={mapUniqueOptions("graduate")}
                                 value={tuturgraduate}
                                 getOptionLabel={(g) => typeof g === "string" ? g : g.label}
@@ -163,6 +167,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Section :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={mapUniqueOptions("section")}
                                 value={tuturSection}
                                 getOptionLabel={(s) => typeof s === "string" ? s : s.label}
@@ -179,6 +184,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Dept ID :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={deptOptions}
                                 value={tuturDeptId}
                                 getOptionLabel={(d) => typeof d === "string" ? d : d.label}
@@ -201,6 +207,7 @@ function AddTutorModal({
                         <label>
                             <div className="label">Batch :</div>
                             <SearchableDropdown
+                                useMode="add"
                                 options={mapUniqueOptions("batch")}
                                 value={tuturBatch}
                                 getOptionLabel={(b) => typeof b === "string" ? b : b.label}
