@@ -21,6 +21,7 @@ function LoginPage() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    const [loginLoading, setLoginLoading] = useState(false);
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,8 @@ function LoginPage() {
             alert('Fill both fields');
             return;
         }
+
+        setLoginLoading(true);
 
         try {
             const response = await axios.post(`${apiUrl}/login`, {
@@ -60,7 +63,7 @@ function LoginPage() {
         } catch (err) {
             console.error("Login Error:", err);
             alert("Something went wrong.");
-        }
+        } finally { setLoginLoading(false); }
     };
 
     const handleSuccessRedirect = () => {
@@ -142,9 +145,11 @@ function LoginPage() {
                     Forgot Password?
                 </span>
 
-                <button className="log-desc-btn" onClick={handleLogin}>
+                <button className="log-desc-btn" onClick={handleLogin} disabled={loginLoading}>
                     <FontAwesomeIcon icon={faLock} className="log-fa-fa-icons" />
-                    <div className="log-login-desc">LOGIN</div>
+                    <div className="log-login-desc">
+                        {loginLoading ? "Logging in..." : "Login"}
+                    </div>
                 </button>
             </div>
         </div>
@@ -158,9 +163,16 @@ const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => 
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-
+    const [showOld, setShowOld] = useState(false);
+    const [showNew, setShowNew] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const oldRef = useRef(null);
+    const newRef = useRef(null);
+    const confirmRef = useRef(null);
     const constraints = useMemo(() => getPasswordConstraints(newPassword), [newPassword]);
     const isNewPasswordValid = Object.values(constraints).every(Boolean);
+
+    const navigate = useNavigate();
 
     const handlePasswordUpdate = async () => {
 
@@ -197,8 +209,7 @@ const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => 
 
             if (response.data.success) {
                 alert("Password updated successfully ! Redirecting...");
-                login(staffId);
-                onSuccess();
+               window.location.reload();
             } else {
                 setError(response.data.message || "Password update failed.");
             }
@@ -210,6 +221,14 @@ const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => 
             setLoading(false);
         }
     };
+
+    const handleModalEnter = (e, field) => {
+        if (e.key === "Enter") {
+            if (field === "old") newRef.current.focus();
+            else if (field === "new") confirmRef.current.focus();
+            else if (field === "confirm") handlePasswordUpdate();
+        }
+    }
 
     const renderRequirement = (isOk, label) => (
         <div className={`pwd-req ${isOk ? 'ok' : 'not-ok'}`}>
@@ -226,30 +245,53 @@ const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => 
                     Your current password is weak/default. Set a strong password to continue.
                 </p>
                 {error && <div className="pwd-error-box">{error}</div>}
-                <input
-                    className="pwd-input"
-                    type="password"
-                    placeholder="Enter Old Password"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                />
-                <input
-                    className="pwd-input"
-                    type="password"
-                    placeholder="Enter New Password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                />
-                <input
-                    className="pwd-input"
-                    type="password"
-                    placeholder="Confirm New Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                <div className="pwd-input-wrapper">
+                    <input
+                        className="pwd-input"
+                        type={showOld ? "text" : "password"}
+                        placeholder="Enter Old Password"
+                        value={oldPassword}
+                        onChange={(e) => setOldPassword(e.target.value)}
+                        onKeyDown={(e) => handleModalEnter(e, "old")}
+                        ref={oldRef}
+                    />
+                    <span className="pwd-eye" onClick={() => setShowOld(!showOld)}>
+                        <FontAwesomeIcon icon={showOld ? faEyeSlash : faEye} />
+                    </span>
+                </div>
+
+                <div className="pwd-input-wrapper">
+                    <input
+                        className="pwd-input"
+                        type={showNew ? "text" : "password"}
+                        placeholder="Enter New Password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        onKeyDown={(e) => handleModalEnter(e, "new")}
+                        ref={newRef}
+                    />
+                    <span className="pwd-eye" onClick={() => setShowNew(!showNew)}>
+                        <FontAwesomeIcon icon={showNew ? faEyeSlash : faEye} />
+                    </span>
+                </div>
+
+                <div className="pwd-input-wrapper">
+                    <input
+                        className="pwd-input"
+                        type={showConfirm ? "text" : "password"}
+                        placeholder="Confirm New Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onKeyDown={(e) => handleModalEnter(e, "confirm")}
+                        ref={confirmRef}
+                    />
+                    <span className="pwd-eye" onClick={() => setShowConfirm(!showConfirm)}>
+                        <FontAwesomeIcon icon={showConfirm ? faEyeSlash : faEye} />
+                    </span>
+                </div>
+
                 <div className="pwd-req-box">
                     <p className="pwd-req-title">New Password Requirements : </p>
-
                     <div className="pwd-req-grid">
                         {renderRequirement(constraints.minLength, "Min 8 Characters")}
                         {renderRequirement(constraints.hasUpper, "Uppercase Letter")}

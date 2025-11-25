@@ -121,8 +121,9 @@
     max-width: 100%;
     height: 50px;
     background-color: rgb(26, 112, 30);
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
     color: white;
     border-radius: 8px;
     display: flex;
@@ -131,7 +132,7 @@
     border: none;
     cursor: pointer;
     letter-spacing: 1px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Arial, Helvetica, sans-serif;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -338,4 +339,18 @@
 
 .pwd-btn:active {
     transform: scale(0.98);
+}
+
+.pwd-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.pwd-eye {
+    position: absolute;
+    right: 12px;
+    top: 37%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
 }
