@@ -32,9 +32,23 @@ function AddStaffCourseModal({
         };
     });
 
+    const courseCodeOptions = (Array.isArray(courseCode) ? courseCode : []).map(code => {
+        const course = staffData.find(c => c.course_code === code);
+        return {
+            value: String(code ?? ""),
+            label: `${code} - ${course?.course_title || ""}`
+        };
+    })
+
+    const deptIdOptions = (Array.isArray(deptId) ? deptId : []).map(id => {
+        const dept = staffData.find(d => d.dept_id === id);
+        return {
+            value: String(id ?? ""),
+            label: `${id} - ${dept?.dept_name || ""}`
+        };
+    })
+
     const categoryOptions = ["SFM", "SFW", "AIDED"].map(c => ({ value: String(c), label: String(c) }));
-    const deptIdOptions = safeMap(deptId);
-    const courseCodeOptions = safeMap(courseCode);
     const semesterOptions = safeMap(semester);
     const sectionOptions = safeMap(section);
 
