@@ -7,7 +7,7 @@ function AddStaffCourseModal({
     handleCategoryChange, deptId = [], selectedDeptId, handleIdChange, setStaffName, staffData = [], deptName,
     degree, semester = [], selectedSemester, handleSemChange, section = [], selectedSection, handleSectionChange,
     courseCode = [], selectedCourseCode, handleCourseCodeChange, courseTitle, batch, handleAddInputChange,
-    handleSaveStaff, errors, setErrors
+    handleSaveStaff, errors
 }) {
 
     const ErrorMessage = ({ message }) =>
@@ -38,12 +38,6 @@ function AddStaffCourseModal({
     const semesterOptions = safeMap(semester);
     const sectionOptions = safeMap(section);
 
-    const findOption = (options, val) => {
-        if (!options || !val) return "";
-        const strVal = String(val);
-        return options.find(o => String(o.value) === strVal) || "";
-    };
-
     return (
         <div className="modal-overlay">
             <div className="modal modal-lg">
@@ -60,13 +54,11 @@ function AddStaffCourseModal({
                             <SearchableDropdown
                                 useMode="add"
                                 options={staffIdOptions || []}
-                                value={findOption(staffIdOptions, selectedStaffId)}
                                 getOptionLabel={opt => opt?.label || ""}
+                                value={selectedStaffId}
                                 onSelect={opt => {
                                     const value = opt ? (typeof opt === 'string' ? opt : opt.value) : "";
                                     handleStaffIdChange(value);
-                                    setStaffName(staffData.find(s => s.staff_id === value)?.staff_name || "");
-                                    if (errors.selectedStaffId) setErrors(prev => ({ ...prev, selectedStaffId: '' }));
                                 }}
                             />
                             <ErrorMessage message={errors.selectedStaffId} />
@@ -89,8 +81,8 @@ function AddStaffCourseModal({
                             <SearchableDropdown
                                 useMode="add"
                                 options={categoryOptions || []}
-                                value={findOption(categoryOptions, selectedCategory)}
                                 getOptionLabel={opt => opt?.label || ""}
+                                value={selectedCategory}
                                 onSelect={opt => handleCategoryChange(opt ? opt.value : "")}
                             />
                             <ErrorMessage message={errors.selectedCategory} />
@@ -101,8 +93,8 @@ function AddStaffCourseModal({
                             <SearchableDropdown
                                 useMode="add"
                                 options={deptIdOptions || []}
-                                value={findOption(deptIdOptions, selectedDeptId)}
                                 getOptionLabel={opt => opt?.label || ""}
+                                value={selectedDeptId}
                                 onSelect={opt => handleIdChange(opt ? opt.value : "")}
                             />
                             <ErrorMessage message={errors.selectedDeptId} />
@@ -135,8 +127,8 @@ function AddStaffCourseModal({
                             <SearchableDropdown
                                 useMode="add"
                                 options={semesterOptions || []}
-                                value={findOption(semesterOptions, selectedSemester)}
                                 getOptionLabel={opt => opt?.label || ""}
+                                value={selectedSemester}
                                 onSelect={opt => handleSemChange(opt ? opt.value : "")}
                             />
                             <ErrorMessage message={errors.selectedSemester} />
@@ -147,8 +139,8 @@ function AddStaffCourseModal({
                             <SearchableDropdown
                                 useMode="add"
                                 options={sectionOptions || []}
-                                value={findOption(sectionOptions, selectedSection)}
                                 getOptionLabel={opt => opt?.label || ""}
+                                value={selectedSection}
                                 onSelect={opt => handleSectionChange(opt ? opt.value : "")}
                             />
                             <ErrorMessage message={errors.selectedSection} />
@@ -159,8 +151,8 @@ function AddStaffCourseModal({
                             <SearchableDropdown
                                 useMode="add"
                                 options={courseCodeOptions || []}
-                                value={findOption(courseCodeOptions, selectedCourseCode)}
                                 getOptionLabel={opt => opt?.label || ""}
+                                value={selectedCourseCode}
                                 onSelect={opt => handleCourseCodeChange(opt ? opt.value : "")}
                             />
                             <ErrorMessage message={errors.selectedCourseCode} />

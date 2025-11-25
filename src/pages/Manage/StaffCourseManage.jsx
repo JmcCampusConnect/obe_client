@@ -271,12 +271,21 @@ const StaffCourseManage = () => {
         try {
             const response = await axios.post(`${apiUrl}/api/scmNewStaff`, payload);
             if (response.status === 201) {
-                alert('Staff saved successfully!');
+                alert('Staff course mapping saved successfully!');
                 setStaffData(prev => [...prev, response.data.data]);
                 setIsAddModalOpen(false);
+                setIsAddModalOpen(false);
+                setSelectedStaffId(''); setStaffName('');
+                setSelectedCategory(''); setDeptId([]);
+                setSelectedDeptId(''); setDeptName('');
+                setDegree(''); setSemester([]);
+                setSelectedSemester('');  setSection([]);
+                setSelectedSection(''); setCourseCode([]);
+                setSelectedCourseCode(''); setCourseTitle('');
+                setBatch(''); setErrors({});
             }
         } catch (error) {
-            console.error('Error in adding staff : ', error);
+            console.error('Error in adding staff course mapping : ', error);
             alert('Failed to save staff.');
         }
         saveStaffCourse();
@@ -327,7 +336,6 @@ const StaffCourseManage = () => {
         });
     };
 
-
     return (
         <div className="staff-management-shell">
 
@@ -369,7 +377,25 @@ const StaffCourseManage = () => {
 
             <AddModal
                 isOpen={isAddModalOpen}
-                closeModal={() => setIsAddModalOpen(false)}
+                closeModal={() => {
+                    setIsAddModalOpen(false);
+                    setSelectedStaffId('');
+                    setStaffName('');
+                    setSelectedCategory('');
+                    setDeptId([]);
+                    setSelectedDeptId('');
+                    setDeptName('');
+                    setDegree('');
+                    setSemester([]);
+                    setSelectedSemester('');
+                    setSection([]);
+                    setSelectedSection('');
+                    setCourseCode([]);
+                    setSelectedCourseCode('');
+                    setCourseTitle('');
+                    setBatch('');
+                    setErrors({});
+                }}
                 staffId={staffId}
                 selectedStaffId={selectedStaffId}
                 handleStaffIdChange={handleStaffIdChange}
@@ -507,7 +533,7 @@ const StaffCourseManage = () => {
                 }}
                 handleSaveEditStaff={handleSaveEditStaff}
             />
-            
+
             <DeleteModal
                 isOpen={!!deleteStaff}
                 staff={deleteStaff}
