@@ -112,7 +112,7 @@ function WorkProgressReport() {
                     <div className='course-entire-box'>
                         {admin && (
                             <>
-                                <button className='report-subject-box' onClick={() => handleDeptReport("ALL")}>ALL</button>
+                                <button className='report-subject-box' onClick={() => handleDeptReport("ALL")}>ALL DEPT</button>
                                 <button className='report-subject-box' onClick={handleMatrixReport}>RELATIONSHIP MATRIX</button>
                                 <button className='report-subject-box' onClick={handleEseReport}>ESE</button>
                             </>
