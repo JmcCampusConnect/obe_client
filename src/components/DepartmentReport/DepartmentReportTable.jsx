@@ -3,12 +3,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const DepartmentReportTable = ({
-	sortedReport = [], page, pageSize, totalPages,
+	sortedReport = [], page, pageSize, totalPages, activeSection,
 	setPage, getStatus, getStatusColor, isAllMode
 }) => {
 
 	const dataToDisplay = Array.isArray(sortedReport) ? sortedReport : [];
 	const visibleRows = dataToDisplay.slice((page - 1) * pageSize, page * pageSize);
+
+	const getYearLabel = (semester) => {
+		const sem = Number(semester);
+		if (!sem) return "-";
+		if (sem === 1 || sem === 2) return "I";
+		if (sem === 3 || sem === 4) return "II";
+		if (sem === 5 || sem === 6) return "III";
+		return "-";
+	};
 
 	return (
 		<main className="crm-content">
@@ -25,40 +34,39 @@ const DepartmentReportTable = ({
 					<div className="table-scroll">
 						<table className="crm-table">
 							<thead>
-
 								<tr>
 									<th style={{ width: 60 }}>S.No</th>
 									<th style={{ minWidth: 120 }}>Staff ID</th>
 									<th style={{ minWidth: 250 }}>Staff Name</th>
-									<th style={{ minWidth: 200 }}>Dept Name</th>
+									<th style={{ minWidth: 120 }}>Category</th>
+									<th style={{ minWidth: 130 }}>Class</th>
 									<th style={{ minWidth: 150 }}>Course Code</th>
 									<th style={{ minWidth: 350 }}>Course Title</th>
-									<th style={{ minWidth: 120 }}>Category</th>
-									<th style={{ minWidth: 100 }}>Section</th>
-									{isAllMode && <th style={{ minWidth: 100 }}>Part</th>}
+									{isAllMode && <th style={{ minWidth: 100 }}>Component</th>}
 									<th style={{ minWidth: 120 }}>Status</th>
 								</tr>
 							</thead>
-
 							<tbody>
-
 								{visibleRows.length > 0 ? (
 									visibleRows.map((d, idx) => {
-										const status = isAllMode ? d.value : d.value ?? d.status;
+										const getActiveStatus = (d) => (
+											activeSection === "1" ? d.cia_1 :
+												activeSection === "2" ? d.cia_2 :
+													activeSection === "3" ? d.ass_1 :
+														d.ass_2
+										);
+										const status = isAllMode ? d.value : getActiveStatus(d);
 										const statusText = getStatus(status);
 										const statusColor = getStatusColor(status);
-
 										return (
 											<tr key={idx}>
 												<td>{(page - 1) * pageSize + idx + 1}</td>
 												<td>{d.staff_id}</td>
 												<td style={{ textTransform: "uppercase" }}>{d.staff_name}</td>
-												<td>{d.dept_name}</td>
+												<td>{d.category}</td>
+												<td>{getYearLabel(d.semester)} {d.dept_id} {d.section}</td>
 												<td>{d.course_code}</td>
 												<td>{d.course_title}</td>
-												<td>{d.category}</td>
-												<td>{d.section}</td>
-
 												{isAllMode && <td>{d.part}</td>}
 												<td style={{ fontWeight: "bold", ...statusColor }}>{statusText}</td>
 											</tr>

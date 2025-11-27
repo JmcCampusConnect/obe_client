@@ -17,6 +17,9 @@ function DepartmentReport() {
     const [activeSection, setActiveSection] = useState(
         dept === "alldepartments" ? "all" : "1"
     );
+
+    const activeSectionIsAll = activeSection === "all";
+    const isAllMode = activeSection === "all";
     const [academicYear, setAcademicYear] = useState('');
     const [deptStatusReport, setDeptStatusReport] = useState([]);
     const [filter, setFilter] = useState({
@@ -41,7 +44,7 @@ function DepartmentReport() {
     const [courseCodeOptions, setCourseCodeOptions] = useState([]);
     const [sectionOptions, setSectionOptions] = useState([]);
 
-    const pageSize = 10;
+    const pageSize = 100;
     const [page, setPage] = useState(1);
 
     useEffect(() => {
@@ -176,8 +179,19 @@ function DepartmentReport() {
     });
 
     const sortedReport = [...filteredReport].sort((a, b) => {
-        const v1 = (dept === "alldepartments" && activeSection === "all") ? a.value : getStatus(a);
-        const v2 = (dept === "alldepartments" && activeSection === "all") ? b.value : getStatus(b);
+
+        const isAllMode = activeSection === "all";
+
+        const getActiveStatus = (d) => (
+            activeSection === "1" ? d.cia_1 :
+                activeSection === "2" ? d.cia_2 :
+                    activeSection === "3" ? d.ass_1 :
+                        d.ass_2
+        );
+
+        const v1 = isAllMode ? a.value : getActiveStatus(a);
+        const v2 = isAllMode ? b.value : getActiveStatus(b);
+
         return v1 - v2;
     });
 
@@ -222,7 +236,6 @@ function DepartmentReport() {
                         <button
                             className={`section-toggle-btn ${activeSection === "all" ? "active" : ""}`}
                             onClick={() => setActiveSection("all")}
-                            style={{ background: "#2c7be5", color: "#fff" }}
                         >
                             ALL
                         </button>
@@ -262,10 +275,12 @@ function DepartmentReport() {
                 setPage={setPage}
                 getStatus={getStatus}
                 getStatusColor={getStatusColor}
-                isAllMode={dept === "alldepartments" && activeSection === "all"}
+                isAllMode={activeSection === "all"}
+                activeSection={activeSection}
             />
+
         </div>
-    );
+    )
 }
 
 export default DepartmentReport;

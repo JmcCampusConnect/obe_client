@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../../css/WorkProgressReport.css';
 import Loading from '../../assets/load.svg';  
 
-function WorkProgressReport() {
+function WorkProgressReport() {  
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId } = useParams();

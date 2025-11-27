@@ -114,7 +114,7 @@ function LoginPage() {
                     type="text"
                     placeholder="Enter Staff ID"
                     value={staffId}
-                    onChange={(e) => setStaffId(e.target.value)}
+                    onChange={(e) => setStaffId(e.target.value.toUpperCase())}
                     onKeyDown={(e) => handleKeyPress(e, 'staffId')}
                 />
 
@@ -209,7 +209,7 @@ const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => 
 
             if (response.data.success) {
                 alert("Password updated successfully ! Redirecting...");
-               window.location.reload();
+                window.location.reload();
             } else {
                 setError(response.data.message || "Password update failed.");
             }
