@@ -36,7 +36,7 @@ function MarkRelease() {
 
     // Pagination
     const [page, setPage] = useState(1);
-    const [pageSize] = useState(10);
+    const [pageSize] = useState(100);
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const totalPages = filteredData ? Math.ceil(filteredData.length / pageSize) : 1;
@@ -156,7 +156,6 @@ function MarkRelease() {
         const data = filteredData[index];
         try {
             const response = await axios.put(`${apiUrl}/api/reportrelease`, data);
-            console.log(response.data)
             alert(response.data?.message ? "Release updated successfully" : "Update failed");
         } catch (err) {
             console.error("Error in updating release : ", err);

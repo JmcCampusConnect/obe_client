@@ -203,6 +203,67 @@ function DepartmentReport() {
         return <div><center><img src={Loading} className="img" /></center></div>;
     }
 
+    const handleDownload = () => {
+
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+        const date = new Date();
+        const formattedDate = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear().toString().slice(-2)}`;
+        const fileName = `Mark Entry Report ${formattedDate}`;
+
+        const headers = [
+            'Staff Id', 'Staff Name', 'Dept Name', 'Course Code', 'Category',
+            'Section', 'Cia - 1', 'Cia - 2', 'Ass - 1', 'Ass - 2', 'Status'
+        ];
+
+        const pendingData = deptStatusReport.filter(dept => {
+            const status = ['cia_1', 'cia_2', 'ass_1', 'ass_2'].every(
+                key => getStatus(dept[key]) === 'Completed') ? 'Finished' : 'Pending';
+            return status === 'Pending';
+        });
+
+        let data = pendingData.map(dept => {
+            const status = ['cia_1', 'cia_2', 'ass_1', 'ass_2'].every(
+                key => getStatus(dept[key]) === 'Completed') ? 'Finished' : 'Pending';
+            return {
+                'Staff Id': dept.staff_id,
+                'Staff Name': dept.staff_name,
+                'Dept Name': dept.dept_name,
+                'Course Code': dept.course_code,
+                'Category': dept.category,
+                'Section': dept.section,
+                'Cia - 1': getStatus(dept.cia_1),
+                'Cia - 2': getStatus(dept.cia_2),
+                'Ass - 1': getStatus(dept.ass_1),
+                'Ass - 2': getStatus(dept.ass_2),
+                'Status': status,
+            }
+        });
+
+        data.sort((a, b) => {
+            if (a.Category < b.Category) return -1;
+            if (a.Category > b.Category) return 1;
+            if (a['Dept Name'] < b['Dept Name']) return -1;
+            if (a['Dept Name'] > b['Dept Name']) return 1;
+            if (a['Staff Id'] < b['Staff Id']) return -1;
+            if (a['Staff Id'] > b['Staff Id']) return 1;
+            return 0;
+        });
+
+        const worksheet = XLSX.utils.json_to_sheet(data);
+
+        const range = XLSX.utils.decode_range(worksheet['!ref']);
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+            const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
+            worksheet[cellAddress].v = headers[C];
+        }
+
+        const workbook = { Sheets: { 'Mark Entry Report': worksheet }, SheetNames: ['Mark Entry Report'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const dataBlob = new Blob([excelBuffer], { type: fileType });
+        saveAs(dataBlob, fileName + fileExtension);
+    }
+
     return (
 
         <div className="staff-management-shell">
@@ -210,7 +271,7 @@ function DepartmentReport() {
             <DepartmentReportHeader
                 searchText={searchTerm}
                 handleSearch={handleSearch}
-                handleDownload={() => { }}
+                handleDownload={handleDownload}
                 setShowFilters={setShowFilters}
                 clearAllFilters={clearAllFilters}
             />

@@ -34,7 +34,7 @@ const StaffCourseManage = () => {
     const [courseTitle, setCourseTitle] = useState('');
     const [batch, setBatch] = useState('');
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 100;
     const [showFilters, setShowFilters] = useState(false);
     const [filterCategory, setFilterCategory] = useState('');
     const [filterDeptId, setFilterDeptId] = useState('');

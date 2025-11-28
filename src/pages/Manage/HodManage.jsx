@@ -27,7 +27,7 @@ function StaffHodManage() {
 
 	// Pagination States
 	const [page, setPage] = useState(1);
-	const pageSize = 10;
+	const pageSize = 100;
 	const totalPages = useMemo(() => Math.ceil(filteredData.length / pageSize), [filteredData.length, pageSize]);
 
 	const [editingHod, setEditingHod] = useState(null);

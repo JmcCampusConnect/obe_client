@@ -13,7 +13,7 @@ function TutorReport() {
     const [deptStatus, setDeptStatus] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 100;
     const [showPopup, setShowPopup] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
 

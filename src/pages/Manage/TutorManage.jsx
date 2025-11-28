@@ -48,7 +48,7 @@ function StaffTutorManage() {
 
     // --- PAGINATION STATE ---
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 100;
     const totalPages = Math.ceil(filteredData.length / pageSize);
 
     const fetchData = async () => {

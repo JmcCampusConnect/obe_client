@@ -19,7 +19,7 @@ function HodReport() {
     const [filterCourseCode, setFilterCourseCode] = useState("");
     const [filterSection, setFilterSection] = useState("");
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 100;
 
     useEffect(() => {
         const fetchDeptStatus = async () => {

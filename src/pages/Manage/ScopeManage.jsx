@@ -12,7 +12,7 @@ function ScopeManage() {
     const apiUrl = import.meta.env.VITE_API_URL;
 
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 100;
 
     useEffect(() => {
         const scopeDetailsFetch = async () => {

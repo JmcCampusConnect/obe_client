@@ -13,6 +13,15 @@ const RsMartixReportTable = ({
 		return dataToDisplay.slice((page - 1) * pageSize, page * pageSize);
 	}, [dataToDisplay, page, pageSize]);
 
+	const getYearLabel = (semester) => {
+		const sem = Number(semester);
+		if (!sem) return "-";
+		if (sem === 1 || sem === 2) return "I";
+		if (sem === 3 || sem === 4) return "II";
+		if (sem === 5 || sem === 6) return "III";
+		return "-";
+	};
+
 	return (
 		<main className="crm-content">
 			<section className="card">
@@ -32,29 +41,26 @@ const RsMartixReportTable = ({
 						<table
 							className="crm-table"
 							role="table"
-							aria-label="Department Report Table"
+							aria-label="Relationship Matrix Report Table"
 						>
 							<thead>
 								<tr>
 									<th style={{ width: 60 }}>S.No</th>
 									<th style={{ minWidth: 120 }}>Staff ID</th>
 									<th style={{ minWidth: 250 }}>Staff Name</th>
-									<th style={{ minWidth: 200 }}>Dept Name</th>
-									<th style={{ minWidth: 150 }}>Course Code</th> 
-									<th style={{ minWidth: 250 }}>Course Title</th>
 									<th style={{ minWidth: 120 }}>Category</th>
-									<th style={{ minWidth: 100 }}>Section</th>
+									<th style={{ minWidth: 200 }}>Class</th>
+									<th style={{ minWidth: 150 }}>Course Code</th>
+									<th style={{ minWidth: 350 }}>Course Title</th>
 									<th style={{ minWidth: 120 }}>Status</th>
 								</tr>
 							</thead>
-
 							<tbody>
 								{visibleRows.length > 0 ? (
 									visibleRows.map((dept, idx) => {
 										const activeField = getActiveField(dept);
 										const statusText = getStatus(activeField);
 										const statusColor = getStatusColor(activeField);
-
 										return (
 											<tr key={idx}>
 												<td>{(page - 1) * pageSize + idx + 1}</td>
@@ -65,11 +71,14 @@ const RsMartixReportTable = ({
 												>
 													{dept?.staff_name || "-"}
 												</td>
-												<td>{dept?.dept_name || "-"}</td>
+												<td>{dept?.category || "-"}</td>
+												<td>
+													{dept?.semester
+														? `${getYearLabel(dept?.semester)} ${dept?.dept_id} ${dept?.section || "-"}`
+														: "-"}
+												</td>
 												<td>{dept?.course_code || "-"}</td>
 												<td>{dept?.course_title || "-"}</td>
-												<td>{dept?.category || "-"}</td>
-												<td>{dept?.section || "-"}</td>
 												<td style={{ fontWeight: "bold", ...statusColor }}>
 													{statusText}
 												</td>

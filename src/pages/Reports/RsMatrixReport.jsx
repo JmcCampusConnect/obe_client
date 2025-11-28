@@ -28,7 +28,7 @@ function RsMatrixReport() {
     const [courseCodeOptions, setCourseCodeOptions] = useState([]);
     const [sectionOptions, setSectionOptions] = useState([]);
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 100;
 
     useEffect(() => {
         const academicYearSet = async () => {
@@ -109,15 +109,18 @@ function RsMatrixReport() {
     };
 
     const handleDownload = () => {
+
         const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
         const fileExtension = ".xlsx";
         const date = new Date();
         const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
             .toString()
             .padStart(2, "0")}-${date.getFullYear().toString().slice(-2)}`;
-        const fileName = `Rs Matrix ${formattedDate}`;
+        const fileName = `Rs Matrix Report ${formattedDate}`;
 
-        const data = filteredReports.map((dept) => ({
+        const incompleteReports = filteredReports.filter(dept => dept.status !== 'Completed');
+
+        let data = incompleteReports.map((dept) => ({
             "Staff Id": dept.staff_id,
             "Staff Name": dept.staff_name,
             "Dept Id": dept.dept_id,
@@ -126,6 +129,17 @@ function RsMatrixReport() {
             "Section": dept.section,
             Status: dept.status,
         }));
+
+        data.sort((a, b) => {
+            if (a.Category < b.Category) return -1;
+            if (a.Category > b.Category) return 1;
+            if (a['Dept Id'] < b['Dept Id']) return -1;
+            if (a['Dept Id'] > b['Dept Id']) return 1;
+            if (a['Staff Id'] < b['Staff Id']) return -1;
+            if (a['Staff Id'] > b['Staff Id']) return 1;
+
+            return 0;
+        });
 
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = { Sheets: { "Rs Matrix": worksheet }, SheetNames: ["Rs Matrix"] };
@@ -205,6 +219,7 @@ function RsMatrixReport() {
 
     return (
         <div className="staff-management-shell">
+
             <RsMartixReportHeader
                 searchText={searchTerm}
                 handleSearch={handleSearch}

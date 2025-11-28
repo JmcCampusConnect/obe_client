@@ -5,9 +5,18 @@ import { faSave, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-s
 const MarkReleaseTable = ({
     filteredData, page, pageSize, totalPages, setPage, handleCheckbox, handleUpdate,
 }) => {
-    
+
     const dataToDisplay = Array.isArray(filteredData) ? filteredData : [];
     const visibleRows = dataToDisplay.slice((page - 1) * pageSize, page * pageSize);
+
+    const getYearLabel = (semester) => {
+        const sem = Number(semester);
+        if (!sem) return "-";
+        if (sem === 1 || sem === 2) return "I";
+        if (sem === 3 || sem === 4) return "II";
+        if (sem === 5 || sem === 6) return "III";
+        return "-";
+    };
 
     return (
         <main className="crm-content">
@@ -24,11 +33,11 @@ const MarkReleaseTable = ({
                                 <tr>
                                     <th style={{ width: 60 }}>S.No</th>
                                     <th style={{ minWidth: 120 }}>Staff ID</th>
-                                    <th style={{ minWidth: 300 }}>Staff Name</th>
-                                    <th style={{ minWidth: 120 }}>Dept ID</th>
+                                    <th style={{ minWidth: 270 }}>Staff Name</th>
+                                    <th style={{ minWidth: 120 }}>Category</th>
+                                    <th style={{ minWidth: 120 }}>Class</th>
                                     <th style={{ minWidth: 150 }}>Course Code</th>
                                     <th style={{ minWidth: 350 }}>Course Title</th>
-                                    <th style={{ minWidth: 100 }}>Section</th>
                                     <th style={{ width: 80 }}>CIA 1</th>
                                     <th style={{ width: 80 }}>CIA 2</th>
                                     <th style={{ width: 80 }}>Ass 1</th>
@@ -45,12 +54,15 @@ const MarkReleaseTable = ({
                                             <tr key={dataIndex}>
                                                 <td>{dataIndex + 1}</td>
                                                 <td>{reportItem.staff_id || "-"}</td>
-                                                <td className="name-cell">{reportItem.staff_name || "-"}</td>
-                                                <td>{reportItem.dept_id || "-"}</td>
+                                                <td>{reportItem.staff_name || "-"}</td>
+                                                <td>{reportItem.category || "-"}</td>
+                                                <td>
+                                                    {reportItem?.semester
+                                                        ? `${getYearLabel(reportItem?.semester)} ${reportItem?.dept_id} ${reportItem?.section || "-"}`
+                                                        : "-"}
+                                                </td>
                                                 <td>{reportItem.course_code || "-"}</td>
                                                 <td>{reportItem.course_title || "-"}</td>
-                                                <td>{reportItem.section || "-"}</td>
-
                                                 <td>
                                                     <input
                                                         type="checkbox"
@@ -63,7 +75,7 @@ const MarkReleaseTable = ({
                                                     <input
                                                         type="checkbox"
                                                         className="staffcourse-toggle"
-                                                         checked={reportItem.cia_2 === 0 || reportItem.cia_2 === 1}
+                                                        checked={reportItem.cia_2 === 0 || reportItem.cia_2 === 1}
                                                         onChange={(e) => handleCheckbox(dataIndex, 'cia_2', e.target.checked)}
                                                     />
                                                 </td>
