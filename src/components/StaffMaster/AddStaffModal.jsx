@@ -42,7 +42,7 @@ function AddStaffModal({
                                 className={`input-box-correction ${errors.staffId ? 'input-error' : ''}`}
                                 value={staffId}
                                 onChange={(e) => {
-                                    setStaffId(e.target.value);
+                                    setStaffId(e.target.value.toUpperCase());
                                     if (errors.staffId) setErrors(prev => ({ ...prev, staffId: '' }));
                                 }}
                             />
@@ -54,7 +54,7 @@ function AddStaffModal({
                                 className={`input-box-correction ${errors.staffName ? 'input-error' : ''}`}
                                 value={staffName}
                                 onChange={(e) => {
-                                    setStaffName(e.target.value);
+                                    setStaffName(e.target.value.toUpperCase());
                                     if (errors.staffName) setErrors(prev => ({ ...prev, staffName: '' }));
                                 }}
                             />

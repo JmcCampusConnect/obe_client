@@ -51,7 +51,7 @@ function EditStaffModal({
                                 className={`input-box-correction ${editErrors.newstaffname ? "input-error" : ""}`}
                                 value={newstaffname}
                                 onChange={(e) => {
-                                    setNewstaffname(e.target.value);
+                                    setNewstaffname(e.target.value.toUpperCase());
                                     if (editErrors.newstaffname)
                                         setEditErrors(prev => ({ ...prev, newstaffname: "" }));
                                 }}

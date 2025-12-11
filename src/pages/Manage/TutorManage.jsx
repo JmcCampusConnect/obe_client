@@ -92,7 +92,7 @@ function StaffTutorManage() {
                 return rowString.includes(lower);
             });
         }
-        if (filterCategory) { currentData = currentData.filter(row => row.category === filterCategory)}
+        if (filterCategory) { currentData = currentData.filter(row => row.category === filterCategory) }
         if (filterDeptId) { currentData = currentData.filter(row => row.dept_id === filterDeptId) }
         if (filterSection) { currentData = currentData.filter(row => row.section === filterSection) }
         setFilteredData(currentData);
@@ -180,7 +180,7 @@ function StaffTutorManage() {
     // CRUD - Edit Mentor
     const handleEditSave = async () => {
         try {
-            await axios.put(`${apiUrl}/api/mentor/${editForm.staff_id}`, editForm);
+            await axios.put(`${apiUrl}/api/mentor/${editForm.s_no}`, editForm);
             await fetchData();
             setEditingStaff(null);
             alert("Mentor has been modified successfully");
@@ -191,10 +191,10 @@ function StaffTutorManage() {
     }
 
     // CRUD - Delete Mentor
-    const confirmDelete = async (id) => {
+    const confirmDelete = async (s_no) => {
         try {
-            await axios.delete(`${apiUrl}/api/mentor/${id}`);
-            const updatedData = data.filter((row) => row.staff_id !== id);
+            await axios.delete(`${apiUrl}/api/mentor/${s_no}`);
+            const updatedData = data.filter((row) => row.s_no !== s_no);
             setData(updatedData);
             setFilteredData(updatedData);
             setDeleteStaff(null);
