@@ -13,9 +13,9 @@ const TutorTable = ({
         if (!batchYear) return "-";
         const now = new Date();
         const currentYear = now.getFullYear();
-        const month = now.getMonth() + 1; // 1-12
+        const month = now.getMonth() + 1;
         let academicYear;
-        if (month >= 11) {
+        if (month >= 6) {
             academicYear = currentYear;
         } else {
             academicYear = currentYear - 1;
@@ -25,8 +25,7 @@ const TutorTable = ({
         if (diff === 1) return "II";
         if (diff === 2) return "III";
         return "-";
-    }
-
+    };
 
     return (
         <main className="crm-content">
