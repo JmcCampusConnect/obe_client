@@ -11,313 +11,316 @@ import DeleteHodModal from "../../components/HodManage/DeleteHodModal";
 
 function StaffHodManage() {
 
-	const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
-	// States
-	const [data, setData] = useState([]);
-	const [filteredData, setFilteredData] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
-	const [searchText, setSearchText] = useState("");
-	const [showFilters, setShowFilters] = useState(false);
-	const [filterCategory, setFilterCategory] = useState("");
-	const [filterGraduate, setFilterGraduate] = useState("");
-	const [filterDeptId, setFilterDeptId] = useState("");
-	const [typedStaffId, setTypedStaffId] = useState("");
+    // States
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [searchText, setSearchText] = useState("");
+    const [showFilters, setShowFilters] = useState(false);
+    const [filterCategory, setFilterCategory] = useState("");
+    const [filterGraduate, setFilterGraduate] = useState("");
+    const [filterDeptId, setFilterDeptId] = useState("");
+    const [typedStaffId, setTypedStaffId] = useState("");
 
-	// Pagination States
-	const [page, setPage] = useState(1);
-	const pageSize = 100;
-	const totalPages = useMemo(() => Math.ceil(filteredData.length / pageSize), [filteredData.length, pageSize]);
+    // Pagination States
+    const [page, setPage] = useState(1);
+    const pageSize = 100;
+    const totalPages = useMemo(() => Math.ceil(filteredData.length / pageSize), [filteredData.length, pageSize]);
 
-	const [editingHod, setEditingHod] = useState(null);
-	const [editForm, setEditForm] = useState({});
-	const [originalStaffId, setOriginalStaffId] = useState(null);
+    const [editingHod, setEditingHod] = useState(null);
+    const [editForm, setEditForm] = useState({});
+    const [originalStaffId, setOriginalStaffId] = useState(null);
 
-	const [deleteHod, setDeleteHod] = useState(null);
+    const [deleteHod, setDeleteHod] = useState(null);
 
-	const [addHodModal, setAddHodModal] = useState(false);
-	const [newStaffId, setNewStaffId] = useState("");
-	const [newHodName, setNewHodName] = useState("");
-	const [newGraduate, setNewGraduate] = useState("");
-	const [newCategory, setNewCategory] = useState("");
-	const [newDeptName, setNewDeptName] = useState("");
-	const [newDeptId, setNewDeptId] = useState("");
+    const [addHodModal, setAddHodModal] = useState(false);
+    const [newStaffId, setNewStaffId] = useState("");
+    const [newHodName, setNewHodName] = useState("");
+    const [newGraduate, setNewGraduate] = useState("");
+    const [newCategory, setNewCategory] = useState("");
+    const [newDeptName, setNewDeptName] = useState("");
+    const [newDeptId, setNewDeptId] = useState("");
 
-	const [staff, setStaff] = useState([]);
-	const [depts, setDepts] = useState([]);
+    const [staff, setStaff] = useState([]);
+    const [depts, setDepts] = useState([]);
 
-	// Reset page to 1 whenever filteredData changes (e.g., after search/add/edit/delete)
-	useEffect(() => {
-		applyAllFilters(searchText, filterCategory, filterGraduate, filterDeptId);
-		setPage(1);
-	}, [data, searchText, filterCategory, filterGraduate, filterDeptId]);
+    // Reset page to 1 whenever filteredData changes (e.g., after search/add/edit/delete)
+    useEffect(() => {
+        applyAllFilters(searchText, filterCategory, filterGraduate, filterDeptId);
+        setPage(1);
+    }, [data, searchText, filterCategory, filterGraduate, filterDeptId]);
 
-	const fetchHods = async () => {
-		try {
-			const response = await axios.get(`${apiUrl}/api/hod`);
-			const hods = Array.isArray(response.data) ? response.data : response.data?.hods || [];
-			const order = ["AIDED", "SFM", "SFW"];
-			const sortedData = hods
-				.filter(item => item && item.category)
-				.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
-			setData(sortedData);
-			setFilteredData(sortedData);
-		} catch (err) {
-			console.error("Error fetching HODs : ", err);
-			setError(err.message);
-		} finally { setLoading(false) }
-	}
+    const fetchHods = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/api/hod`);
+            const hods = Array.isArray(response.data) ? response.data : response.data?.hods || [];
+            const order = ["AIDED", "SFM", "SFW"];
+            const sortedData = hods
+                .filter(item => item && item.category)
+                .sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
+            setData(sortedData);
+            setFilteredData(sortedData);
+        } catch (err) {
+            console.error("Error fetching HODs : ", err);
+            setError(err.message);
+        } finally { setLoading(false) }
+    }
 
-	// Fetch HODs
-	useEffect(() => { fetchHods() }, [`${apiUrl}/api/hod`]);
+    // Fetch HODs
+    useEffect(() => { fetchHods() }, [`${apiUrl}/api/hod`]);
 
-	// Fetch dropdown values for staff and departments
-	useEffect(() => {
-		const fetchHodDropDownValues = async () => {
-			try {
-				const response = await axios.get(`${apiUrl}/api/hodDropDownValues`);
-				setStaff(response.data.uniqueStaffs);
-				setDepts(response.data.uniqueDepts);
-			} catch (err) { console.error("Error fetching dropdown values : ", err) }
-		}
-		fetchHodDropDownValues();
-	}, [apiUrl]);
+    // Fetch dropdown values for staff and departments
+    useEffect(() => {
+        const fetchHodDropDownValues = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/api/hodDropDownValues`);
+                setStaff(response.data.uniqueStaffs);
+                setDepts(response.data.uniqueDepts);
+            } catch (err) { console.error("Error fetching dropdown values : ", err) }
+        }
+        fetchHodDropDownValues();
+    }, [apiUrl]);
 
-	// Centralized Filter/Search Logic
-	const applyAllFilters = (
-		search = searchText,
-		category = filterCategory,
-		graduate = filterGraduate,
-		deptId = filterDeptId
-	) => {
-		const lowerSearch = search.toLowerCase();
+    // Centralized Filter/Search Logic
+    const applyAllFilters = (
+        search = searchText,
+        category = filterCategory,
+        graduate = filterGraduate,
+        deptId = filterDeptId
+    ) => {
+        const lowerSearch = search.toLowerCase();
 
-		let workingData = data;
+        let workingData = data;
 
-		// 1. Apply Text Search
-		if (lowerSearch) {
-			workingData = workingData.filter(
-				row =>
-					row.staff_id?.toLowerCase().includes(lowerSearch) ||
-					row.hod_name?.toLowerCase().includes(lowerSearch) ||
-					row.category?.toLowerCase().includes(lowerSearch) ||
-					row.dept_id?.toLowerCase().includes(lowerSearch) ||
-					row.dept_name?.toLowerCase().includes(lowerSearch)
-			);
-		}
+        // 1. Apply Text Search
+        if (lowerSearch) {
+            workingData = workingData.filter(
+                row =>
+                    row.staff_id?.toLowerCase().includes(lowerSearch) ||
+                    row.hod_name?.toLowerCase().includes(lowerSearch) ||
+                    row.category?.toLowerCase().includes(lowerSearch) ||
+                    row.dept_id?.toLowerCase().includes(lowerSearch) ||
+                    row.dept_name?.toLowerCase().includes(lowerSearch)
+            );
+        }
 
-		// 2. Apply Category Filter (AIDED/SFM/SFW)
-		if (category) {
-			workingData = workingData.filter(row => row.category === category);
-		}
+        // 2. Apply Category Filter (AIDED/SFM/SFW)
+        if (category) {
+            workingData = workingData.filter(row => row.category === category);
+        }
 
-		// 3. Apply Graduate Filter (UG/PG)
-		if (graduate) {
-			workingData = workingData.filter(row => row.graduate === graduate);
-		}
+        // 3. Apply Graduate Filter (UG/PG)
+        if (graduate) {
+            workingData = workingData.filter(row => row.graduate === graduate);
+        }
 
-		// 4. Apply Department ID Filter
-		if (deptId) {
-			workingData = workingData.filter(row => row.dept_id === deptId);
-		}
+        // 4. Apply Department ID Filter
+        if (deptId) {
+            workingData = workingData.filter(row => row.dept_id === deptId);
+        }
 
-		setFilteredData(workingData);
-	};
+        setFilteredData(workingData);
+    };
 
-	// Handle search
-	const handleSearch = (text) => {
-		const searchText = text.toLowerCase();
-		setSearchText(text);
-		applyAllFilters(searchText, filterCategory, filterGraduate, filterDeptId);
-	}
+    // Handle search
+    const handleSearch = (text) => {
+        const searchText = text.toLowerCase();
+        setSearchText(text);
+        applyAllFilters(searchText, filterCategory, filterGraduate, filterDeptId);
+    }
 
-	// Unified Filter Change Handler
-	const handleFilterChange = ({ category, graduate, deptId }) => {
-		const newCategory = category !== undefined ? category : filterCategory;
-		const newGraduate = graduate !== undefined ? graduate : filterGraduate;
-		const newDeptId = deptId !== undefined ? deptId : filterDeptId;
+    // Unified Filter Change Handler
+    const handleFilterChange = ({ category, graduate, deptId }) => {
+        const newCategory = category !== undefined ? category : filterCategory;
+        const newGraduate = graduate !== undefined ? graduate : filterGraduate;
+        const newDeptId = deptId !== undefined ? deptId : filterDeptId;
 
-		setFilterCategory(newCategory);
-		setFilterGraduate(newGraduate);
-		setFilterDeptId(newDeptId);
+        setFilterCategory(newCategory);
+        setFilterGraduate(newGraduate);
+        setFilterDeptId(newDeptId);
 
-		applyAllFilters(searchText, newCategory, newGraduate, newDeptId);
-	};
+        applyAllFilters(searchText, newCategory, newGraduate, newDeptId);
+    };
 
-	const clearAllFilters = () => { handleFilterChange({ category: "", graduate: "", deptId: "" }) }
+    const clearAllFilters = () => { handleFilterChange({ category: "", graduate: "", deptId: "" }) }
 
-	// Modal Handlers
-	const resetAddHodForm = () => { setNewStaffId(""); setNewHodName(""); setNewGraduate(""); setNewCategory(""); setNewDeptName(""); setNewDeptId(""); }
-	const openAddHodModal = () => { setAddHodModal(true); resetAddHodForm(); }
-	const closeAddHodModal = () => { setAddHodModal(false); resetAddHodForm(); }
-	const openEditHodModal = (row) => { setEditingHod(row); setEditForm({ ...row }); setOriginalStaffId(row.staff_id); setTypedStaffId(row.staff_id); }
-	const closeEditHodModal = () => { setEditingHod(null); setEditForm({}); setOriginalStaffId(null); }
-	const openDeleteHodModal = (row) => { setDeleteHod(row); }
-	const cancelDelete = () => { setDeleteHod(null) }
+    // Modal Handlers
+    const resetAddHodForm = () => { setNewStaffId(""); setNewHodName(""); setNewGraduate(""); setNewCategory(""); setNewDeptName(""); setNewDeptId(""); }
+    const openAddHodModal = () => { setAddHodModal(true); resetAddHodForm(); }
+    const closeAddHodModal = () => { setAddHodModal(false); resetAddHodForm(); }
+    const openEditHodModal = (row) => { setEditingHod(row); setEditForm({ ...row }); setOriginalStaffId(row.staff_id); setTypedStaffId(row.staff_id); }
+    const closeEditHodModal = () => { setEditingHod(null); setEditForm({}); setOriginalStaffId(null); }
+    const openDeleteHodModal = (row) => { setDeleteHod(row); }
+    const cancelDelete = () => { setDeleteHod(null) }
 
-	// Add Hod
-	const handleSaveNewHod = async () => {
+    // Add Hod
+    const handleSaveNewHod = async () => {
 
-		try {
-			const newHodAdded = await axios.post(`${apiUrl}/api/newhodadded`, {
-				staff_id: newStaffId,
-				hod_name: newHodName,
-				graduate: newGraduate,
-				category: newCategory,
-				dept_name: newDeptName,
-				dept_id: newDeptId,
-			});
+        try {
+            const newHodAdded = await axios.post(`${apiUrl}/api/newhodadded`, {
+                staff_id: newStaffId,
+                hod_name: newHodName,
+                graduate: newGraduate,
+                category: newCategory,
+                dept_name: newDeptName,
+                dept_id: newDeptId,
+            });
 
-			if (newHodAdded.data && newHodAdded.data.newHod) {
-				alert('Hod has been added successfully');
-				const newHod = newHodAdded.data.newHod;
-				const order = ["AIDED", "SFM", "SFW"];
-				const updatedData = [...data, newHod]
-					.filter(item => item && item.category)
-					.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
-				setData(updatedData);
-				closeAddHodModal();
-			} else {
-				alert("Error: New HOD data missing from response.");
-				closeAddHodModal();
-			}
+            if (newHodAdded.data && newHodAdded.data.newHod) {
+                alert('Hod has been added successfully');
+                const newHod = newHodAdded.data.newHod;
+                const order = ["AIDED", "SFM", "SFW"];
+                const updatedData = [...data, newHod]
+                    .filter(item => item && item.category)
+                    .sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
+                setData(updatedData);
+                closeAddHodModal();
+            } else {
+                alert("Error: New HOD data missing from response.");
+                closeAddHodModal();
+            }
 
-		} catch (err) {
-			console.error("Error adding HOD:", err);
-			alert("Error: Something went wrong while adding the new HOD");
-			closeAddHodModal();
-		}
-	}
+        } catch (err) {
+            console.error("Error adding HOD:", err);
+            alert("Error: Something went wrong while adding the new HOD");
+            closeAddHodModal();
+        }
+    }
 
-	// Edit HOD
-	const handleSaveEditedHod = async () => {
-		try {
-			await axios.put(`${`${apiUrl}/api/hod`}/${originalStaffId}`, editForm);
-			const updatedData = data.map(row => row.staff_id === originalStaffId ? { ...row, ...editForm } : row)
-			setData(updatedData);
-			alert("HOD has been modified successfully.");
-			closeEditHodModal();
-		} catch (err) {
-			console.error("Error editing HOD:", err);
-			alert("Failed to update the record. Please try again.")
-		}
-	}
+    // Edit HOD
+    const handleSaveEditedHod = async () => {
+        try {
+            await axios.put(`${`${apiUrl}/api/hod`}/${originalStaffId}`, editForm);
+            const updatedData = data.map(row =>
+                row.s_no === editForm.s_no
+                    ? { ...row, ...editForm }
+                    : row
+            );
+            setData(updatedData);
+            alert("HOD has been modified successfully.");
+            closeEditHodModal();
+        } catch (err) {
+            console.error("Error editing HOD:", err);
+            alert("Failed to update the record. Please try again.")
+        }
+    }
 
-	// Delete HOD
-	const handleConfirmDelete = async (hod) => {
+    // Delete HOD
+    const handleConfirmDelete = async (hod) => {
+        try {
+            await axios.delete(`${`${apiUrl}/api/hod`}/${hod.staff_id}`, {
+                data: {
+                    staff_id: hod.staff_id,
+                    dept_id: hod.dept_id,
+                    graduate: hod.graduate,
+                    category: hod.category,
+                }
+            });
 
-		try {
-			await axios.delete(`${`${apiUrl}/api/hod`}/${hod.staff_id}`, {
-				data: {
-					staff_id: hod.staff_id,
-					dept_id: hod.dept_id,
-					graduate: hod.graduate,
-					category: hod.category,
-				}
-			});
+            const updatedData = data.filter(row => !(
+                row.staff_id === hod.staff_id &&
+                row.dept_id === hod.dept_id &&
+                row.category === hod.category &&
+                row.graduate === hod.graduate
+            ));
 
-			const updatedData = data.filter(row => !(
-				row.staff_id === hod.staff_id &&
-				row.dept_id === hod.dept_id &&
-				row.category === hod.category &&
-				row.graduate === hod.graduate
-			));
+            setData(updatedData);
+            alert("Hod has been deleted successfully.");
+            cancelDelete();
 
-			setData(updatedData);
-			alert("Hod has been deleted successfully.");
-			cancelDelete();
+        } catch (err) {
+            console.error("Error deleting HOD : ", err);
+            alert("Failed to delete the record. Please try again.")
+        }
+    }
 
-		} catch (err) {
-			console.error("Error deleting HOD : ", err);
-			alert("Failed to delete the record. Please try again.")
-		}
-	}
+    if (loading) return (
+        <div>
+            <center>
+                <img src={Loading} alt="Loading spinner" className="img" />
+            </center>
+        </div>
+    )
 
-	if (loading) return (
-		<div>
-			<center>
-				<img src={Loading} alt="Loading spinner" className="img" />
-			</center>
-		</div>
-	)
+    if (error) return <div>Error : {error}</div>;
 
-	if (error) return <div>Error : {error}</div>;
+    return (
 
-	return (
+        <div className="staff-management-shell">
 
-		<div className="staff-management-shell">
+            <HodHeader
+                searchText={searchText}
+                handleSearch={handleSearch}
+                showPopup={openAddHodModal}
+                setShowFilters={setShowFilters}
+                clearAllFilters={clearAllFilters}
+            />
 
-			<HodHeader
-				searchText={searchText}
-				handleSearch={handleSearch}
-				showPopup={openAddHodModal}
-				setShowFilters={setShowFilters}
-				clearAllFilters={clearAllFilters}
-			/>
+            <HodFilters
+                showFilters={showFilters}
+                filterCategory={filterCategory}
+                setFilterCategory={(val) => handleFilterChange({ category: val })}
+                filterDeptId={filterDeptId}
+                setFilterDeptId={(val) => handleFilterChange({ deptId: val })}
+                filterGraduate={filterGraduate}
+                setFilterGraduate={(val) => handleFilterChange({ graduate: val })}
+                depts={depts}
+                clearAllFilters={clearAllFilters}
+            />
 
-			<HodFilters
-				showFilters={showFilters}
-				filterCategory={filterCategory}
-				setFilterCategory={(val) => handleFilterChange({ category: val })}
-				filterDeptId={filterDeptId}
-				setFilterDeptId={(val) => handleFilterChange({ deptId: val })}
-				filterGraduate={filterGraduate}
-				setFilterGraduate={(val) => handleFilterChange({ graduate: val })}
-				depts={depts}
-				clearAllFilters={clearAllFilters}
-			/>
+            <HodTable
+                filteredData={filteredData}
+                page={page}
+                pageSize={pageSize}
+                totalPages={totalPages}
+                setPage={setPage}
+                openEditHodModal={openEditHodModal}
+                openDeleteHodModal={openDeleteHodModal}
+            />
 
-			<HodTable
-				filteredData={filteredData}
-				page={page}
-				pageSize={pageSize}
-				totalPages={totalPages}
-				setPage={setPage}
-				openEditHodModal={openEditHodModal}
-				openDeleteHodModal={openDeleteHodModal}
-			/>
+            <AddHodModal
+                popup={addHodModal}
+                closeAddHodModal={closeAddHodModal}
+                staff={staff}
+                depts={depts}
+                newStaffId={newStaffId}
+                setNewStaffId={setNewStaffId}
+                newHodName={newHodName}
+                setNewHodName={setNewHodName}
+                newGraduate={newGraduate}
+                setNewGraduate={setNewGraduate}
+                newCategory={newCategory}
+                setNewCategory={setNewCategory}
+                newDeptId={newDeptId}
+                setNewDeptId={setNewDeptId}
+                newDeptName={newDeptName}
+                setNewDeptName={setNewDeptName}
+                handleSaveNewHod={handleSaveNewHod}
+            />
 
-			<AddHodModal
-				popup={addHodModal}
-				closeAddHodModal={closeAddHodModal}
-				staff={staff}
-				depts={depts}
-				newStaffId={newStaffId}
-				setNewStaffId={setNewStaffId}
-				newHodName={newHodName}
-				setNewHodName={setNewHodName}
-				newGraduate={newGraduate}
-				setNewGraduate={setNewGraduate}
-				newCategory={newCategory}
-				setNewCategory={setNewCategory}
-				newDeptId={newDeptId}
-				setNewDeptId={setNewDeptId}
-				newDeptName={newDeptName}
-				setNewDeptName={setNewDeptName}
-				handleSaveNewHod={handleSaveNewHod}
-			/>
+            <EditHodModal
+                editingHod={editingHod}
+                closeEditHodModal={closeEditHodModal}
+                handleSaveEditedHod={handleSaveEditedHod}
+                editForm={editForm}
+                setEditForm={setEditForm}
+                staff={staff}
+                depts={depts}
+                typedStaffId={typedStaffId}
+                setTypedStaffId={setTypedStaffId}
+            />
 
-			<EditHodModal
-				editingHod={editingHod}
-				closeEditHodModal={closeEditHodModal}
-				handleSaveEditedHod={handleSaveEditedHod}
-				editForm={editForm}
-				setEditForm={setEditForm}
-				staff={staff}
-				depts={depts}
-				typedStaffId={typedStaffId}
-				setTypedStaffId={setTypedStaffId}
-			/>
+            <DeleteHodModal
+                deleteHod={deleteHod}
+                cancelDelete={cancelDelete}
+                handleConfirmDelete={handleConfirmDelete}
+            />
 
-			<DeleteHodModal
-				deleteHod={deleteHod}
-				cancelDelete={cancelDelete}
-				handleConfirmDelete={handleConfirmDelete}
-			/>
-
-		</div>
-	)
+        </div>
+    )
 }
 
 export default StaffHodManage;

@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/common/Authenticate';
 import '../css/LoginPage.css';
-
 const getPasswordConstraints = (password) => {
     return {
         minLength: password.length >= 8,
@@ -16,7 +15,6 @@ const getPasswordConstraints = (password) => {
         hasSpecial: /[!@#$%^&*()_+={}[\]:;"'<,>.?/\\|~-]/.test(password),
     }
 }
-
 function LoginPage() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -32,7 +30,6 @@ function LoginPage() {
     const navigate = useNavigate();
     const { login, logout } = useAuth();
     const passwordInputRef = useRef(null);
-
     const handleLogin = async () => {
 
         if (staffId === '' || password === '') {
@@ -70,7 +67,7 @@ function LoginPage() {
         setShowModal(false);
         navigate(`staff/${staffIdToChange}/dashboard`, { replace: true });
     };
-
+    
     const handleKeyPress = (e, field) => {
         if (e.key === "Enter") {
             if (field === 'staffId') passwordInputRef.current.focus();

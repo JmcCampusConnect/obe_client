@@ -13,7 +13,6 @@ function StaffTable({
                     <div className="card-title">Staff Directory</div>
                     <div className="card-sub">Showing <strong>{filteredData.length}</strong> records</div>
                 </div>
-
                 <div className="table-frame">
                     <div className="table-scroll">
                         <table className="crm-table" role="table" aria-label="Staff table">
@@ -34,7 +33,7 @@ function StaffTable({
                                     <tr key={staff.staff_id || idx}>
                                         <td>{(page - 1) * pageSize + idx + 1}</td>
                                         <td>{staff.staff_id}</td>
-                                        <td className="name-cell">{staff.staff_name}</td>
+                                        <td>{staff.staff_name}</td>
                                         <td>{staff.staff_category}</td>
                                         <td>{staff.dept_category}</td>
                                         <td>{staff.staff_dept}</td>
@@ -59,7 +58,6 @@ function StaffTable({
                         </table>
                     </div>
                 </div>
-
                 {/* Pagination */}
                 <div className="card-footer">
                     <div className="pagination">
