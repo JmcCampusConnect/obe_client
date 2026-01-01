@@ -6,41 +6,77 @@ import "../css/FileUpload.css";
 function FileUpload() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [loading, setLoading] = useState(false);
     const [files, setFiles] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
+
+    // ---------------- FILE SELECT ----------------
 
     const handleFileChange = (e) => {
-        const { name, files: selected } = e.target;
-        setFiles((prev) => ({ ...prev, [name]: selected[0] }));
+        const { id, files: selectedFiles } = e.target;
+        setFiles((prev) => ({ ...prev, [id]: selectedFiles[0] }));
     };
 
-    const handleUpload = async (e, file, endpoint) => {
+    // ---------------- UPLOAD + PROGRESS ----------------
+
+    const handleUpload = async (e, file, type) => {
+
         e.preventDefault();
+
         if (!file) {
             alert("Please select a file");
             return;
         }
+
         setLoading(true);
+        setProgress(0);
+
         const formData = new FormData();
         formData.append("file", file);
 
         try {
-            const res = await axios.post(`${apiUrl}/api/${endpoint}`, formData, {
+
+            await axios.post(`${apiUrl}/api/${type}`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            alert(res.data);
+
+            const eventSource = new EventSource(`${apiUrl}/api/progress/${type}`);
+
+            eventSource.onmessage = (event) => {
+                const value = Number(event.data);
+                setProgress(value);
+                if (value >= 100) {
+                    eventSource.close();
+                    setLoading(false);
+                }
+            };
+
+            eventSource.onerror = () => {
+                eventSource.close();
+                setLoading(false);
+                alert("Progress connection lost");
+            };
+
         } catch (error) {
             console.error(error);
-            alert("File upload failed");
-        } finally { setLoading(false) }
-    }
+            alert("Upload failed");
+            setLoading(false);
+        }
+    };
+
+    // ---------------- DOWNLOAD ----------------
 
     const handleDownload = async (e, fileType, fileName) => {
+
         e.preventDefault();
+
         try {
-            const response = await axios.get(`${apiUrl}/api/download/${fileType}`, {
-                responseType: "blob",
-            });
+
+            const response = await axios.get(
+                `${apiUrl}/api/download/${fileType}`,
+                { responseType: "blob" }
+            );
+
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
@@ -48,23 +84,34 @@ function FileUpload() {
             document.body.appendChild(link);
             link.click();
             link.remove();
+
         } catch (error) {
             console.error("Download failed:", error);
-            alert("Failed to download the file.");
+            alert("Download failed");
         }
-    }
+    };
 
-    const LoadingModal = ({ loading }) => {
+    // ---------------- LOADING MODAL ----------------
+
+    const LoadingModal = () => {
         if (!loading) return null;
         return (
             <div className="file-loading-modal">
                 <div className="file-loading-content">
                     <div className="file-loader"></div>
-                    <h3>Processing...</h3>
+                    <h3>Processing... {progress}%</h3>
+                    <div className="progress-bar">
+                        <div
+                            className="progress-fill"
+                            style={{ width: `${progress}%` }}
+                        />
+                    </div>
                 </div>
             </div>
-        )
-    }
+        );
+    };
+
+    // ---------------- FILE CONFIG ----------------
 
     const fileConfigs = [
         { id: "file1", key: "coursemaster", label: "Course Master", download: "coursemaster", model: "coursemastermodel" },
@@ -76,72 +123,78 @@ function FileUpload() {
         { id: "file7", key: "markentry", label: "Student Course Mapping", download: "mark", model: "markmodel" },
         { id: "file8", key: "ese", label: "ESE Mark", download: "ese", model: "esemodel" },
         { id: "file9", key: "scope", label: "Scope Master", download: "scope", model: "scopemodel" },
-    ]
+    ];
+
+    // ---------------- UI ----------------
 
     return (
         <div className="file-wrapper">
             <h2 className="file-title">📂 File Management</h2>
-            <p className="file-subtitle">Upload, download, and manage system files securely</p>
-            <div className="file-content">
-                <LoadingModal loading={loading} />
-                {fileConfigs.length === 0 ? (
-                    <div className="file-empty">
-                        <p>No files configured yet 🚀</p>
-                    </div>
-                ) : (
-                    <>
-                        <div className="file-header">
-                            <p>Name</p>
-                            <p>File</p>
-                            <p>Upload</p>
-                            <p>Download</p>
-                            <p>Sample</p>
-                        </div>
-                        {fileConfigs.map((f, idx) => (
-                            <div key={f.id} className={`file-row ${idx % 2 === 0 ? "even" : "odd"}`}>
-                                <div className="file-name-label">
-                                    {f.label}
-                                </div>
-                                <div className="file-input-wrapper">
-                                    <label htmlFor={f.id} className="file-input-label">Choose</label>
-                                    <input type="file" id={f.id} name={f.id} onChange={handleFileChange} />
-                                    <span className="file-selected" title={files[f.id]?.name}>
-                                        {files[f.id]?.name || "No file chosen"}
-                                    </span>
-                                </div>
-                                <button
-                                    className="file-btn file-upload"
-                                    title="Upload File"
-                                    onClick={(e) => handleUpload(e, files[f.id], f.key)}
-                                >
-                                    <Upload size={18} /> Upload
-                                </button>
-                                <button
-                                    className="file-btn file-download"
-                                    title="Download Data"
-                                    onClick={(e) =>
-                                        handleDownload(e, f.download, `${f.label} Data.xlsx`)
-                                    }
-                                >
-                                    <Download size={18} /> Download
-                                </button>
-                                <button
-                                    className="file-btn file-sample"
-                                    title="Download Sample Format"
-                                    onClick={(e) =>
-                                        handleDownload(e, f.model, `${f.label} Model.xlsx`)
-                                    }
-                                >
-                                    <FileText size={18} /> Sample
-                                </button>
-                            </div>
-                        ))}
+            <p className="file-subtitle">
+                Upload, download, and manage system files securely
+            </p>
 
-                    </>
-                )}
+            <LoadingModal />
+
+            <div className="file-content">
+                <div className="file-header">
+                    <p>Name</p>
+                    <p>File</p>
+                    <p>Upload</p>
+                    <p>Download</p>
+                    <p>Sample</p>
+                </div>
+
+                {fileConfigs.map((f, idx) => (
+                    <div
+                        key={f.id}
+                        className={`file-row ${idx % 2 === 0 ? "even" : "odd"}`}
+                    >
+                        <div className="file-name-label">{f.label}</div>
+
+                        <div className="file-input-wrapper">
+                            <label htmlFor={f.id} className="file-input-label">
+                                Choose
+                            </label>
+                            <input
+                                type="file"
+                                id={f.id}
+                                onChange={handleFileChange}
+                            />
+                            <span className="file-selected">
+                                {files[f.id]?.name || "No file chosen"}
+                            </span>
+                        </div>
+
+                        <button
+                            className="file-btn file-upload"
+                            onClick={(e) => handleUpload(e, files[f.id], f.key)}
+                        >
+                            <Upload size={18} /> Upload
+                        </button>
+
+                        <button
+                            className="file-btn file-download"
+                            onClick={(e) =>
+                                handleDownload(e, f.download, `${f.label}.xlsx`)
+                            }
+                        >
+                            <Download size={18} /> Download
+                        </button>
+
+                        <button
+                            className="file-btn file-sample"
+                            onClick={(e) =>
+                                handleDownload(e, f.model, `${f.label} Sample.xlsx`)
+                            }
+                        >
+                            <FileText size={18} /> Sample
+                        </button>
+                    </div>
+                ))}
             </div>
         </div>
-    )
+    );
 }
 
 export default FileUpload;
