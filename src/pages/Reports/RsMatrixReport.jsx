@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../css/RsMatrixReport.css";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import Loading from '../../assets/load.svg';
 import RsMartixReportTable from "../../components/RsMatrixReport/RsMartixReportTable";
 import RsMartixReportHeader from "../../components/RsMatrixReport/RsMartixReportHeader";
 import RsMartixReportFilters from "../../components/RsMatrixReport/RsMartixReportFilters";
@@ -11,6 +12,7 @@ function RsMatrixReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    const [loading, setLoading] = useState(true);
     const [academicYear, setAcademicYear] = useState("");
     const [allMatrixReport, setAllMatrixReport] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -72,7 +74,7 @@ function RsMatrixReport() {
                 setSectionOptions(uniqueSections.map(sec => ({ value: sec, label: sec })));
             } catch (err) {
                 console.error("Error fetching data : ", err);
-            }
+            } finally { setLoading(false) }
         };
 
         const matrixCompletedCount = async () => {
@@ -217,7 +219,16 @@ function RsMatrixReport() {
         }
     };
 
+    if (loading) return (
+        <div>
+            <center>
+                <img src={Loading} alt="Loading spinner" className="img" />
+            </center>
+        </div>
+    )
+
     return (
+
         <div className="staff-management-shell">
 
             <RsMartixReportHeader

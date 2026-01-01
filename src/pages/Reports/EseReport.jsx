@@ -5,10 +5,12 @@ import "../../css/EseReport.css";
 import EseReportTable from "../../components/EseReport/EseReportTable";
 import EseReportFilters from "../../components/EseReport/EseReportFilters";
 import EseReportHeader from "../../components/EseReport/EseReportHeader";
+import Loading from '../../assets/load.svg';
 
 function EseReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
+    const [loading, setLoading] = useState(true);
     const [courseCode, setCourseCode] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [showFilters, setShowFilters] = useState(false);
@@ -26,8 +28,8 @@ function EseReport() {
                 );
                 setCourseCode(sortedCourses);
             } catch (err) {
-                console.error("Error fetching ESE Report Data:", err);
-            }
+                console.error("Error fetching ESE report data : ", err);
+            } finally { setLoading(false) }
         };
         fetchEseData();
     }, [apiUrl]);
@@ -84,7 +86,16 @@ function EseReport() {
         }
     };
 
+    if (loading) return (
+        <div>
+            <center>
+                <img src={Loading} alt="Loading spinner" className="img" />
+            </center>
+        </div>
+    )
+
     return (
+
         <div className="ese-repo-main">
 
             <EseReportHeader

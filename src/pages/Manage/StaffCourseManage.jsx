@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import '../../css/StaffCourseManage.css';
+import Loading from '../../assets/load.svg';
 import AddModal from '../../components/StaffCourseManage/AddStaffCourseModal';
 import EditModal from '../../components/StaffCourseManage/EditStaffCourseModal';
 import DeleteModal from '../../components/StaffCourseManage/DeleteStaffCourse';
@@ -12,6 +13,7 @@ const StaffCourseManage = () => {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const [staffData, setStaffData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -52,7 +54,7 @@ const StaffCourseManage = () => {
             setStaffData(response.data);
         } catch (error) {
             console.error('Error fetching staff data:', error);
-        }
+        } finally { setLoading(false) }
     }
 
     useEffect(() => {
@@ -409,6 +411,14 @@ const StaffCourseManage = () => {
         setErrors({});
         setIsAddModalOpen(true);
     }
+
+    if (loading) return (
+        <div>
+            <center>
+                <img src={Loading} alt="Loading spinner" className="img" />
+            </center>
+        </div>
+    )
 
     return (
         <div className="staff-management-shell">

@@ -2,12 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './components/common/Authenticate';
 import PrivateRoute from './components/common/Privaterouter';
-
-
-import StudentManage from './components/manage/studentmanage/studentmanage';
 // import ProgramOC from './components/prooutcome/prooutcome';
-
-
 
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -55,72 +50,63 @@ import StaffCourseOutcome from './pages/Outcomes/StaffCourseOutcome/';
 
 function App() {
 
-	return (
-		<AuthProvider>
-			<Router>
-				<Routes>
-					<Route path="/" element={<LoginPage />} />
+    return (
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<LoginPage />} />
 
-					{/* Checked */}
-					<Route path="staff/:staffId/*" element={<PrivateRoute element={<Layout />} />} >
+                    {/* Checked */}
+                    <Route path="staff/:staffId/*" element={<PrivateRoute element={<Layout />} />} >
 
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="courselist" element={<CourseList />} />
+                        <Route path="studentmark" element={<StudentMark />} />
+                        <Route path="inputfiles" element={<FileUpload />} />
+                        <Route path="rsmatrix" element={<RsMatrix />} />
+                        <Route path="settings" element={<Settings />} />
+                        <Route path="terminologies" element={<Terminologies />} />
 
+                        {/*  REPORT FOR HOD, TUTOR, ADMIN */}
+                        <Route path="tutorreport" element={<TutorReport />} />
+                        <Route path="hodreport" element={<HodReport />} />
+                        <Route path="workprogressreport" element={<WorkProgressReport />} />
+                        <Route path="matrixreport" element={<RsMatrixReport />} />
+                        <Route path="esereport" element={<EseReport />} />
+                        <Route path=":dept/departmentreport" element={<DepartmentReport />} />
+                        <Route path="obereport" element={<ObeReport />} />
 
-						<Route path="studentmanage" element={<StudentManage />} />
-						{/* <Route path="programoutcome" element={<ProgramOC />} /> */}
+                        {/* MANAGE FOR STAFF, COURSEMAP, STUDENT ETC */}
+                        <Route path="manage" element={<Manage />} />
+                        <Route path="staffmanage" element={<Staff />} />
+                        <Route path="staffmastermanage" element={<StaffMaster />} />
+                        <Route path="hodmanage" element={<HodManage />} />
+                        <Route path="tutormanage" element={<TutorManage />} />
+                        <Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
+                        <Route path="showandblock" element={<BlockShow />} />
+                        <Route path="markmanage" element={<MarkManage />} />
+                        <Route path="markrelease" element={<MarkRelease />} />
+                        <Route path="scopemanage" element={<ScopeManage />} />
 
+                        {/* OUTCOME FOR STUDENT COURSE AND PROGRAM */}
+                        <Route path="studentoutcome" element={<StudentOutcome />} />
+                        <Route path="courseoutcome" element={<CourseOutcome />} />
+                        <Route path="programspecificoutcome" element={<ProgramSpecOutcome />} />
+                        <Route path="adminstudentoutcome" element={<AdminStudentOutcome />} />
+                        <Route path="hodstudentoutcome" element={<HodStudentOutcome />} />
+                        <Route path="tutorstudentoutcome" element={<TutorStudentOutcome />} />
+                        <Route path="staffstudentoutcome" element={<StaffStudentOutcome />} />
+                        <Route path="admincourseoutcome" element={<AdminCourseOutcome />} />
+                        <Route path="hodcourseoutcome" element={<HodCourseOutcome />} />
+                        <Route path="tutorcourseoutcome" element={<TutorCourseOutcome />} />
+                        <Route path="staffcourseoutcome" element={<StaffCourseOutcome />} />
+                        {/* <Route path="programoutcome" element={<ProgramOC />} /> */}
 
-
-
-
-						<Route path="dashboard" element={<Dashboard />} />
-						<Route path="courselist" element={<CourseList />} />
-						<Route path="studentmark" element={<StudentMark />} />
-						<Route path="inputfiles" element={<FileUpload />} />
-						<Route path="rsmatrix" element={<RsMatrix />} />
-						<Route path="settings" element={<Settings />} />
-						<Route path="terminologies" element={<Terminologies />} />
-
-						{/*  REPORT FOR HOD, TUTOR, ADMIN */}
-						<Route path="tutorreport" element={<TutorReport />} />
-						<Route path="hodreport" element={<HodReport />} />
-						<Route path="workprogressreport" element={<WorkProgressReport />} />
-						<Route path="matrixreport" element={<RsMatrixReport />} />
-						<Route path="esereport" element={<EseReport />} />
-						<Route path=":dept/departmentreport" element={<DepartmentReport />} />
-						<Route path="obereport" element={<ObeReport />} />
-
-						{/* MANAGE FOR STAFF, COURSEMAP, STUDENT ETC */}
-						<Route path="manage" element={<Manage />} />
-						<Route path="staffmanage" element={<Staff />} />
-						<Route path="staffmastermanage" element={<StaffMaster />} />
-						<Route path="hodmanage" element={<HodManage />} />
-						<Route path="tutormanage" element={<TutorManage />} />
-						<Route path="staffcoursemapmanage" element={<StaffCourseManage />} />
-						<Route path="showandblock" element={<BlockShow />} />
-						<Route path="markmanage" element={<MarkManage />} />
-						<Route path="markrelease" element={<MarkRelease />} />
-						<Route path="scopemanage" element={<ScopeManage />} />
-
-						{/* OUTCOME FOR STUDENT COURSE AND PROGRAM */}
-						<Route path="studentoutcome" element={<StudentOutcome />} />
-						<Route path="courseoutcome" element={<CourseOutcome />} />
-						<Route path="programspecificoutcome" element={<ProgramSpecOutcome />} />
-						<Route path="adminstudentoutcome" element={<AdminStudentOutcome />} />
-						<Route path="hodstudentoutcome" element={<HodStudentOutcome />} />
-						<Route path="tutorstudentoutcome" element={<TutorStudentOutcome />} />
-						<Route path="staffstudentoutcome" element={<StaffStudentOutcome />} />
-						<Route path="admincourseoutcome" element={<AdminCourseOutcome />} />
-						<Route path="hodcourseoutcome" element={<HodCourseOutcome />} />
-						<Route path="tutorcourseoutcome" element={<TutorCourseOutcome />} />
-						<Route path="staffcourseoutcome" element={<StaffCourseOutcome />} />
-
-
-					</Route>
-				</Routes>
-			</Router>
-		</AuthProvider>
-	)
+                    </Route>
+                </Routes>
+            </Router>
+        </AuthProvider>
+    )
 }
 
 export default App;

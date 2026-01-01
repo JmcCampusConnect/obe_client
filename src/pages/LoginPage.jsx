@@ -28,7 +28,7 @@ function LoginPage() {
     const [staffIdToChange, setStaffIdToChange] = useState('');
 
     const navigate = useNavigate();
-    const { login, logout } = useAuth();
+    const { login } = useAuth();
     const passwordInputRef = useRef(null);
     const handleLogin = async () => {
 
@@ -67,7 +67,7 @@ function LoginPage() {
         setShowModal(false);
         navigate(`staff/${staffIdToChange}/dashboard`, { replace: true });
     };
-    
+
     const handleKeyPress = (e, field) => {
         if (e.key === "Enter") {
             if (field === 'staffId') passwordInputRef.current.focus();
@@ -153,7 +153,7 @@ function LoginPage() {
     );
 }
 
-const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => {
+const PasswordChangeModal = ({ staffId, apiUrl }) => {
 
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -168,8 +168,6 @@ const PasswordChangeModal = ({ staffId, onClose, onSuccess, apiUrl, login }) => 
     const confirmRef = useRef(null);
     const constraints = useMemo(() => getPasswordConstraints(newPassword), [newPassword]);
     const isNewPasswordValid = Object.values(constraints).every(Boolean);
-
-    const navigate = useNavigate();
 
     const handlePasswordUpdate = async () => {
 

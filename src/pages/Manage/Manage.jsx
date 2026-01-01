@@ -16,7 +16,7 @@ function Manage() {
             try {
                 const response = await axios.post(`${apiUrl}/activesem`, {});
                 setAcademicSem(response.data.academic_sem);
-            } catch (err) { console.error('Error fetching data:', err)}
+            } catch (err) { console.error('Error fetching data:', err) }
         };
         fetchActiveSem();
     }, [apiUrl]);
@@ -45,8 +45,6 @@ function Manage() {
     const handleRelease = () => navigate(`/staff/${staffId}/markrelease`);
     const handleMarkManage = () => navigate(`/staff/${staffId}/markmanage`);
     const handleCourseMapManage = () => navigate(`/staff/${staffId}/staffcoursemapmanage`);
-    // const handleCourseMapManage = () => alert("Ready Soon!");
-    const handleStudentManage = () => navigate(`/staff/${staffId}/studentmanage`);
     const handleShowBlock = () => navigate(`/staff/${staffId}/showandblock`);
 
     return (
@@ -55,7 +53,6 @@ function Manage() {
                 <button className="manage-btn" onClick={handleAcademic}>Academic Year</button>
                 <button className="manage-btn" onClick={handleStaffManage}>Staff Manage</button>
                 <button className="manage-btn" onClick={handleCourseMapManage}>Staff Course Manage</button>
-                <button className="manage-btn" onClick={handleStudentManage}>Student Manage</button>
                 <button className="manage-btn" onClick={handleMarkManage}>Mark Manage</button>
                 <button className="manage-btn" onClick={handleScopeManage}>Scope Manage</button>
                 <button className="manage-btn" onClick={handleRelease}>Mark Release</button>
@@ -66,7 +63,7 @@ function Manage() {
                     className="manage-popup-container"
                     role="dialog"
                     aria-modal="true"
-                    onClick={hidepopup}              
+                    onClick={hidepopup}
                 >
                     <div
                         className="manage-popup"

@@ -3,12 +3,14 @@ import axios from "axios";
 import ScopeHeader from "../../components/ScopeManage/ScopeHeader";
 import ScopeTable from "../../components/ScopeManage/ScopeTable";
 import '../../css/ScopeManage.css';
+import Loading from '../../assets/load.svg';
 
 function ScopeManage() {
-    
+
     const [scopeData, setScopeData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const [loading, setLoading] = useState(true);
     const apiUrl = import.meta.env.VITE_API_URL;
 
     const [page, setPage] = useState(1);
@@ -37,7 +39,7 @@ function ScopeManage() {
                 setPage(1);
             } catch (err) {
                 console.error('Error fetching Scope data:', err);
-            }
+            } finally { setLoading(false) }
         };
         scopeDetailsFetch();
     }, [apiUrl]);
@@ -112,6 +114,14 @@ function ScopeManage() {
             setPage(1);
         }
     }, [page, totalPages]);
+
+    if (loading) return (
+        <div>
+            <center>
+                <img src={Loading} alt="Loading spinner" className="img" />
+            </center>
+        </div>
+    ) 
 
     return (
         <div className="scope-main">

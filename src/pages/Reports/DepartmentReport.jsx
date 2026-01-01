@@ -12,6 +12,7 @@ import DepartmentReportFilter from '../../components/DepartmentReport/Department
 function DepartmentReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
+    const [loading, setLoading] = useState(true);
     const { dept } = useParams();
 
     const [activeSection, setActiveSection] = useState(
@@ -53,11 +54,12 @@ function DepartmentReport() {
                 const response = await axios.post(`${apiUrl}/activesem`, {});
                 setAcademicYear(response.data.academic_sem);
             } catch (err) {
+                console.log('Error fetching Academic Year : ', err);
                 alert('Error fetching Academic Year.');
             }
         };
         fetchAcademicYear();
-    }, []);
+    }, [apiUrl]);
 
     useEffect(() => {
         if (dept === "alldepartments") {
@@ -102,7 +104,7 @@ function DepartmentReport() {
             } catch (err) {
                 alert('Error fetching status report.');
                 console.log('Error fetching status report : ', err);
-            }
+            } finally { setLoading(false) }
         };
         fetchDeptStatusReport();
     }, [academicYear, dept]);
@@ -263,6 +265,14 @@ function DepartmentReport() {
         const dataBlob = new Blob([excelBuffer], { type: fileType });
         saveAs(dataBlob, fileName + fileExtension);
     }
+
+    if (loading) return (
+        <div>
+            <center>
+                <img src={Loading} alt="Loading spinner" className="img" />
+            </center>
+        </div>
+    )
 
     return (
 
