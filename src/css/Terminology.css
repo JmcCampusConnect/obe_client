@@ -40,7 +40,7 @@ body {
 
 .termi-section {
     background-color: #f7f9fc;
-    padding: 20px 25px;
+    padding: 20px;
     border-radius: 12px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
