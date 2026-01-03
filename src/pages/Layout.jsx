@@ -123,7 +123,7 @@ function Layout() {
         {
             icon: faExclamationTriangle,
             name: 'Data Deletion',
-            path: `/staff/${urlStaffId}/terminologies`,
+            path: `/staff/${urlStaffId}/dataDeletion`,
             show: urlStaffId === 'ADMIN'
         },
     ]
