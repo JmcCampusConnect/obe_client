@@ -80,7 +80,7 @@ function DataDeletion() {
         { id: 'studentBatches', title: 'Student Master', icon: <Users size={16} />, badge: 'By Batch', data: options.batches, counts: preview.studentCounts },
         { id: 'mentorYears', title: 'Mentor Records', icon: <ShieldAlert size={16} />, badge: 'By Academic Year', data: options.mentorAcademicYears, counts: preview.mentorCounts },
         { id: 'markEntryYears', title: 'Mark Entry Records', icon: <FileText size={16} />, badge: 'By Academic Year', data: options.markEntryAcademicYears, counts: preview.markEntryCounts },
-        { id: 'reportSems', title: 'Report Data', icon: <History size={16} />, badge: 'By Semester', data: options.reportAcademicSems, counts: preview.reportCounts }
+        { id: 'reportSems', title: 'Course Mapping', icon: <History size={16} />, badge: 'By Semester', data: options.reportAcademicSems, counts: preview.reportCounts }
     ];
 
     return (
