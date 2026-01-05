@@ -157,12 +157,12 @@ function FileUpload() {
                     {/* Metrics */}
                     <div className="metrics-grid">
                         <div className="metric-card">
-                            <span className="metric-label">SUCCESS</span>
+                            <span className="metric-label">SUCCESS : </span>
                             <span className="metric-value success">{stats.processed}</span>
                         </div>
 
                         <div className="metric-card">
-                            <span className="metric-label">FAILED</span>
+                            <span className="metric-label">FAILED : </span>
                             <span
                                 className={`metric-value ${stats.failed > 0 ? "error" : "muted"}`}
                             >
@@ -171,7 +171,7 @@ function FileUpload() {
                         </div>
 
                         <div className="metric-card">
-                            <span className="metric-label">TOTAL ROWS</span>
+                            <span className="metric-label">TOTAL ROWS : </span>
                             <span className="metric-value">{stats.total}</span>
                         </div>
                     </div>
