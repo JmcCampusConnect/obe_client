@@ -8,7 +8,9 @@ function FileUpload() {
     const apiUrl = import.meta.env.VITE_API_URL;
     const [files, setFiles] = useState({});
     const [loading, setLoading] = useState(false);
+    const [finished, setFinished] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [stats, setStats] = useState({ processed: 0, total: 0, failed: 0, errors: [] });
 
     // ---------------- FILE SELECT ----------------
 
@@ -30,36 +32,56 @@ function FileUpload() {
 
         setLoading(true);
         setProgress(0);
+        setStats({
+            processed: 0,
+            total: 0,
+            failed: 0,
+            errors: []
+        });
 
         const formData = new FormData();
         formData.append("file", file);
 
         try {
-
-            await axios.post(`${apiUrl}/api/${type}`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-
-            const eventSource = new EventSource(`${apiUrl}/api/progress/${type}`);
-
+            setFinished(false);
+            await axios.post(`${apiUrl}/api/${type}`, formData);
+            const eventSource = new EventSource(
+                `${apiUrl}/api/progress/${type}`
+            );
             eventSource.onmessage = (event) => {
-                const value = Number(event.data);
-                setProgress(value);
-                if (value >= 100) {
-                    eventSource.close();
-                    setLoading(false);
+                try {
+                    const data = JSON.parse(event.data);
+                    const processed = data.processed || 0;
+                    const failed = data.failed || 0;
+                    const total = data.total || 0;
+                    setStats(data);
+
+                    if (total > 0) {
+                        const totalDone = processed + failed;
+                        const percent = Math.round(
+                            (totalDone / total) * 100
+                        );
+                        setProgress(percent);
+                        if (percent >= 100) {
+                            eventSource.close();
+                            if (percent >= 100) {
+                                eventSource.close();
+                                setFinished(true);
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error("Failed to parse SSE data : ", err);
                 }
             };
 
             eventSource.onerror = () => {
                 eventSource.close();
                 setLoading(false);
-                alert("Progress connection lost");
             };
 
         } catch (error) {
-            console.error(error);
-            alert("Upload failed");
+            console.error("Upload failed:", error);
             setLoading(false);
         }
     };
@@ -94,18 +116,115 @@ function FileUpload() {
     // ---------------- LOADING MODAL ----------------
 
     const LoadingModal = () => {
+
         if (!loading) return null;
+
         return (
-            <div className="file-loading-modal">
-                <div className="file-loading-content">
-                    <div className="file-loader"></div>
-                    <h3>Processing... {progress}%</h3>
-                    <div className="progress-bar">
+            <div className="overlay">
+                <div className="modal-card">
+
+                    {/* Header */}
+                    <div className="header">
+                        {!finished ? (
+                            <div className="spinner-container">
+                                <div className="file-loader"></div>
+                                <span className="pulse-dot"></span>
+                            </div>
+                        ) : (
+                            <div className="success-icon">✓</div>
+                        )}
+
+                        <div className="header-text">
+                            <h3 className="title">
+                                {finished ? "Data Sync Complete" : "Uploading Records..."}
+                            </h3>
+                            <p className="subtitle">
+                                {finished ? "Review the summary below" : "Please keep this window open"}
+                            </p>
+                        </div>
+
+                        <div className="percentage-badge">{progress}%</div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="progress-container">
                         <div
-                            className="progress-fill"
-                            style={{ width: `${progress}%` }}
+                            className={`progress-fill ${finished && stats.failed > 0 ? "warning" : "primary"}`}
+                            style={{ width: `${Math.min(progress, 100)}%` }}
                         />
                     </div>
+
+                    {/* Metrics */}
+                    <div className="metrics-grid">
+                        <div className="metric-card">
+                            <span className="metric-label">SUCCESS</span>
+                            <span className="metric-value success">{stats.processed}</span>
+                        </div>
+
+                        <div className="metric-card">
+                            <span className="metric-label">FAILED</span>
+                            <span
+                                className={`metric-value ${stats.failed > 0 ? "error" : "muted"}`}
+                            >
+                                {stats.failed}
+                            </span>
+                        </div>
+
+                        <div className="metric-card">
+                            <span className="metric-label">TOTAL ROWS</span>
+                            <span className="metric-value">{stats.total}</span>
+                        </div>
+                    </div>
+
+                    {/* Error Log */}
+                    {stats.errors?.length > 0 && (
+                        <div className="error-container">
+                            <div className="error-title-row">
+                                <span className="error-indicator"></span>
+                                <span className="error-text">
+                                    Error Log ({stats.failed} issues)
+                                </span>
+                            </div>
+
+                            <div className="table-wrapper">
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ROW</th>
+                                            <th>REFERENCE</th>
+                                            <th>ISSUE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {stats.errors.map((err, idx) => (
+                                            <tr key={idx}>
+                                                <td><code>#{err.row}</code></td>
+                                                <td>{err.identifier || "-"}</td>
+                                                <td className="error-message">
+                                                    {err.message}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Footer */}
+                    {finished && (
+                        <button
+                            className="primary-button"
+                            onClick={() => {
+                                setLoading(false);
+                                setFinished(false);
+                                setProgress(0);
+                                setStats({ processed: 0, total: 0, failed: 0, errors: [] });
+                            }}
+                        >
+                            Confirm & Close
+                        </button>
+                    )}
                 </div>
             </div>
         );
@@ -129,6 +248,7 @@ function FileUpload() {
 
     return (
         <div className="file-wrapper">
+
             <h2 className="file-title">📂 File Management</h2>
             <p className="file-subtitle">
                 Upload, download, and manage system files securely
