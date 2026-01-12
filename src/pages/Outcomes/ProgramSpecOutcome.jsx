@@ -5,6 +5,7 @@ import '../../css/ProgramSpecOutcome.css'
 function ProgramSpecOutcome() {
 
     const [activeTab, setActiveTab] = useState('SpecDept')
+    const [loading, setLoading] = useState(false);
     const [academicYear, setAcademicYear] = useState('')
     const [dept, setDept] = useState([]);
     const [selectedDept, setSelectedDept] = useState('');
@@ -44,11 +45,14 @@ function ProgramSpecOutcome() {
         }
         catch (error) {
             alert('Error fetching Dept Id Names');
+            console.error('Error fetching Dept Id Names : ', error)
         }
     }
 
     const handleGetOutcomeSpec = async () => {
         try {
+            setLoading(true);
+            setSpecTable(false);
             const response = await axios.post(`${apiUrl}/api/proSpecOutcome`, {
                 academicYear, selectedDept, selectedDeptId
             })
@@ -56,21 +60,27 @@ function ProgramSpecOutcome() {
             setSpecTable(true)
         }
         catch (error) {
-            alert('Error fetching Outcome Results');
-        }
+            alert('Error fetching outcome results');
+            console.error('Error fetching outcome results : ', error)
+        } finally { setLoading(false) }
     }
 
     const handleProgramTypeChange = (event) => { setProgramType(event.target.value) }
 
     const handleGetOutcomeAll = async () => {
         try {
+            setLoading(true);
+            setAllTable(false);
             const response = await axios.post(`${apiUrl}/api/proOutcome`, {
                 academicYear, programType
             })
             setAttainmentAllData(response.data)
             setAllTable(true)
         }
-        catch (error) { alert('Error fetching Outcome Results') }
+        catch (error) {
+            alert('Error fetching outcome results');
+            console.error('Error fetching outcome results : ', error)
+        } finally { setLoading(false) }
     }
 
     return (
@@ -86,7 +96,7 @@ function ProgramSpecOutcome() {
                     onClick={() => handleTab('AllDept')}
                     className={activeTab === 'AllDept' ? 'spec-btn-active' : 'spec-btn-inactive'}
                 >
-                    Pso for All Deparment
+                    Pso for UG/PG
                 </button>
             </div>
             {activeTab === 'SpecDept' && (
@@ -134,7 +144,9 @@ function ProgramSpecOutcome() {
                             Fetch Outcome
                         </button>
                     </div>
-                    {specTable && (
+                    {loading ? (
+                        <p className="aso-loading">Loading outcomes...</p>
+                    ) : specTable && (
                         <div className="aso-table-container">
                             <div className="aso-header">
                                 <div className="aso-header-title1">
@@ -221,7 +233,9 @@ function ProgramSpecOutcome() {
                             Fetch Outcome
                         </button>
                     </div>
-                    {allTable && (
+                    {loading ? (
+                        <p className="aso-loading">Loading outcomes...</p>
+                    ) : allTable && (
                         <div className="aso-table-container">
                             <div className="aso-header">
                                 <div className="aso-header-title1">

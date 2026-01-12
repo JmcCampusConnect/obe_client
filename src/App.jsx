@@ -2,8 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './components/common/Authenticate';
 import PrivateRoute from './components/common/Privaterouter';
-// import ProgramOC from './components/prooutcome/prooutcome';
-
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard/Dashboard';
 import Layout from './pages/Layout';
@@ -102,7 +100,6 @@ function App() {
                         <Route path="hodcourseoutcome" element={<HodCourseOutcome />} />
                         <Route path="tutorcourseoutcome" element={<TutorCourseOutcome />} />
                         <Route path="staffcourseoutcome" element={<StaffCourseOutcome />} />
-                        {/* <Route path="programoutcome" element={<ProgramOC />} /> */}
 
                     </Route>
                 </Routes>
