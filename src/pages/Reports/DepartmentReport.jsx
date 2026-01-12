@@ -207,26 +207,29 @@ function DepartmentReport() {
 
     const handleDownload = () => {
 
-        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        const fileExtension = '.xlsx';
-        const date = new Date();
-        const formattedDate = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear().toString().slice(-2)}`;
-        const fileName = `Mark Entry Report ${formattedDate}`;
+        const pendingData = deptStatusReport.filter(dept => {
+            const status = ['cia_1', 'cia_2', 'ass_1', 'ass_2'].every(
+                key => getStatus(dept[key]) === 'Completed'
+            ) ? 'Finished' : 'Pending';
+
+            return status === 'Pending';
+        });
+
+        if (pendingData.length === 0) {
+            alert('No pending records available to download.');
+            return;
+        }
 
         const headers = [
             'Staff Id', 'Staff Name', 'Dept Name', 'Course Code', 'Category',
             'Section', 'Cia - 1', 'Cia - 2', 'Ass - 1', 'Ass - 2', 'Status'
         ];
 
-        const pendingData = deptStatusReport.filter(dept => {
+        const data = pendingData.map(dept => {
             const status = ['cia_1', 'cia_2', 'ass_1', 'ass_2'].every(
-                key => getStatus(dept[key]) === 'Completed') ? 'Finished' : 'Pending';
-            return status === 'Pending';
-        });
+                key => getStatus(dept[key]) === 'Completed'
+            ) ? 'Finished' : 'Pending';
 
-        let data = pendingData.map(dept => {
-            const status = ['cia_1', 'cia_2', 'ass_1', 'ass_2'].every(
-                key => getStatus(dept[key]) === 'Completed') ? 'Finished' : 'Pending';
             return {
                 'Staff Id': dept.staff_id,
                 'Staff Name': dept.staff_name,
@@ -239,17 +242,7 @@ function DepartmentReport() {
                 'Ass - 1': getStatus(dept.ass_1),
                 'Ass - 2': getStatus(dept.ass_2),
                 'Status': status,
-            }
-        });
-
-        data.sort((a, b) => {
-            if (a.Category < b.Category) return -1;
-            if (a.Category > b.Category) return 1;
-            if (a['Dept Name'] < b['Dept Name']) return -1;
-            if (a['Dept Name'] > b['Dept Name']) return 1;
-            if (a['Staff Id'] < b['Staff Id']) return -1;
-            if (a['Staff Id'] > b['Staff Id']) return 1;
-            return 0;
+            };
         });
 
         const worksheet = XLSX.utils.json_to_sheet(data);
@@ -260,11 +253,26 @@ function DepartmentReport() {
             worksheet[cellAddress].v = headers[C];
         }
 
-        const workbook = { Sheets: { 'Mark Entry Report': worksheet }, SheetNames: ['Mark Entry Report'] };
-        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        const dataBlob = new Blob([excelBuffer], { type: fileType });
-        saveAs(dataBlob, fileName + fileExtension);
-    }
+        const workbook = {
+            Sheets: { 'Mark Entry Report': worksheet },
+            SheetNames: ['Mark Entry Report']
+        };
+
+        const excelBuffer = XLSX.write(workbook, {
+            bookType: 'xlsx',
+            type: 'array'
+        });
+
+        const blob = new Blob([excelBuffer], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+        });
+
+        const date = new Date();
+        const formattedDate = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1)
+            .toString().padStart(2, '0')}-${date.getFullYear().toString().slice(-2)}`;
+
+        saveAs(blob, `Mark Entry Report ${formattedDate}.xlsx`);
+    };
 
     if (loading) return (
         <div>
