@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 function DepartmentReportHeader({ searchText, handleSearch, handleDownload, setShowFilters, clearAllFilters }) {
 
@@ -20,9 +20,7 @@ function DepartmentReportHeader({ searchText, handleSearch, handleDownload, setS
                                 className="filter-button"
                                 onClick={() => setShowFilters(prev => {
                                     const next = !prev;
-                                    if (!next) {
-                                        clearAllFilters();
-                                    }
+                                    if (!next) { clearAllFilters() }
                                     return next;
                                 })}
 

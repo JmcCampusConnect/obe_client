@@ -1,206 +1,158 @@
-.pro-main {
+/* Layout & Background */
+.pro-main-bg {
+    background: #eceff1;
     min-height: 100vh;
-    width: 100%;
+    padding: 40px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pro-controls {
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    text-align: center;
+}
+
+/* Page Container - Hard A4 Specs */
+.pro-a4-container {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 30px auto;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 40px 20px;
-    background: #f7f8fa;
-    font-family: "Times New Roman", Times, serif;
+    box-sizing: border-box;
 }
 
-.pro-title {
-    font-size: 30px;
-    font-weight: 800;
-    text-align: center;
-    color: #0a2a66;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    border-bottom: 2px solid #0a2a66;
-    padding-bottom: 8px;
-}
-
-.pro-a4 {
-    width: 794px;
-    background-color: white;
-    margin: 60px 0;
-    padding: 45px 50px;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-}
-
-.pro-top {
+/* Header Styling */
+.report-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-bottom: 2px solid #0a2a66;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
-    gap: 20px;
+    border-bottom: 3px double #1a237e;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-.pro-logo {
-    width: 100px;
+.report-logo {
+    width: 90px;
     height: auto;
+    margin-right: 20px;
 }
 
-.pro-clg {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.5;
-}
-
-.pro-p1 {
-    font-size: 23px;
-    font-weight: 900;
-    color: #0a2a66;
-}
-
-.pro-p2,
-.pro-p3 {
-    font-size: 17px;
-    font-weight: 600;
-    color: #222;
-}
-
-.pro-procedure {
-    margin-top: 30px;
-    font-size: 19px;
-    color: #0a2a66;
-    font-weight: 700;
-    border-left: 4px solid #0a2a66;
-    padding-left: 10px;
-}
-
-.pro-olist {
-    margin-left: 25px;
-    text-align: justify;
-    margin-top: 15px;
-}
-
-.pro-list {
-    margin-top: 8px;
-    font-size: 17px;
-    color: #222;
-}
-
-.pro-procedure-table {
+.header-text {
+    flex-grow: 1;
     text-align: center;
-    margin-top: 35px;
+}
+
+.header-text h2 {
+    margin: 0;
+    color: #1a237e;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-text p {
+    margin: 2px 0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.sub-dept {
+    color: #c62828;
+    font-size: 15px !important;
+}
+
+/* Typography & Content */
+.section-title {
+    color: #1a237e;
+    text-align: center;
+    text-decoration: underline;
+    margin: 20px 0;
     font-size: 18px;
-    font-weight: 700;
-    color: #0a2a66;
 }
 
-.pro-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-    text-align: center;
-    margin-top: 15px;
+.method-box {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 25px;
 }
 
-.pro-table th {
-    background-color: #0a2a66;
-    color: white;
-    font-weight: 700;
-    padding: 10px;
-    border: 1px solid #333;
-}
-
-.pro-table td {
-    padding: 8px 10px;
-    border: 1px solid #555;
-    font-weight: 600;
-    color: #111;
-}
-
-.pro-table tr:nth-child(even) {
-    background-color: #f6f8fc;
-}
-
-.pro-info {
+.report-info-bar {
     display: flex;
     justify-content: space-between;
-    margin: 15px 0 25px;
-    font-size: 17px;
-    color: #111;
+    background: #1a237e;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
 }
 
-.pro-info strong {
-    color: #0a2a66;
+/* Tables */
+.professional-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
 }
 
-.pro-coe {
-    margin-top: 80px;
-    text-align: right;
-    font-size: 18px;
+.professional-table th {
+    background: #f1f3f4;
+    border: 1px solid #bcbcbc;
+    padding: 10px;
+    font-size: 13px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.professional-table td {
+    border: 1px solid #bcbcbc;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.summary-row {
+    background: #e8eaf6;
     font-weight: bold;
-    color: #0a2a66;
 }
 
-.pro-btn-content {
-    margin-top: 20px;
+/* Signature */
+.signature-section {
+    margin-top: auto; /* Pushes signature to bottom */
     display: flex;
     justify-content: flex-end;
-    width: 100%;
-    max-width: 794px;
+    padding-top: 50px;
 }
 
-.pro-btn {
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-size: 17px;
-    font-weight: 700;
-    background-color: #0a2a66;
-    color: white;
+.sig-block {
+    text-align: center;
+    width: 250px;
+}
+
+.sig-line {
+    border-top: 1px solid #000;
+    margin-bottom: 5px;
+}
+
+/* Buttons */
+.btn-primary, .btn-success {
+    padding: 12px 25px;
     border: none;
-    margin-left: 10px;
+    border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
     transition: 0.3s;
 }
 
-.pro-btn:hover {
-    background-color: #143c9a;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.pro-status {
-    font-size: 20px;
-    color: #666;
-    margin-top: 25px;
-    text-align: center;
-    font-style: italic;
-}
-
-.pro-no-content {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 17px;
-    color: #999;
-    font-style: italic;
-}
+.btn-primary { background: #1a237e; color: white; }
+.btn-success { background: #2e7d32; color: white; }
 
 @media print {
-    body {
-        background: white;
-    }
-    .pro-main {
-        padding: 0;
-        background: white;
-    }
-    .pro-a4 {
-        box-shadow: none;
-        border: none;
-        margin: 0;
-        padding: 30px;
-    }
-    .pro-btn-content,
-    .pro-btn {
-        display: none !important;
-    }
+    .pro-main-bg { background: white; padding: 0; }
+    .pro-controls { display: none; }
+    .pro-a4-container { box-shadow: none; margin: 0; }
 }

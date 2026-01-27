@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { Upload, Download, FileText } from "lucide-react";
 import "../css/FileUpload.css";
@@ -10,6 +10,7 @@ function FileUpload() {
     const [loading, setLoading] = useState(false);
     const [finished, setFinished] = useState(false);
     const [progress, setProgress] = useState(0);
+    const fileInputRefs = useRef({});
     const [stats, setStats] = useState({ processed: 0, total: 0, failed: 0, errors: [] });
 
     // ---------------- FILE SELECT ----------------
@@ -88,30 +89,17 @@ function FileUpload() {
 
     // ---------------- DOWNLOAD ----------------
 
-    const handleDownload = async (e, fileType, fileName) => {
-
+    const handleDownload = (e, fileType, fileName) => {
         e.preventDefault();
 
-        try {
-
-            const response = await axios.get(
-                `${apiUrl}/api/download/${fileType}`,
-                { responseType: "blob" }
-            );
-
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", fileName);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-
-        } catch (error) {
-            console.error("Download failed:", error);
-            alert("Download failed");
-        }
+        const link = document.createElement("a");
+        link.href = `${apiUrl}/api/download/${fileType}`;
+        link.setAttribute("download", fileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
     };
+
 
     // ---------------- LOADING MODAL ----------------
 
@@ -220,6 +208,10 @@ function FileUpload() {
                                 setFinished(false);
                                 setProgress(0);
                                 setStats({ processed: 0, total: 0, failed: 0, errors: [] });
+                                setFiles({});
+                                Object.values(fileInputRefs.current).forEach(input => {
+                                    if (input) input.value = "";
+                                });
                             }}
                         >
                             Confirm & Close
@@ -241,7 +233,6 @@ function FileUpload() {
         { id: "file6", key: "mentor", label: "Mentor Master", download: "mentor", model: "mentormodel" },
         { id: "file7", key: "markentry", label: "Student Course Mapping", download: "mark", model: "markmodel" },
         { id: "file8", key: "ese", label: "ESE Mark", download: "ese", model: "esemodel" },
-        { id: "file9", key: "scope", label: "Scope Master", download: "scope", model: "scopemodel" },
     ];
 
     // ---------------- UI ----------------
@@ -279,6 +270,7 @@ function FileUpload() {
                             <input
                                 type="file"
                                 id={f.id}
+                                ref={(el) => (fileInputRefs.current[f.id] = el)}
                                 onChange={handleFileChange}
                             />
                             <span className="file-selected">
