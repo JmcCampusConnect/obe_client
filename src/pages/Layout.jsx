@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import {
-    faHome, faFileAlt, faTachometerAlt, faKey, faSignOutAlt, faGear, faGraduationCap, faLightbulb, faProjectDiagram,
-    faBookOpen, faUserGraduate, faClipboardCheck, faUserFriends, faChalkboardTeacher, faClipboard, faChartBar,
+    faHome, faFileAlt, faTachometerAlt, faKey, faSignOutAlt, faGear, faLightbulb, faProjectDiagram,
+    faBookOpen, faUserGraduate, faClipboardCheck, faClipboardList, faClipboard, faChartBar,
     faExclamationTriangle
 }
     from '@fortawesome/free-solid-svg-icons';
@@ -109,12 +109,18 @@ function Layout() {
             show: user.settings === 1,
         },
         {
+            icon: faClipboardList,
+            name: 'Guidelines',
+            path: `/staff/${urlStaffId}/guidelines`,
+            show: urlStaffId === 'ADMIN',
+        },
+        {
             icon: faLightbulb,
             name: 'OBE Terminologies',
             path: `/staff/${urlStaffId}/terminologies`,
             show: user
         },
-        {
+        {   
             icon: faExclamationTriangle,
             name: 'Data Deletion',
             path: `/staff/${urlStaffId}/dataDeletion`,

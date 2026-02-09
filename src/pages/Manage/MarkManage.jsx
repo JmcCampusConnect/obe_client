@@ -4,11 +4,10 @@ import '../../css/MarkManage.css';
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-function MarkManage() 
-{
+function MarkManage() {
+
     const [academicSem, setAcademicSem] = useState('');
-    const [isEditable, setIsEditable] = useState(false);
-    const [isModifying, setIsModifying] = useState(false); 
+    const [isModifying, setIsModifying] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
     const [values, setValues] = useState({
@@ -23,52 +22,49 @@ function MarkManage()
         maxEse: { lot: '', mot: '', hot: '', weightage: '' },
     })
 
-    useEffect(() => 
-    {
-        const fetchDatas = async () => 
-        {
-            try 
-            {
+    useEffect(() => {
+        const fetchDatas = async () => {
+            try {
                 const response = await axios.get(`${apiUrl}/api/fetchCalDatas`);
                 const data = response.data;
                 setInputValue(data.co_thresh_value)
 
                 setValues((prevValues) => (
-                {
-                    ...prevValues,
-                    cia1: { lot: data.c1_lot, mot: data.c1_mot, hot: data.c1_hot, weightage: data.cia_weightage },
-                    cia2: { lot: data.c2_lot, mot: data.c2_mot, hot: data.c2_hot },
-                    ass1: { lot: data.a1_lot, mot: data.a1_mot, hot: data.a1_hot },
-                    ass2: { lot: data.a2_lot, mot: data.a2_mot, hot: data.a2_hot },
-                    level0: {
-                        ugStartRange: "0",
-                        ugEndRange: data.so_l0_ug,
-                        pgStartRange: "0",
-                        pgEndRange: data.so_l0_pg,
-                    },
-                    level1: {
-                        ugStartRange: (parseInt(data.so_l0_ug) + 1).toString(),
-                        ugEndRange: data.so_l1_ug,
-                        pgStartRange: (parseInt(data.so_l0_pg) + 1).toString(),
-                        pgEndRange: data.so_l1_pg,
-                    },
-                    level2: {
-                        ugStartRange: (parseInt(data.so_l1_ug) + 1).toString(),
-                        ugEndRange: data.so_l2_ug,
-                        pgStartRange: (parseInt(data.so_l1_pg) + 1).toString(),
-                        pgEndRange: data.so_l2_pg,
-                    },
-                    level3: {
-                        ugStartRange: (parseInt(data.so_l2_ug) + 1).toString(),
-                        ugEndRange: data.so_l3_ug,
-                        pgStartRange: (parseInt(data.so_l2_pg) + 1).toString(),
-                        pgEndRange: data.so_l3_pg,
-                    },
-                    maxEse: { lot: data.e_lot, mot: data.e_mot, hot: data.e_hot, weightage: data.ese_weightage }
-                }));
-            } 
+                    {
+                        ...prevValues,
+                        cia1: { lot: data.c1_lot, mot: data.c1_mot, hot: data.c1_hot, weightage: data.cia_weightage },
+                        cia2: { lot: data.c2_lot, mot: data.c2_mot, hot: data.c2_hot },
+                        ass1: { lot: data.a1_lot, mot: data.a1_mot, hot: data.a1_hot },
+                        ass2: { lot: data.a2_lot, mot: data.a2_mot, hot: data.a2_hot },
+                        level0: {
+                            ugStartRange: "0",
+                            ugEndRange: data.so_l0_ug,
+                            pgStartRange: "0",
+                            pgEndRange: data.so_l0_pg,
+                        },
+                        level1: {
+                            ugStartRange: (parseInt(data.so_l0_ug) + 1).toString(),
+                            ugEndRange: data.so_l1_ug,
+                            pgStartRange: (parseInt(data.so_l0_pg) + 1).toString(),
+                            pgEndRange: data.so_l1_pg,
+                        },
+                        level2: {
+                            ugStartRange: (parseInt(data.so_l1_ug) + 1).toString(),
+                            ugEndRange: data.so_l2_ug,
+                            pgStartRange: (parseInt(data.so_l1_pg) + 1).toString(),
+                            pgEndRange: data.so_l2_pg,
+                        },
+                        level3: {
+                            ugStartRange: (parseInt(data.so_l2_ug) + 1).toString(),
+                            ugEndRange: data.so_l3_ug,
+                            pgStartRange: (parseInt(data.so_l2_pg) + 1).toString(),
+                            pgEndRange: data.so_l3_pg,
+                        },
+                        maxEse: { lot: data.e_lot, mot: data.e_mot, hot: data.e_hot, weightage: data.ese_weightage }
+                    }));
+            }
             catch (err) {
-                console.error('Error Fetching Data:', err);
+                console.error('Error Fetching Data : ', err);
             }
         }
 
@@ -76,8 +72,7 @@ function MarkManage()
 
     }, [apiUrl]);
 
-    const academicSemSet = async () => 
-    {
+    const academicSemSet = async () => {
         try {
             const response = await axios.post(`${apiUrl}/activesem`, {});
             setAcademicSem(response.data.academic_sem);
@@ -88,8 +83,7 @@ function MarkManage()
     }
     academicSemSet();
 
-    const maxCia =
-    {
+    const maxCia = {
         lot: (parseInt(values.cia1.lot || 0, 10) + parseInt(values.cia2.lot || 0, 10) +
             parseInt(values.ass1.lot || 0, 10) + parseInt(values.ass2.lot || 0, 10)) || '',
         mot: (parseInt(values.cia1.mot || 0, 10) + parseInt(values.cia2.mot || 0, 10) +
@@ -98,13 +92,11 @@ function MarkManage()
             parseInt(values.ass1.hot || 0, 10) + parseInt(values.ass2.hot || 0, 10)) || '',
     }
 
-    const handleChange = (event, section, type) => 
-    {
-        const value = event.target.value.slice(0, 3); 
-        if (/^\d*$/.test(value)) 
-        {
-            setValues((prevValues) => 
-            {
+    const handleChange = (event, section, type) => {
+
+        const value = event.target.value.slice(0, 3);
+        if (/^\d*$/.test(value)) {
+            setValues((prevValues) => {
                 const newValues = {
                     ...prevValues,
                     [section]: {
@@ -113,12 +105,10 @@ function MarkManage()
                     },
                 }
 
-                if (type === "ugEndRange" && section.startsWith("level")) 
-                {
+                if (type === "ugEndRange" && section.startsWith("level")) {
                     const currentLevel = parseInt(section.replace("level", ""), 10);
                     const nextLevel = `level${currentLevel + 1}`;
-                    if (newValues[nextLevel]) 
-                    {
+                    if (newValues[nextLevel]) {
                         newValues[nextLevel] = {
                             ...newValues[nextLevel],
                             ugStartRange: parseInt(value, 10) + 1 || "",
@@ -126,15 +116,13 @@ function MarkManage()
                     }
                 }
 
-                if (type === "pgEndRange" && section.startsWith("level")) 
-                {
+                if (type === "pgEndRange" && section.startsWith("level")) {
                     const currentLevel = parseInt(section.replace("level", ""), 10);
                     const nextLevel = `level${currentLevel + 1}`;
-                    if (newValues[nextLevel]) 
-                    {
+                    if (newValues[nextLevel]) {
                         newValues[nextLevel] = {
                             ...newValues[nextLevel],
-                            pgStartRange: parseInt(value, 10) + 1 || "", 
+                            pgStartRange: parseInt(value, 10) + 1 || "",
                         }
                     }
                 }
@@ -143,8 +131,8 @@ function MarkManage()
         }
     }
 
-    const handleSave = async () => 
-    {
+    const handleSave = async () => {
+
         setIsModifying(false);
         const ciaSections = ['cia1', 'cia2', 'ass1', 'ass2', 'maxEse'];
         const levelSections = ['level0', 'level1', 'level2', 'level3'];
@@ -162,10 +150,8 @@ function MarkManage()
             return;
         }
 
-        try 
-        {
-            const ciaData = 
-            {
+        try {
+            const ciaData = {
                 cia1: values.cia1,
                 cia2: values.cia2,
                 ass1: values.ass1,
@@ -182,29 +168,17 @@ function MarkManage()
 
             // console.log(ciaData)
 
-            const [ciaResponse] = await Promise.all([
-                axios.post(`${apiUrl}/api/calc`, ciaData)
-            ])
-
-            if (ciaResponse.data) {
-                alert('Data Saved Successfully!');
-            }
-        } 
+            const [ciaResponse] = await Promise.all([axios.post(`${apiUrl}/api/calc`, ciaData)])
+            if (ciaResponse.data) { alert('Data saved successfully!') }
+        }
         catch (error) {
-            console.error('Error Saving Data:', error);
+            console.error('Error in saving data : ', error);
             alert('Failed to Save Data. Please Try Again.');
         }
     }
 
-    const handleInputChange = (event) => 
-    {
-        setInputValue(event.target.value);
-    }
-
-    const handleModify = () => 
-    {
-        setIsModifying(true);
-    }
+    const handleInputChange = (event) => { setInputValue(event.target.value) }
+    const handleModify = () => { setIsModifying(true) }
 
     return (
         <div className="mark-mng-main">

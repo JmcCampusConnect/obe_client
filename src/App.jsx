@@ -12,6 +12,7 @@ import RsMatrix from './pages/RsMatrix';
 import Settings from './pages/Settings';
 import Terminologies from './pages/Terminology';
 import DataDeletion from './pages/DataDeletion';
+import GuideLines from './pages/GuideLines';
 
 // ENTRY REPORT FOR HOD, TUTOR, ADMIN
 import TutorReport from './pages/Reports/TutorReport';
@@ -66,6 +67,7 @@ function App() {
                         <Route path="settings" element={<Settings />} />
                         <Route path="terminologies" element={<Terminologies />} />
                         <Route path="dataDeletion" element={<DataDeletion />} />
+                        <Route path="guidelines" element={<GuideLines />} />
 
                         {/*  REPORT FOR HOD, TUTOR, ADMIN */}
                         <Route path="tutorreport" element={<TutorReport />} />

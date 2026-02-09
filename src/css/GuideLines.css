@@ -1,0 +1,205 @@
+:root {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --primary-blue: #2563eb;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --danger-red: #ef4444;
+    --success-green: #10b981;
+    --info-blue: #3b82f6;
+    --warning-amber: #f59e0b;
+    --purple-resource: #8b5cf6;
+    --config-slate: #475569;
+    --info-blue: #3b82f6;
+    --warning-amber: #f59e0b;
+    --purple-resource: #8b5cf6;
+    --config-slate: #475569;
+}
+
+.admin-page-container {
+    background-color: var(--bg-main);
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--text-main);
+}
+
+.guide-card {
+    margin: 0 auto;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Header & Toggle Styling */
+.guide-header {
+    padding: 2.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.system-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.guide-header h1 {
+    font-size: 1.875rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.semester-toggle {
+    background: var(--bg-main);
+    padding: 4px;
+    border-radius: 8px;
+    display: flex;
+    gap: 4px;
+}
+
+.semester-toggle button {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    color: var(--text-muted);
+}
+
+.semester-toggle button.active {
+    background: var(--card-bg);
+    color: var(--primary-blue);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Timeline Layout */
+.guide-body {
+    padding: 2.5rem;
+}
+
+.timeline {
+    position: relative;
+    border-left: 2px solid var(--border-color);
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 2.5rem;
+}
+
+.timeline-badge {
+    position: absolute;
+    left: -1.1rem;
+    top: 0;
+    width: 34px;
+    height: 34px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    z-index: 1;
+}
+
+.timeline-content h3 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
+    font-weight: 700;
+}
+
+.timeline-content p {
+    font-size: 0.925rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Status Variations */
+.timeline-item.required .timeline-badge {
+    border-color: var(--info-blue);
+    color: var(--info-blue);
+}
+
+.timeline-item.danger .timeline-badge {
+    border-color: var(--danger-red);
+    color: var(--danger-red);
+}
+
+.timeline-item.resource .timeline-badge {
+    border-color: var(--purple-resource);
+    color: var(--purple-resource);
+}
+
+.timeline-item.config .timeline-badge {
+    border-color: var(--warning-amber);
+    color: var(--warning-amber);
+}
+
+.timeline-item.success .timeline-badge {
+    border-color: var(--success-green);
+    color: var(--success-green);
+}
+
+/* Hover effect for a premium feel */
+.timeline-item:hover .timeline-badge {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.warning-pill {
+    background: #fef2f2;
+    color: var(--danger-red);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.timeline-title-row {
+    display: flex;
+    align-items: center;
+}
+
+/* Footer Styling */
+.guide-footer {
+    padding: 1.5rem 2.5rem;
+    background: var(--bg-main);
+    border-top: 1px solid var(--border-color);
+    border-radius: 0 0 12px 12px;
+}
+
+.guide-footer p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--text-muted);
+}
