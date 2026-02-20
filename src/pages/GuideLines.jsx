@@ -13,7 +13,7 @@ function GuideLines() {
 
     const [semester, setSemester] = useState('odd');
 
-    const oddSteps = [
+    const evenSteps = [
         {
             id: 1,
             title: "Verification Phase",
@@ -77,9 +77,9 @@ function GuideLines() {
                 </div>
 
                 <div className="guide-body">
-                    {semester === 'odd' ? (
+                    {semester === 'even' ? (
                         <div className="timeline">
-                            {oddSteps.map((step) => (
+                            {evenSteps.map((step) => (
                                 <div key={step.id} className={`timeline-item ${step.status}`}>
                                     <div className="timeline-badge">
                                         {step.icon}
@@ -97,7 +97,7 @@ function GuideLines() {
                     ) : (
                         <div className="empty-state">
                             <div className="empty-illustration">📅</div>
-                            <p>Guidelines for the Even Semester are currently being updated by the administrator.</p>
+                            <p>Guidelines for the Odd Semester are currently being updated by the administrator.</p>
                         </div>
                     )}
                 </div>
