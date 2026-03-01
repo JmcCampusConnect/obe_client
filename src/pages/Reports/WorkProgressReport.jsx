@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import '../../css/WorkProgressReport.css';
-import Loading from '../../assets/load.svg';  
+import Loading from '../../assets/load.svg';
 
-function WorkProgressReport() {  
+function WorkProgressReport() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const { staffId } = useParams();
@@ -16,7 +16,7 @@ function WorkProgressReport() {
     const [mentor, setMentor] = useState(false);
     const [hod, setHod] = useState(false);
     const [staffName, setStaffName] = useState('');
-    const [loading, setLoading] = useState(true);   
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkStaffId = async () => {
@@ -71,7 +71,7 @@ function WorkProgressReport() {
                 } catch (err) {
                     alert('Error fetching status report.');
                 } finally {
-                    setLoading(false);  
+                    setLoading(false);
                 }
             }
         };
@@ -112,7 +112,7 @@ function WorkProgressReport() {
                     <div className='course-entire-box'>
                         {admin && (
                             <>
-                                <button className='report-subject-box' onClick={() => handleDeptReport("ALL")}>ALL DEPT</button>
+                                <button className='report-subject-box' onClick={() => handleDeptReport("ALL")}>ALL DEPARTMENT</button>
                                 <button className='report-subject-box' onClick={handleMatrixReport}>RELATIONSHIP MATRIX</button>
                                 <button className='report-subject-box' onClick={handleEseReport}>ESE</button>
                             </>
