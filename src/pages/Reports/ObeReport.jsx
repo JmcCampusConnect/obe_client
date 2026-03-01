@@ -20,11 +20,10 @@ import {
     Printer,
     Eye,
     ChevronDown,
-    Filter,
-    ExternalLink
 } from "lucide-react";
 
 function ObeReport() {
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [attainmentSpecData, setAttainmentSpecData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -59,12 +58,14 @@ function ObeReport() {
     };
 
     const fetchReport = async () => {
+
         if (!selectedYear) {
             showNotification('error', 'Please select an academic year');
             return;
         }
 
         try {
+
             setLoading(true);
             setDebugInfo("Fetching report data...");
 
@@ -80,8 +81,6 @@ function ObeReport() {
                 setReportFetched(true);
                 setDebugInfo(`Found ${Object.keys(response.data).length} departments`);
                 showNotification('success', 'Report generated successfully');
-
-                // Auto-expand first department
                 const firstDept = Object.keys(response.data)[0];
                 if (firstDept) {
                     setExpandedDepartments({ [firstDept]: true });
@@ -97,10 +96,11 @@ function ObeReport() {
     };
 
     const downloadWord = async () => {
+
         try {
+
             setLoading(true);
             setDownloadProgress("Generating Word document...");
-
             const response = await axios.get(
                 `${apiUrl}/api/specReport/download-word`,
                 {
@@ -108,7 +108,6 @@ function ObeReport() {
                     responseType: "blob",
                 }
             );
-
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
@@ -198,9 +197,6 @@ function ObeReport() {
             <div className="report-header-section">
                 <div className="header-content">
                     <div className="title-section">
-                        <div className="title-icon-wrapper">
-                            <Target size={32} className="title-icon" />
-                        </div>
                         <div>
                             <h1 className="report-main-title">
                                 Programme Specific Outcome Report
@@ -356,7 +352,7 @@ function ObeReport() {
                 {Object.keys(attainmentSpecData).length === 0 ? (
                     <div className="empty-state">
                         <div className="empty-icon-wrapper">
-                            <FileText size={64} className="empty-icon" />
+                            <FileText size={40} className="empty-icon" />
                         </div>
                         <h3>No Report Generated</h3>
                         <p>Select an academic year and click "Generate Report" to create a new Programme Specific Outcome report</p>
@@ -409,7 +405,7 @@ function ObeReport() {
                             {expandedDepartments[deptId] && (
                                 <div className="department-content">
                                     {/* PAGE 1: Methodology */}
-                                    <div className="report-page">
+                                    <div className="report-page1">
                                         <div className="page-header">
                                             <img src={jmclogo} alt="JMC Logo" className="college-logo" />
                                             <div className="header-text">
@@ -434,8 +430,8 @@ function ObeReport() {
                                             </ol>
 
                                             {/* Table 1 */}
-                                            <h4 className="table-caption">
-                                                Table 1: Weightage by students and scale used to assess the attainment for {deptData.graduate || "PG"}
+                                            <h4 className="table-captions">
+                                                Table 1 : Weightage by students and scale used to assess the attainment for {deptData.graduate || "PG"}
                                             </h4>
                                             <table className="data-table methodology-table">
                                                 <thead>
@@ -454,8 +450,8 @@ function ObeReport() {
                                             </table>
 
                                             {/* Table 2 */}
-                                            <h4 className="table-caption">
-                                                Table 2: Scale used to assess the Course Outcome for {deptData.graduate || "PG"}
+                                            <h4 className="table-captions">
+                                                Table 2 : Scale used to assess the Course Outcome for {deptData.graduate || "PG"}
                                             </h4>
                                             <table className="data-table methodology-table">
                                                 <thead>
@@ -473,8 +469,8 @@ function ObeReport() {
                                             </table>
 
                                             {/* Table 3 */}
-                                            <h4 className="table-caption">
-                                                Table 3: Scale used to assess the Program Specific Outcome for {deptData.graduate || "PG"}
+                                            <h4 className="table-captions">
+                                                Table 3 : Scale used to assess the Program Specific Outcome for {deptData.graduate || "PG"}
                                             </h4>
                                             <table className="data-table methodology-table">
                                                 <thead>
@@ -491,15 +487,10 @@ function ObeReport() {
                                                 </tbody>
                                             </table>
                                         </div>
-
-                                        <div className="page-footer">
-                                            <span>Page {deptIndex * 2 + 1}</span>
-                                            <span>{deptId}</span>
-                                        </div>
                                     </div>
 
                                     {/* PAGE 2: Data */}
-                                    <div className="report-page">
+                                    <div className="report-page2">
                                         <div className="page-header">
                                             <img src={jmclogo} alt="JMC Logo" className="college-logo" />
                                             <div className="header-text">
@@ -515,11 +506,8 @@ function ObeReport() {
                                             </h3>
 
                                             <div className="programme-info">
-                                                <p>
-                                                    <strong>Programme:</strong> {deptId} ({deptData.graduate || "PG"})
-                                                    <span className="spacer"></span>
-                                                    <strong>Period of Study:</strong> {calculatePeriodOfStudy(selectedYear)}
-                                                </p>
+                                                <strong>Programme :</strong> {deptId} ({deptData.graduate || "PG"})
+                                                <strong>Period of Study :</strong> {calculatePeriodOfStudy(selectedYear)}
                                             </div>
 
                                             <table className="data-table main-table">
@@ -573,7 +561,7 @@ function ObeReport() {
                                                     {deptData.meanScores && (
                                                         <tr className="pso-summary-row">
                                                             <td colSpan="3" className="text-right">
-                                                                <strong>Programme Specific Outcome (PSO) Average</strong>
+                                                                <strong>Programme Specific Outcome (PSO)</strong>
                                                             </td>
                                                             <td className="text-center">
                                                                 <strong className="pso-score">
@@ -601,15 +589,6 @@ function ObeReport() {
                                                     )}
                                                 </tbody>
                                             </table>
-
-                                            <div className="signature-section">
-                                                <p className="signature-text">Controller of Examinations</p>
-                                            </div>
-                                        </div>
-
-                                        <div className="page-footer">
-                                            <span>Page {deptIndex * 2 + 2}</span>
-                                            <span>{deptId}</span>
                                         </div>
                                     </div>
                                 </div>
