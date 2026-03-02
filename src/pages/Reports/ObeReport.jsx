@@ -112,7 +112,7 @@ function ObeReport() {
             const link = document.createElement("a");
             link.href = url;
             const timestamp = new Date().toISOString().slice(0, 10);
-            link.setAttribute("download", `PSO_Report_${selectedYear}_${timestamp}.docx`);
+            link.setAttribute("download", `Pso Report ${selectedYear}.docx`);
             document.body.appendChild(link);
             link.click();
             link.remove();
