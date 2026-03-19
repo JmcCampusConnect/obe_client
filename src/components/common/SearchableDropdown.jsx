@@ -139,8 +139,7 @@ function SearchableDropdown({ label, options, value, onSelect, getOptionLabel, p
                         ))}
                     </ul>
                 )}
-
-                {error && <div className="error-message">{error}</div>}
+                {/* {error && <div className="error-message">{error}</div>} */}
             </div>
         </div>
     )

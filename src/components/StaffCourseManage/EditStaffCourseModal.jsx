@@ -24,15 +24,28 @@ const EditStaffCourseModal = ({
         return { value: String(item), label: String(item) };
     }) : []);
 
+    const getStaffNameFromMaster = id => {
+        if (!Array.isArray(staffIdList)) return "";
+        const staff = staffIdList.find(s => s && (String(s.staff_id) === String(id) || String(s.value) === String(id)));
+        return staff ? (staff.staff_name ?? staff.label ?? "") : "";
+    };
+
     const staffIdOptions = (Array.isArray(staffIdList) ? staffIdList : []).map(item => {
-        let id = item;
-        let labelFromItem = null;
-        if (item && typeof item === 'object') {
-            id = item.value ?? item.staff_id ?? Object.values(item)[0];
-            labelFromItem = item.label ?? null;
+        if (!item) return { value: "", label: "" };
+
+        let id = "";
+        let name = "";
+
+        if (typeof item === 'object') {
+            id = item.staff_id ?? item.value ?? Object.values(item)[0];
+            name = item.staff_name ?? item.label ?? "";
+        } else {
+            id = String(item);
         }
-        const staff = staffData?.find(s => String(s.staff_id) === String(id));
-        const label = labelFromItem || `${id} - ${staff?.staff_name || "Unknown Staff"}`;
+
+        const staffName = getStaffNameFromMaster(id);
+        const label = name || (staffName ? `${id} - ${staffName}` : `${id}`);
+
         return { value: String(id ?? ""), label: String(label) };
     });
 
@@ -67,7 +80,7 @@ const EditStaffCourseModal = ({
                 </div>
 
                 <div className="modal-body">
-               
+
                     {typeof errors === 'object' && (
                         <style>{`.edit-modal-error{color:red;margin-bottom:8px}`}</style>
                     )}
@@ -97,7 +110,7 @@ const EditStaffCourseModal = ({
                                 name="staff_name"
                                 value={editStaff.staff_name || ''}
                                 readOnly
-                                
+
                             />
                         </label>
 

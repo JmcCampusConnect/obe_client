@@ -24,11 +24,27 @@ function AddStaffCourseModal({
         label: String(item ?? "")
     })) : []);
 
-    const staffIdOptions = (Array.isArray(staffId) ? staffId : []).map(id => {
-        const staff = staffData.find(s => s.staff_id === id);
+    const getStaffNameFromMaster = id => {
+        if (!Array.isArray(staffId)) return "";
+        const staff = staffId.find(s => s && (String(s.staff_id) === String(id) || String(s.value) === String(id)));
+        return staff ? (staff.staff_name ?? staff.label ?? "") : "";
+    };
+
+    const staffIdOptions = (Array.isArray(staffId) ? staffId : []).map(item => {
+        if (!item) return { value: "", label: "" };
+        if (typeof item === 'object') {
+            const id = item.staff_id ?? item.value ?? "";
+            const name = item.staff_name ?? item.label ?? getStaffNameFromMaster(id);
+            return {
+                value: String(id),
+                label: name ? `${id} - ${name}` : String(id),
+            };
+        }
+        const id = String(item);
+        const name = getStaffNameFromMaster(id);
         return {
-            value: String(id ?? ""),
-            label: `${id} - ${staff?.staff_name || ""}`
+            value: id,
+            label: name ? `${id} - ${name}` : id,
         };
     });
 

@@ -109,17 +109,20 @@ const StaffCourseManage = () => {
     );
 
     const staffIdOptions = useMemo(() => {
-        const uniqueStaff = staffData.reduce((acc, staff) => {
-            if (staff.staff_id && !acc[staff.staff_id]) {
-                acc[staff.staff_id] = staff.staff_name || staff.staff_id;
+        if (!Array.isArray(staffId)) return [];
+        return staffId.map(item => {
+            if (!item) return { value: "", label: "" };
+            if (typeof item === 'object') {
+                const id = item.staff_id ?? item.value ?? "";
+                const name = item.staff_name ?? item.label ?? "";
+                return {
+                    value: String(id),
+                    label: name ? `${id} - ${name}` : String(id),
+                };
             }
-            return acc;
-        }, {});
-        return Object.entries(uniqueStaff).map(([id, name]) => ({
-            value: id,
-            label: `${id} - ${name}`,
-        }));
-    }, [staffData]);
+            return { value: String(item), label: String(item) };
+        });
+    }, [staffId]);
 
     const clearAllFilters = () => {
         setFilterCategory('');
