@@ -96,6 +96,7 @@ function ScopeManage() {
             };
         });
         try {
+            console.table(updates)
             await axios.put(`${apiUrl}/api/updateScope`, { updates });
             alert("Scope Data Saved Successfully!");
         } catch (error) {
@@ -121,7 +122,7 @@ function ScopeManage() {
                 <img src={Loading} alt="Loading spinner" className="img" />
             </center>
         </div>
-    ) 
+    )
 
     return (
         <div className="scope-main">

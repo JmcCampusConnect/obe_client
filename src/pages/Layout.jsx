@@ -79,6 +79,12 @@ function Layout() {
             show: user && user.program_specific_outcome === 1,
         },
         {
+            icon: faClipboardList,
+            name: 'Program Outcome',
+            path: `/staff/${urlStaffId}/programoutcome`,
+            show: user && user.program_outcome === 1,
+        },
+        {
             icon: faClipboard,
             name: 'Work Progress Report',
             path: `/staff/${urlStaffId}/workprogressreport`,
@@ -120,7 +126,7 @@ function Layout() {
             path: `/staff/${urlStaffId}/terminologies`,
             show: user
         },
-        {   
+        {
             icon: faExclamationTriangle,
             name: 'Data Deletion',
             path: `/staff/${urlStaffId}/dataDeletion`,

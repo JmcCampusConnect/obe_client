@@ -193,6 +193,8 @@ function ObeReport() {
 
     return (
         <div className="obe-report-container">
+
+
             {/* Header with Gradient Background */}
             <div className="report-header-section">
                 <div className="header-content">
@@ -301,22 +303,6 @@ function ObeReport() {
                                 )}
                             </button>
                             <button
-                                onClick={printReport}
-                                className="btn btn-outline"
-                                disabled={loading}
-                                title="Print Report"
-                            >
-                                <Printer size={18} />
-                            </button>
-                            <button
-                                onClick={() => setPreviewMode(!previewMode)}
-                                className={`btn btn-outline ${previewMode ? 'active' : ''}`}
-                                disabled={loading}
-                                title="Toggle Preview Mode"
-                            >
-                                <Eye size={18} />
-                            </button>
-                            <button
                                 onClick={resetReport}
                                 className="btn btn-outline"
                                 disabled={loading}
@@ -356,14 +342,6 @@ function ObeReport() {
                         </div>
                         <h3>No Report Generated</h3>
                         <p>Select an academic year and click "Generate Report" to create a new Programme Specific Outcome report</p>
-                        <button
-                            onClick={fetchReport}
-                            className="btn btn-primary btn-large"
-                            disabled={!selectedYear}
-                        >
-                            <FileBarChart size={18} />
-                            Generate Report
-                        </button>
                     </div>
                 ) : (
                     Object.entries(attainmentSpecData).map(([deptId, deptData], deptIndex) => (

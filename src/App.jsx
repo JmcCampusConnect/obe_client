@@ -39,6 +39,7 @@ import ScopeManage from './pages/Manage/ScopeManage';
 import StudentOutcome from './pages/Outcomes/StudentOutcome';
 import CourseOutcome from './pages/Outcomes/CourseOutcome';
 import ProgramSpecOutcome from './pages/Outcomes/ProgramSpecOutcome';
+import ProgramOutcome from './pages/Outcomes/ProgramOutcome';
 import AdminStudentOutcome from './pages/Outcomes/AdminStudentOutcome';
 import HodStudentOutcome from './pages/Outcomes/HodStudentOutcome';
 import TutorStudentOutcome from './pages/Outcomes/TutorStudentOutcome';
@@ -94,6 +95,7 @@ function App() {
                         <Route path="studentoutcome" element={<StudentOutcome />} />
                         <Route path="courseoutcome" element={<CourseOutcome />} />
                         <Route path="programspecificoutcome" element={<ProgramSpecOutcome />} />
+                        <Route path="programoutcome" element={<ProgramOutcome />} />
                         <Route path="adminstudentoutcome" element={<AdminStudentOutcome />} />
                         <Route path="hodstudentoutcome" element={<HodStudentOutcome />} />
                         <Route path="tutorstudentoutcome" element={<TutorStudentOutcome />} />

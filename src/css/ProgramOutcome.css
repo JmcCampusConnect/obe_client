@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.spec-dept-container {
+.spec-ugpg-container {
     padding: 30px;
     height: 100%;
     width: 100%;
@@ -46,6 +46,25 @@
     border: 1px solid #ccc;
     font-size: 14px;
     background: #fff;
+}
+
+.spec-radio-cnt {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    height: 100%;
+    margin-top: 5px;
+}
+
+.spec-label {
+    font-size: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="radio"] {
+    transform: scale(1.2);
 }
 
 .spec-btn-content {
