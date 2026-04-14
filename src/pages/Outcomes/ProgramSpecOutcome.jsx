@@ -17,7 +17,7 @@ function ProgramSpecOutcome() {
     useEffect(() => {
         const fetchDeptName = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/api/proDeptName`);
+                const response = await axios.get(`${apiUrl}/api/pso/deptNames`);
                 const sortedDeptNames = response.data.dept_name.sort((a, b) => a.localeCompare(b));
                 setAcademicYear(response.data.academic_year);
                 setDept(sortedDeptNames);
@@ -32,7 +32,7 @@ function ProgramSpecOutcome() {
         setSelectedDept(value);
         setSelectedDeptId('');
         try {
-            const response = await axios.post(`${apiUrl}/api/proDeptIdChange`, { changeDept: value });
+            const response = await axios.post(`${apiUrl}/api/pso/deptIdChange`, { changeDept: value });
             const sortedDeptIds = response.data.sort((a, b) => a.localeCompare(b));
             setDeptId(sortedDeptIds);
         } catch (error) {
@@ -49,7 +49,7 @@ function ProgramSpecOutcome() {
         try {
             setLoading(true);
             setSpecTable(false);
-            const response = await axios.post(`${apiUrl}/api/proSpecOutcome`, {
+            const response = await axios.post(`${apiUrl}/api/pso/outcome`, {
                 academicYear,
                 selectedDept,
                 selectedDeptId,

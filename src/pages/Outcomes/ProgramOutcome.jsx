@@ -14,7 +14,7 @@ function ProgramOutcome() {
     useEffect(() => {
         const fetchAcademicYear = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/api/proDeptName`);
+                const response = await axios.get(`${apiUrl}/api/academicYear`);
                 setAcademicYear(response.data.academic_year);
             } catch (error) {
                 alert('Error fetching academic year');
@@ -23,15 +23,13 @@ function ProgramOutcome() {
         fetchAcademicYear();
     }, [apiUrl]);
 
-    const handleProgramTypeChange = (event) => {
-        setProgramType(event.target.value);
-    };
+    const handleProgramTypeChange = (event) => { setProgramType(event.target.value) };
 
     const handleGetOutcomeAll = async () => {
         try {
             setLoading(true);
             setAllTable(false);
-            const response = await axios.post(`${apiUrl}/api/proOutcome`, {
+            const response = await axios.post(`${apiUrl}/api/po/outcome`, {
                 academicYear,
                 programType,
             });
