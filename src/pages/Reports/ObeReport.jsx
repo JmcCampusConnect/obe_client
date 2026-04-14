@@ -18,12 +18,15 @@ import {
     Loader2,
     FileBarChart,
     ChevronDown,
+    ChevronRight,
+    GraduationCap,
 } from "lucide-react";
 
 function ObeReport() {
+
     const apiUrl = import.meta.env.VITE_API_URL;
     const [attainmentSpecData, setAttainmentSpecData] = useState({});
-    const [poRawData, setPoRawData] = useState(null); // stores {UG, PG} for PO
+    const [poRawData, setPoRawData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [reportFetched, setReportFetched] = useState(false);
     const [downloadProgress, setDownloadProgress] = useState("");
@@ -31,6 +34,7 @@ function ObeReport() {
     const [selectedYear, setSelectedYear] = useState("");
     const [debugInfo, setDebugInfo] = useState("");
     const [expandedDepartments, setExpandedDepartments] = useState({});
+    const [expandedPoSections, setExpandedPoSections] = useState({ ug: true, pg: true });
     const [notification, setNotification] = useState({ show: false, type: '', message: '' });
     const [reportType, setReportType] = useState('pso');
 
@@ -41,6 +45,7 @@ function ObeReport() {
                 setAcademicYears(response.data);
                 if (response.data.length > 0) setSelectedYear(response.data[0]);
             } catch (error) {
+                console.error('Error fetching academic years:', error);
                 showNotification('error', 'Failed to fetch academic years');
             }
         };
@@ -71,7 +76,6 @@ function ObeReport() {
             const data = response.data;
 
             if (reportType === 'po' && (data.UG || data.PG)) {
-                // Store raw PO data for simple table rendering
                 setPoRawData(data);
                 setReportFetched(true);
                 setDebugInfo(`PO data loaded: UG=${data.UG?.length || 0}, PG=${data.PG?.length || 0}`);
@@ -101,6 +105,7 @@ function ObeReport() {
         }
     };
 
+
     const downloadWord = async () => {
         try {
             setLoading(true);
@@ -113,7 +118,6 @@ function ObeReport() {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
-            const timestamp = new Date().toISOString().slice(0, 10);
             link.setAttribute("download", `${reportType.toUpperCase()} Report ${selectedYear}.docx`);
             document.body.appendChild(link);
             link.click();
@@ -136,6 +140,7 @@ function ObeReport() {
         setReportFetched(false);
         setDebugInfo("");
         setExpandedDepartments({});
+        setExpandedPoSections({ ug: true, pg: true });
         showNotification('info', 'Report reset');
     };
 
@@ -156,18 +161,23 @@ function ObeReport() {
         return academicYear;
     };
 
-    // Simple stats for PO (departments count)
-    const getPoStats = () => {
-        if (!poRawData) return null;
-        const ugCount = poRawData.UG?.length || 0;
-        const pgCount = poRawData.PG?.length || 0;
-        return { ugCount, pgCount, total: ugCount + pgCount };
+    const getPoSectionStats = () => {
+        if (!poRawData) return { ugAvg: null, pgAvg: null };
+        let ugAvg = null, pgAvg = null;
+        if (poRawData.UG && poRawData.UG.length) {
+            const sum = poRawData.UG.reduce((acc, item) => acc + parseFloat(item.obeLevel), 0);
+            ugAvg = (sum / poRawData.UG.length).toFixed(2);
+        }
+        if (poRawData.PG && poRawData.PG.length) {
+            const sum = poRawData.PG.reduce((acc, item) => acc + parseFloat(item.obeLevel), 0);
+            pgAvg = (sum / poRawData.PG.length).toFixed(2);
+        }
+        return { ugAvg, pgAvg };
     };
-    const poStats = getPoStats();
+    const poStats = getPoSectionStats();
 
     const mainTitle = reportType === 'pso' ? "Programme Specific Outcome Report" : "Programme Outcome Report";
     const outcomeLabel = reportType === 'pso' ? "PSO" : "PO";
-    const avgStatLabel = reportType === 'pso' ? "Avg. PSO" : "Avg. PO";
 
     return (
         <div className="obe-report-container">
@@ -183,7 +193,7 @@ function ObeReport() {
                 </div>
             </div>
 
-            {/* Header Section (same for both) */}
+            {/* Header Section */}
             <div className="report-header-section">
                 <div className="header-content">
                     <div className="title-section">
@@ -193,16 +203,23 @@ function ObeReport() {
                     <div className="filter-section">
                         <div className="year-selector-wrapper">
                             <Calendar size={18} className="input-icon" />
-                            <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} disabled={loading}>
+                            <select
+                                value={selectedYear}
+                                onChange={(e) => setSelectedYear(e.target.value)}
+                                disabled={loading}
+                                className="academic-dropdown"
+                            >
                                 <option value="">Select Academic Year</option>
-                                {academicYears.map((year, idx) => <option key={idx} value={year}>{year}</option>)}
+                                {academicYears.map((year, idx) => (
+                                    <option key={idx} value={year}>{year}</option>
+                                ))}
                             </select>
                             <ChevronDown size={16} className="dropdown-arrow" />
                         </div>
                     </div>
                 </div>
 
-                {/* Stats Cards - different for PO */}
+                {/* Stats Cards */}
                 {reportType === 'pso' && (
                     (() => {
                         let totalCourses = 0, totalOutcomeScore = 0, deptCount = 0;
@@ -216,16 +233,16 @@ function ObeReport() {
                             <div className="stats-grid">
                                 <div className="stat-card"><div className="stat-icon-wrapper blue"><Layers size={20} /></div><div className="stat-content"><span className="stat-label">Departments</span><span className="stat-value">{stats.departments}</span></div></div>
                                 <div className="stat-card"><div className="stat-icon-wrapper green"><BookOpen size={20} /></div><div className="stat-content"><span className="stat-label">Courses</span><span className="stat-value">{stats.courses}</span></div></div>
-                                <div className="stat-card"><div className="stat-icon-wrapper orange"><Award size={20} /></div><div className="stat-content"><span className="stat-label">{avgStatLabel}</span><span className="stat-value">{stats.avgOutcome}</span></div></div>
+                                <div className="stat-card"><div className="stat-icon-wrapper orange"><Award size={20} /></div><div className="stat-content"><span className="stat-label">{outcomeLabel} Avg</span><span className="stat-value">{stats.avgOutcome}</span></div></div>
                             </div>
                         ) : null;
                     })()
                 )}
-                {reportType === 'po' && poStats && poStats.total > 0 && (
+                {reportType === 'po' && poRawData && (poRawData.UG?.length || poRawData.PG?.length) && (
                     <div className="stats-grid">
-                        <div className="stat-card"><div className="stat-icon-wrapper blue"><Layers size={20} /></div><div className="stat-content"><span className="stat-label">UG Programmes</span><span className="stat-value">{poStats.ugCount}</span></div></div>
-                        <div className="stat-card"><div className="stat-icon-wrapper green"><BookOpen size={20} /></div><div className="stat-content"><span className="stat-label">PG Programmes</span><span className="stat-value">{poStats.pgCount}</span></div></div>
-                        <div className="stat-card"><div className="stat-icon-wrapper orange"><Award size={20} /></div><div className="stat-content"><span className="stat-label">Total</span><span className="stat-value">{poStats.total}</span></div></div>
+                        <div className="stat-card"><div className="stat-icon-wrapper blue"><GraduationCap size={20} /></div><div className="stat-content"><span className="stat-label">UG Programmes</span><span className="stat-value">{poRawData.UG?.length || 0}</span></div></div>
+                        <div className="stat-card"><div className="stat-icon-wrapper green"><GraduationCap size={20} /></div><div className="stat-content"><span className="stat-label">PG Programmes</span><span className="stat-value">{poRawData.PG?.length || 0}</span></div></div>
+                        <div className="stat-card"><div className="stat-icon-wrapper orange"><Award size={20} /></div><div className="stat-content"><span className="stat-label">Total</span><span className="stat-value">{(poRawData.UG?.length || 0) + (poRawData.PG?.length || 0)}</span></div></div>
                     </div>
                 )}
 
@@ -257,7 +274,7 @@ function ObeReport() {
                 </div>
             )}
 
-            {/* Report Preview - conditional rendering for PO vs PSO */}
+            {/* Report Preview */}
             <div className="report-preview">
                 {!reportFetched ? (
                     <div className="empty-state">
@@ -266,21 +283,21 @@ function ObeReport() {
                         <p>Select an academic year and click "Generate Report"</p>
                     </div>
                 ) : reportType === 'pso' ? (
-                    // ========== PSO RENDERING (unchanged, keep your existing code) ==========
+                    // ================= PSO RENDERING =================
                     Object.entries(attainmentSpecData).map(([deptId, deptData]) => {
                         const meanScoreValue = deptData.meanScores?.pso;
                         return (
                             <div key={deptId} className="department-container">
                                 <div className="department-header" onClick={() => setExpandedDepartments(prev => ({ ...prev, [deptId]: !prev[deptId] }))}>
                                     <div className="department-header-left">
-                                        <ChevronDown size={20} className={`chevron ${expandedDepartments[deptId] ? 'expanded' : ''}`} />
+                                        {expandedDepartments[deptId] ? <ChevronDown size={20} className="chevron expanded" /> : <ChevronRight size={20} className="chevron" />}
                                         <div className="department-info"><h3 className="department-name">{deptId}</h3><span className="department-badge">{deptData.graduate || "PG"}</span></div>
                                     </div>
                                     {meanScoreValue && <div className="department-score"><span className="score-label">PSO Average:</span><span className="score-value" style={{ color: getAttainmentLevel(meanScoreValue).color, background: getAttainmentLevel(meanScoreValue).bg }}>{meanScoreValue.toFixed(2)}</span></div>}
                                 </div>
                                 {expandedDepartments[deptId] && (
                                     <div className="department-content">
-                                        {/* PAGE 1: Methodology (same as before) */}
+                                        {/* Page 1: Methodology */}
                                         <div className="report-page1">
                                             <div className="page-header"><img src={jmclogo} alt="JMC Logo" className="college-logo" /><div className="header-text"><h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1><h2>TIRUCHIRAPPALLI - 620 020</h2><h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3></div></div>
                                             <div className="page-content">
@@ -294,12 +311,21 @@ function ObeReport() {
                                                 <table className="data-table methodology-table"><thead><tr><th>Scale used</th><th>Level of attainment of Outcome</th></tr></thead><tbody><tr><td>0 – 1.0</td><td>Low</td></tr><tr><td>1.1 – 2.0</td><td>Moderate</td></tr><tr><td>2.1 – 3.0</td><td>High</td></tr><tr><td>3.1 – 4.0</td><td>Excellent</td></tr></tbody></table>
                                             </div>
                                         </div>
-                                        {/* PAGE 2: Course table */}
+                                        {/* Page 2: Course table */}
                                         <div className="report-page2">
                                             <div className="page-header"><img src={jmclogo} alt="JMC Logo" className="college-logo" /><div className="header-text"><h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1><h2>TIRUCHIRAPPALLI - 620 020</h2><h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3></div></div>
                                             <div className="page-content">
                                                 <h3 className="section-title centered underline">Attainment of Course Outcome</h3>
-                                                <div className="programme-info"><strong>Programme :</strong> {deptId} ({deptData.graduate || "PG"})<strong>Period of Study :</strong> {calculatePeriodOfStudy(selectedYear)}</div>
+                                                <div className="programme-info">
+                                                    <div>
+                                                        <strong>Programme : </strong>
+                                                        {deptId} ({deptData.graduate || "PG"})
+                                                    </div>
+                                                    <div>
+                                                        <strong>Period of Study : </strong>
+                                                        {calculatePeriodOfStudy(selectedYear)}
+                                                    </div>
+                                                </div>
                                                 <table className="data-table main-table"><thead><tr><th>S. No</th><th>Course Code</th><th>Course Name</th><th>OBE Level</th><th>Course Outcome</th></tr></thead><tbody>
                                                     {deptData.overall && Object.keys(deptData.overall).map((code, idx) => {
                                                         const avgScore = deptData.avgOverallScore?.[code];
@@ -319,72 +345,322 @@ function ObeReport() {
                         );
                     })
                 ) : (
-                    // ========== PO RENDERING: Simple table as per image ==========
+                    // ================= PO RENDERING (PSO-style design) =================
                     <div className="po-simple-report">
-                        {/* Optional: college header (same as PSO) */}
-                        <div className="page-header" style={{ marginBottom: '1.5rem' }}>
-                            <img src={jmclogo} alt="JMC Logo" className="college-logo" />
-                            <div className="header-text">
-                                <h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
-                                <h2>TIRUCHIRAPPALLI - 620 020</h2>
-                                <h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3>
-                            </div>
-                        </div>
-                        <h3 className="section-title centered underline" style={{ marginBottom: '1rem' }}>Programme Outcome Attainment</h3>
-                        <p style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Academic Year: <strong>{selectedYear}</strong> | Period of Study: <strong>{calculatePeriodOfStudy(selectedYear)}</strong></p>
-
+                        {/* UG Section - expandable card */}
                         {poRawData?.UG && poRawData.UG.length > 0 && (
-                            <>
-                                <h4 className="table-captions" style={{ fontSize: '1.2rem', marginTop: '1rem' }}>UNDERGRADUATE PROGRAMMES</h4>
-                                <table className="data-table main-table">
-                                    <thead>
-                                        <tr><th>S. No</th><th>Programme</th><th>OBE Level</th><th>Programme Outcome</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {poRawData.UG.map((item) => (
-                                            <tr key={item.sNo}>
-                                                <td className="text-center">{item.sNo}</td>
-                                                <td>{item.programme}</td>
-                                                <td className="text-center">{item.obeLevel}</td>
-                                                <td className="text-center">
-                                                    <span className="attainment-badge" style={{ backgroundColor: getAttainmentLevel(parseFloat(item.obeLevel)).bg, color: getAttainmentLevel(parseFloat(item.obeLevel)).color }}>
-                                                        {item.outcome}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </>
+                            <div className="department-container">
+                                <div className="department-header" onClick={() => setExpandedPoSections(prev => ({ ...prev, ug: !prev.ug }))}>
+                                    <div className="department-header-left">
+                                        {expandedPoSections.ug ? <ChevronDown size={20} className="chevron expanded" /> : <ChevronRight size={20} className="chevron" />}
+                                        <div className="department-info">
+                                            <h3 className="department-name">Undergraduate Programmes</h3>
+                                            <span className="department-badge">UG</span>
+                                        </div>
+                                    </div>
+                                    {poStats.ugAvg && (
+                                        <div className="department-score">
+                                            <span className="score-label">PO Average:</span>
+                                            <span className="score-value" style={{ color: getAttainmentLevel(parseFloat(poStats.ugAvg)).color, background: getAttainmentLevel(parseFloat(poStats.ugAvg)).bg }}>
+                                                {poStats.ugAvg}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {expandedPoSections.ug && (
+                                    <div className="department-content">
+                                        {/* Page 1: Methodology for PO */}
+                                        <div className="report-page1">
+                                            <div className="page-header">
+                                                <img src={jmclogo} alt="JMC Logo" className="college-logo" />
+                                                <div className="header-text">
+                                                    <h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
+                                                    <h2>TIRUCHIRAPPALLI - 620 020</h2>
+                                                    <h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3>
+                                                </div>
+                                            </div>
+                                            <div className="page-content">
+                                                <h3 className="section-title">
+                                                    <BarChart3 size={24} className="section-icon" />
+                                                    Steps to Calculate the Attainment of Programme Outcome (PO)
+                                                </h3>
+                                                <ol className="steps-list">
+                                                    <li>The CIA and ESE marks are normalized to a common scale value of 100.</li>
+                                                    <li>From the above normalized values, a weightage of 40% is assigned to the CIA Component and a weightage of 60% is assigned to the ESE component.</li>
+                                                    <li>These values are summed up to get an OBE score. An OBE scale value of 1 to 4 and the level of attainment (Low, Moderate, High, Excellent) by a student on a specific course is determined based on this score. This is shown in Table 1.</li>
+                                                    <li>A mean of the OBE scale value for all the students indicates the attainment level of the particular course. This is shown in Table 2.</li>
+                                                    <li>The mean of the OBE scale value for all the courses of a specific programme determines the attainment level of that programme's Programme Outcome. This is shown in Table 3.</li>
+                                                </ol>
+
+                                                <h4 className="table-captions">Table 1 : Weightage by students and scale used to assess the attainment (UG)</h4>
+                                                <table className="data-table methodology-table">
+                                                    <thead>
+                                                        <tr><th>Weightage obtained</th><th>Scale used</th><th>Level of attainment of Outcome</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>0 - 49</td><td>1</td><td>Low</td></tr>
+                                                        <tr><td>50 - 74</td><td>2</td><td>Moderate</td></tr>
+                                                        <tr><td>75 – 94</td><td>3</td><td>High</td></tr>
+                                                        <tr><td>95 - 100</td><td>4</td><td>Excellent</td></tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <h4 className="table-captions">Table 2 : Scale used to assess the Course Outcome (UG)</h4>
+                                                <table className="data-table methodology-table">
+                                                    <thead>
+                                                        <tr><th>Scale used</th><th>Level of attainment of Outcome</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>0 – 1.0</td><td>Low</td></tr>
+                                                        <tr><td>1.1 – 2.0</td><td>Moderate</td></tr>
+                                                        <tr><td>2.1 – 3.0</td><td>High</td></tr>
+                                                        <tr><td>3.1 – 4.0</td><td>Excellent</td></tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <h4 className="table-captions">Table 3 : Scale used to assess the Programme Outcome (UG)</h4>
+                                                <table className="data-table methodology-table">
+                                                    <thead>
+                                                        <tr><th>Scale used</th><th>Level of attainment of Outcome</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>0 – 1.0</td><td>Low</td></tr>
+                                                        <tr><td>1.1 – 2.0</td><td>Moderate</td></tr>
+                                                        <tr><td>2.1 – 3.0</td><td>High</td></tr>
+                                                        <tr><td>3.1 – 4.0</td><td>Excellent</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {/* Page 2: Programme table for UG */}
+                                        <div className="report-page2">
+                                            <div className="page-header">
+                                                <img src={jmclogo} alt="JMC Logo" className="college-logo" />
+                                                <div className="header-text">
+                                                    <h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
+                                                    <h2>TIRUCHIRAPPALLI - 620 020</h2>
+                                                    <h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3>
+                                                </div>
+                                            </div>
+                                            <div className="page-content">
+                                                <h3 className="section-title centered underline">Attainment of Programme Outcome (UG)</h3>
+                                                <div className="programme-info">
+                                                    <div>
+                                                        <strong>Programme : </strong>
+                                                        Undergraduate Programmes (UG)
+                                                    </div>
+                                                    <div>
+                                                        <strong>Period of Study : </strong>
+                                                        {calculatePeriodOfStudy(selectedYear)}
+                                                    </div>
+                                                </div>
+
+                                                <table className="data-table main-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No</th>
+                                                            <th>Programme</th>
+                                                            <th>OBE Level</th>
+                                                            <th>Programme Outcome</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {poRawData.UG.map((item) => (
+                                                            <tr key={item.sNo}>
+                                                                <td className="text-center">{item.sNo}</td>
+                                                                <td>{item.programme}</td>
+                                                                <td className="text-center">{item.obeLevel}</td>
+                                                                <td className="text-center">
+                                                                    <span className="attainment-badge" style={{ backgroundColor: getAttainmentLevel(parseFloat(item.obeLevel)).bg, color: getAttainmentLevel(parseFloat(item.obeLevel)).color }}>
+                                                                        {item.outcome}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                        {/* Summary row with average PO score for UG */}
+                                                        {poStats.ugAvg && (
+                                                            <tr className="pso-summary-row">
+                                                                <td colSpan="2" className="text-right"><strong>Programme Outcome (PO) Average</strong></td>
+                                                                <td className="text-center"><strong className="pso-score">{poStats.ugAvg}</strong></td>
+                                                                <td className="text-center">
+                                                                    {(() => {
+                                                                        const avgVal = parseFloat(poStats.ugAvg);
+                                                                        const a = getAttainmentLevel(avgVal);
+                                                                        return <span className="attainment-badge pso-badge" style={{ backgroundColor: a.bg, color: a.color }}>{a.level}</span>;
+                                                                    })()}
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         )}
 
+                        {/* PG Section - expandable card */}
                         {poRawData?.PG && poRawData.PG.length > 0 && (
-                            <>
-                                <h4 className="table-captions" style={{ fontSize: '1.2rem', marginTop: '2rem' }}>POSTGRADUATE PROGRAMMES</h4>
-                                <table className="data-table main-table">
-                                    <thead>
-                                        <tr><th>S. No</th><th>Programme</th><th>OBE Level</th><th>Programme Outcome</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {poRawData.PG.map((item) => (
-                                            <tr key={item.sNo}>
-                                                <td className="text-center">{item.sNo}</td>
-                                                <td>{item.programme}</td>
-                                                <td className="text-center">{item.obeLevel}</td>
-                                                <td className="text-center">
-                                                    <span className="attainment-badge" style={{ backgroundColor: getAttainmentLevel(parseFloat(item.obeLevel)).bg, color: getAttainmentLevel(parseFloat(item.obeLevel)).color }}>
-                                                        {item.outcome}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </>
+                            <div className="department-container">
+                                <div className="department-header" onClick={() => setExpandedPoSections(prev => ({ ...prev, pg: !prev.pg }))}>
+                                    <div className="department-header-left">
+                                        {expandedPoSections.pg ? <ChevronDown size={20} className="chevron expanded" /> : <ChevronRight size={20} className="chevron" />}
+                                        <div className="department-info">
+                                            <h3 className="department-name">Postgraduate Programmes</h3>
+                                            <span className="department-badge">PG</span>
+                                        </div>
+                                    </div>
+                                    {poStats.pgAvg && (
+                                        <div className="department-score">
+                                            <span className="score-label">PO Average:</span>
+                                            <span className="score-value" style={{ color: getAttainmentLevel(parseFloat(poStats.pgAvg)).color, background: getAttainmentLevel(parseFloat(poStats.pgAvg)).bg }}>
+                                                {poStats.pgAvg}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {expandedPoSections.pg && (
+                                    <div className="department-content">
+                                        {/* Page 1: Methodology for PO (PG) */}
+                                        <div className="report-page1">
+                                            <div className="page-header">
+                                                <img src={jmclogo} alt="JMC Logo" className="college-logo" />
+                                                <div className="header-text">
+                                                    <h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
+                                                    <h2>TIRUCHIRAPPALLI - 620 020</h2>
+                                                    <h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3>
+                                                </div>
+                                            </div>
+                                            <div className="page-content">
+                                                <h3 className="section-title">
+                                                    <BarChart3 size={24} className="section-icon" />
+                                                    Steps to Calculate the Attainment of Programme Outcome (PO)
+                                                </h3>
+                                                <ol className="steps-list">
+                                                    <li>The CIA and ESE marks are normalized to a common scale value of 100.</li>
+                                                    <li>From the above normalized values, a weightage of 40% is assigned to the CIA Component and a weightage of 60% is assigned to the ESE component.</li>
+                                                    <li>These values are summed up to get an OBE score. An OBE scale value of 1 to 4 and the level of attainment (Low, Moderate, High, Excellent) by a student on a specific course is determined based on this score. This is shown in Table 1.</li>
+                                                    <li>A mean of the OBE scale value for all the students indicates the attainment level of the particular course. This is shown in Table 2.</li>
+                                                    <li>The mean of the OBE scale value for all the courses of a specific programme determines the attainment level of that programme's Programme Outcome. This is shown in Table 3.</li>
+                                                </ol>
+
+                                                <h4 className="table-captions">Table 1 : Weightage by students and scale used to assess the attainment (PG)</h4>
+                                                <table className="data-table methodology-table">
+                                                    <thead>
+                                                        <tr><th>Weightage obtained</th><th>Scale used</th><th>Level of attainment of Outcome</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>0 - 49</td><td>1</td><td>Low</td></tr>
+                                                        <tr><td>50 - 74</td><td>2</td><td>Moderate</td></tr>
+                                                        <tr><td>75 – 94</td><td>3</td><td>High</td></tr>
+                                                        <tr><td>95 - 100</td><td>4</td><td>Excellent</td></tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <h4 className="table-captions">Table 2 : Scale used to assess the Course Outcome (PG)</h4>
+                                                <table className="data-table methodology-table">
+                                                    <thead>
+                                                        <tr><th>Scale used</th><th>Level of attainment of Outcome</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>0 – 1.0</td><td>Low</td></tr>
+                                                        <tr><td>1.1 – 2.0</td><td>Moderate</td></tr>
+                                                        <tr><td>2.1 – 3.0</td><td>High</td></tr>
+                                                        <tr><td>3.1 – 4.0</td><td>Excellent</td></tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <h4 className="table-captions">Table 3 : Scale used to assess the Programme Outcome (PG)</h4>
+                                                <table className="data-table methodology-table">
+                                                    <thead>
+                                                        <tr><th>Scale used</th><th>Level of attainment of Outcome</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>0 – 1.0</td><td>Low</td></tr>
+                                                        <tr><td>1.1 – 2.0</td><td>Moderate</td></tr>
+                                                        <tr><td>2.1 – 3.0</td><td>High</td></tr>
+                                                        <tr><td>3.1 – 4.0</td><td>Excellent</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {/* Page 2: Programme table for PG */}
+                                        <div className="report-page2">
+                                            <div className="page-header">
+                                                <img src={jmclogo} alt="JMC Logo" className="college-logo" />
+                                                <div className="header-text">
+                                                    <h1>JAMAL MOHAMED COLLEGE (Autonomous)</h1>
+                                                    <h2>TIRUCHIRAPPALLI - 620 020</h2>
+                                                    <h3>OFFICE OF THE CONTROLLER OF EXAMINATIONS</h3>
+                                                </div>
+                                            </div>
+                                            <div className="page-content">
+                                                <h3 className="section-title centered underline">Attainment of Programme Outcome (PG)</h3>
+                                                <div className="programme-info">
+                                                    <div>
+                                                        <strong>Programme : </strong>
+                                                        Postgraduate Programmes (PG)
+                                                    </div>
+                                                    <div>
+                                                        <strong>Period of Study : </strong>
+                                                        {calculatePeriodOfStudy(selectedYear)}
+                                                    </div>
+                                                </div>
+
+                                                <table className="data-table main-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No</th>
+                                                            <th>Programme</th>
+                                                            <th>OBE Level</th>
+                                                            <th>Programme Outcome</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {poRawData.PG.map((item) => (
+                                                            <tr key={item.sNo}>
+                                                                <td className="text-center">{item.sNo}</td>
+                                                                <td>{item.programme}</td>
+                                                                <td className="text-center">{item.obeLevel}</td>
+                                                                <td className="text-center">
+                                                                    <span className="attainment-badge" style={{ backgroundColor: getAttainmentLevel(parseFloat(item.obeLevel)).bg, color: getAttainmentLevel(parseFloat(item.obeLevel)).color }}>
+                                                                        {item.outcome}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                        {/* Summary row with average PO score for PG */}
+                                                        {poStats.pgAvg && (
+                                                            <tr className="pso-summary-row">
+                                                                <td colSpan="2" className="text-right"><strong>Programme Outcome (PO) Average</strong></td>
+                                                                <td className="text-center"><strong className="pso-score">{poStats.pgAvg}</strong></td>
+                                                                <td className="text-center">
+                                                                    {(() => {
+                                                                        const avgVal = parseFloat(poStats.pgAvg);
+                                                                        const a = getAttainmentLevel(avgVal);
+                                                                        return <span className="attainment-badge pso-badge" style={{ backgroundColor: a.bg, color: a.color }}>{a.level}</span>;
+                                                                    })()}
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         )}
 
                         {(!poRawData?.UG?.length && !poRawData?.PG?.length) && (
-                            <div className="empty-state"><p>No PO data available for the selected year.</p></div>
+                            <div className="empty-state">
+                                <p>No PO data available for the selected year.</p>
+                            </div>
                         )}
                     </div>
                 )}
