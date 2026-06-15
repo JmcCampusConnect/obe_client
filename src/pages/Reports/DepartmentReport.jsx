@@ -220,6 +220,18 @@ function DepartmentReport() {
             return;
         }
 
+        // Sort by category, dept_id, and staff_id
+        pendingData.sort((a, b) => {
+            // Sort by category
+            const categoryCompare = String(a.category || '').localeCompare(String(b.category || ''));
+            if (categoryCompare !== 0) return categoryCompare;
+            // Sort by dept_id
+            const deptIdCompare = String(a.dept_id || '').localeCompare(String(b.dept_id || ''));
+            if (deptIdCompare !== 0) return deptIdCompare;
+            // Sort by staff_id
+            return String(a.staff_id || '').localeCompare(String(b.staff_id || ''));
+        });
+
         const headers = [
             'Staff Id', 'Staff Name', 'Dept Name', 'Course Code', 'Category',
             'Section', 'Cia - 1', 'Cia - 2', 'Ass - 1', 'Ass - 2', 'Status'
@@ -254,8 +266,8 @@ function DepartmentReport() {
         }
 
         const workbook = {
-            Sheets: { 'Mark Entry Report': worksheet },
-            SheetNames: ['Mark Entry Report']
+            Sheets: { 'OBE Mark Incomplete Report': worksheet },
+            SheetNames: ['OBE Mark Incomplete Report']
         };
 
         const excelBuffer = XLSX.write(workbook, {
@@ -271,7 +283,7 @@ function DepartmentReport() {
         const formattedDate = `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1)
             .toString().padStart(2, '0')}-${date.getFullYear().toString().slice(-2)}`;
 
-        saveAs(blob, `Mark Entry Report ${formattedDate}.xlsx`);
+        saveAs(blob, `OBE Mark Incomplete Report ${formattedDate}.xlsx`);
     };
 
     if (loading) return (

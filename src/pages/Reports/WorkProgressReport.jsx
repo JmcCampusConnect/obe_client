@@ -109,7 +109,7 @@ function WorkProgressReport() {
 
             {(admin || hod || mentor) ? (
                 <div className='course-content-box'>
-                    <div className='course-entire-box'>
+                    <div className='report-entire-box'>
                         {admin && (
                             <>
                                 <button className='report-subject-box' onClick={() => handleDeptReport("ALL")}>ALL DEPARTMENT</button>
