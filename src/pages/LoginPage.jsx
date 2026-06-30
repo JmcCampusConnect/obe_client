@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/common/Authenticate';
 import '../css/LoginPage.css';
+
 const getPasswordConstraints = (password) => {
     return {
         minLength: password.length >= 8,
@@ -15,36 +16,31 @@ const getPasswordConstraints = (password) => {
         hasSpecial: /[!@#$%^&*()_+={}[\]:;"'<,>.?/\\|~-]/.test(password),
     }
 }
+
 function LoginPage() {
 
     const apiUrl = import.meta.env.VITE_API_URL;
-
     const [loginLoading, setLoginLoading] = useState(false);
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-
     const [showModal, setShowModal] = useState(false);
     const [staffIdToChange, setStaffIdToChange] = useState('');
-
     const navigate = useNavigate();
     const { login } = useAuth();
     const passwordInputRef = useRef(null);
-    const handleLogin = async () => {
 
+    const handleLogin = async () => {
         if (staffId === '' || password === '') {
             alert('Fill both fields');
             return;
         }
-
         setLoginLoading(true);
-
         try {
             const response = await axios.post(`${apiUrl}/login`, {
                 staff_id: staffId.trim(),
                 staff_pass: password.trim()
             });
-
             if (response.data.success) {
                 if (response.data.needsPasswordChange) {
                     setStaffIdToChange(staffId.trim());
@@ -56,7 +52,6 @@ function LoginPage() {
             } else {
                 alert(response.data.message);
             }
-
         } catch (err) {
             console.error("Login Error:", err);
             alert("Something went wrong.");
@@ -306,6 +301,5 @@ const PasswordChangeModal = ({ staffId, apiUrl }) => {
         </div>
     )
 }
-
 
 export default LoginPage;

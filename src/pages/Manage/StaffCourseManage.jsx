@@ -1,19 +1,18 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import '../../css/StaffCourseManage.css';
 import Loading from '../../assets/load.svg';
-import AddModal from '../../components/StaffCourseManage/AddStaffCourseModal';
-import EditModal from '../../components/StaffCourseManage/EditStaffCourseModal';
-import DeleteModal from '../../components/StaffCourseManage/DeleteStaffCourse';
-import StaffCourseTable from '../../components/StaffCourseManage/StaffCourseTable';
-import StaffCourseHeader from '../../components/StaffCourseManage/StaffCourseHeader';
-import StaffCourseFilter from '../../components/StaffCourseManage/StaffCourseFilter';
+import {
+    AddModal, EditModal, DeleteModal, StaffCourseTable,
+    StaffCourseHeader, StaffCourseFilter
+} from '@/components/StaffCourseManage';
 
 const StaffCourseManage = () => {
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [staffData, setStaffData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const queryClient = useQueryClient();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -48,19 +47,22 @@ const StaffCourseManage = () => {
 
     const fixField = val => (Array.isArray(val) ? val[0] || '' : val);
 
-    const fetchStaffDetails = async () => {
+    const getStaffCourses = async () => {
         try {
             const response = await axios.get(`${apiUrl}/api/staffcoursemanage`);
-            setStaffData(response.data);
+            return response.data;
         } catch (error) {
-            console.error('Error fetching staff data:', error);
-        } finally { setLoading(false) }
-    }
+            console.error('Error fetching staff courses:', error);
+            throw error;
+        }
+    };
 
-    useEffect(() => {
-        fetchStaffDetails();
-    }, [apiUrl]);
+    const { data: staffData = [], isLoading, error } = useQuery({
+        queryKey: ["staffCourse"],
+        queryFn: getStaffCourses,
+    });
 
+    // Fetch staff IDs
     useEffect(() => {
         const fetchStaffIds = async () => {
             try {
@@ -73,7 +75,9 @@ const StaffCourseManage = () => {
         fetchStaffIds();
     }, [apiUrl]);
 
+    // Course code options
     const courseCodeOptions = useMemo(() => {
+        if (!Array.isArray(staffData)) return [];
         const uniqueCourses = staffData.reduce((acc, staff) => {
             if (staff.course_code && !acc[staff.course_code]) {
                 acc[staff.course_code] = staff.course_title || staff.course_code;
@@ -86,7 +90,9 @@ const StaffCourseManage = () => {
         }));
     }, [staffData]);
 
+    // Department options
     const deptIdOptions = useMemo(() => {
+        if (!Array.isArray(staffData)) return [];
         const uniqueDepts = staffData.reduce((acc, staff) => {
             if (staff.dept_id && !acc[staff.dept_id]) {
                 acc[staff.dept_id] = staff.dept_name || staff.dept_id;
@@ -99,15 +105,16 @@ const StaffCourseManage = () => {
         }));
     }, [staffData]);
 
-    const sectionOptions = useMemo(
-        () =>
-            [...new Set(staffData.map(d => d.section).filter(Boolean))].map(sec => ({
-                value: sec,
-                label: sec,
-            })),
-        [staffData]
-    );
+    // Section options
+    const sectionOptions = useMemo(() => {
+        if (!Array.isArray(staffData)) return [];
+        return [...new Set(staffData.map(d => d.section).filter(Boolean))].map(sec => ({
+            value: sec,
+            label: sec,
+        }));
+    }, [staffData]);
 
+    // Staff ID options
     const staffIdOptions = useMemo(() => {
         if (!Array.isArray(staffId)) return [];
         return staffId.map(item => {
@@ -132,13 +139,17 @@ const StaffCourseManage = () => {
         setFilterSection('');
     };
 
+    // Filtered staff data
     const filteredStaffData = useMemo(() => {
+        if (!Array.isArray(staffData)) return [];
+
         const searchedData = staffData.filter((staff) => {
             const lower = searchTerm.toLowerCase();
             return Object.values(staff).some(value =>
                 value?.toString().toLowerCase().includes(lower)
             );
         });
+
         return searchedData.filter(staff => {
             if (filterCategory && staff.category !== filterCategory) return false;
             if (filterDeptId && staff.dept_id !== filterDeptId) return false;
@@ -159,6 +170,7 @@ const StaffCourseManage = () => {
             setStaffName(fixField(response.data));
         } catch (error) {
             console.error('Error fetching staff name:', error);
+            setStaffName('');
         }
     };
 
@@ -181,6 +193,7 @@ const StaffCourseManage = () => {
             setDeptId(response.data || []);
         } catch (error) {
             console.error('Error fetching dept Id : ', error);
+            setDeptId([]);
         }
     };
 
@@ -229,6 +242,8 @@ const StaffCourseManage = () => {
             setCourseCode(codeList);
         } catch (error) {
             console.error('Error fetching section : ', error);
+            setSection([]);
+            setCourseCode([]);
         }
     };
 
@@ -242,6 +257,8 @@ const StaffCourseManage = () => {
             setBatch(fixField(response.data.batch));
         } catch (error) {
             console.error('Error fetching course title:', error);
+            setCourseTitle('');
+            setBatch('');
         }
     };
 
@@ -252,35 +269,41 @@ const StaffCourseManage = () => {
         setSelectedDeptId(staff.dept_id);
         setSelectedSemester(staff.semester);
         setIsEditModalOpen(true);
+
         try {
             const deptIdResponse = await axios.post(`${apiUrl}/api/depId`, { category: staff.category });
-            setDeptId(deptIdResponse.data);
+            setDeptId(deptIdResponse.data || []);
         } catch (error) {
             console.error('Error fetching ALL Dept IDs for category:', error);
+            setDeptId([]);
         }
+
         try {
             const deptDetails = await axios.post(`${apiUrl}/api/departmentname`, { dept_id: staff.dept_id });
             setDeptName(fixField(deptDetails.data.uniqueDeptNames));
             setDegree(fixField(deptDetails.data.uniqueDegrees));
-            setSemester(deptDetails.data.uniqueSemester);
+            setSemester(deptDetails.data.uniqueSemester || []);
         } catch (error) {
             console.error('Error fetching department details:', error);
+            setSemester([]);
         }
+
         try {
             const resp = await axios.post(`${apiUrl}/api/scmsection`, {
                 semester: staff.semester,
                 dept_id: staff.dept_id,
                 category: staff.category,
             });
-            setSection(resp.data.section);
-            setCourseCode(resp.data.courseCode);
+            setSection(resp.data.section || []);
+            setCourseCode(resp.data.courseCode || []);
         } catch (error) {
             console.error('Error fetching sections and course codes:', error);
+            setSection([]);
+            setCourseCode([]);
         }
     };
 
     const handleSaveStaff = async () => {
-
         const newErrors = {};
 
         if (!selectedStaffId) newErrors.selectedStaffId = "Staff ID is required";
@@ -301,32 +324,45 @@ const StaffCourseManage = () => {
             staff_name: staffName,
             category: selectedCategory,
             dept_id: selectedDeptId,
-            dept_name: deptName, degree, batch,
+            dept_name: deptName,
+            degree,
+            batch,
             semester: selectedSemester,
             section: selectedSection,
             course_code: selectedCourseCode,
             course_title: courseTitle,
-        }
+        };
+
         try {
             const response = await axios.post(`${apiUrl}/api/scmNewStaff`, payload);
             if (response.status === 201) {
                 alert('Staff course mapping saved successfully!');
-                setStaffData(prev => [...prev, response.data.data]);
+                // Invalidate and refetch data
+                queryClient.invalidateQueries({ queryKey: ["staffCourse"] });
                 setIsAddModalOpen(false);
-                setSelectedStaffId(''); setStaffName('');
-                setSelectedCategory(''); setDeptId([]);
-                setSelectedDeptId(''); setDeptName('');
-                setDegree(''); setSemester([]);
-                setSelectedSemester(''); setSection([]);
-                setSelectedSection(''); setCourseCode([]);
-                setSelectedCourseCode(''); setCourseTitle('');
-                setBatch(''); setErrors({});
+                // Reset form
+                setSelectedStaffId('');
+                setStaffName('');
+                setSelectedCategory('');
+                setDeptId([]);
+                setSelectedDeptId('');
+                setDeptName('');
+                setDegree('');
+                setSemester([]);
+                setSelectedSemester('');
+                setSection([]);
+                setSelectedSection('');
+                setCourseCode([]);
+                setSelectedCourseCode('');
+                setCourseTitle('');
+                setBatch('');
+                setErrors({});
             }
         } catch (error) {
             console.error('Error in adding staff course mapping : ', error);
             alert('Failed to save staff.');
         }
-    }
+    };
 
     const handleSaveEditStaff = async () => {
         const newErrors = {};
@@ -354,22 +390,26 @@ const StaffCourseManage = () => {
             const response = await axios.post(`${apiUrl}/api/staffCourseEdit`, cleanEditStaff);
             if (response.data.ok) {
                 alert('Staff course edited successfully!');
-                fetchStaffDetails();
+                // Invalidate and refetch data
+                queryClient.invalidateQueries({ queryKey: ["staffCourse"] });
                 setIsEditModalOpen(false);
                 setEditStaff({});
                 setSelectedCategory('');
                 setSelectedDeptId('');
                 setSelectedSemester('');
-                setSemester([]); setSection([]);
-                setCourseCode([]); setDeptId([]);
-                setCourseTitle(''); setBatch('');
+                setSemester([]);
+                setSection([]);
+                setCourseCode([]);
+                setDeptId([]);
+                setCourseTitle('');
+                setBatch('');
                 setEditErrors({});
             }
         } catch (error) {
             console.error(error);
             alert('Failed to edit staff course.');
         }
-    }
+    };
 
     const handleDeleteStaff = async (s_no, staff_id, course_code, category, section, dept_id) => {
         try {
@@ -377,8 +417,9 @@ const StaffCourseManage = () => {
                 params: { staff_id, course_code, category, section, dept_id },
             });
             if (response.status === 200) {
-                setStaffData(prev => prev.filter(staff => staff.s_no !== s_no));
                 alert('Staff course deleted successfully!');
+                // Invalidate and refetch data
+                queryClient.invalidateQueries({ queryKey: ["staffCourse"] });
                 setDeleteStaff(null);
             }
         } catch (error) {
@@ -390,7 +431,7 @@ const StaffCourseManage = () => {
     const toggleFilters = () => {
         setShowFilters(prev => {
             const newState = !prev;
-            if (!newState) { clearAllFilters() }
+            if (!newState) { clearAllFilters(); }
             return newState;
         });
     };
@@ -413,19 +454,29 @@ const StaffCourseManage = () => {
         setBatch('');
         setErrors({});
         setIsAddModalOpen(true);
-    }
+    };
 
-    if (loading) return (
+    if (isLoading) return (
         <div>
             <center>
                 <img src={Loading} alt="Loading spinner" className="img" />
             </center>
         </div>
-    )
+    );
+
+    if (error) return (
+        <div>
+            <center>
+                <p style={{ color: 'red' }}>Error loading staff data. Please try again.</p>
+                <button onClick={() => queryClient.invalidateQueries({ queryKey: ["staffCourse"] })}>
+                    Retry
+                </button>
+            </center>
+        </div>
+    );
 
     return (
         <div className="staff-management-shell">
-
             <StaffCourseHeader
                 searchText={searchTerm}
                 handleSearch={setSearchTerm}
@@ -563,12 +614,13 @@ const StaffCourseManage = () => {
                     }));
                     try {
                         const response = await axios.post(`${apiUrl}/api/depId`, { category: value });
-                        setDeptId(response.data);
+                        setDeptId(response.data || []);
                         setSemester([]);
                         setSection([]);
                         setCourseCode([]);
                     } catch (error) {
                         console.error('Error fetching Dept IDs:', error);
+                        setDeptId([]);
                     }
                 }}
                 handleEditDeptIdChange={async value => {
@@ -584,8 +636,6 @@ const StaffCourseManage = () => {
                                     degree: fixField(response.data.uniqueDegrees)
                                 }));
                                 setSemester(semList);
-                                setSection([]);
-                                setCourseCode([]);
                                 setSection([]);
                                 setCourseCode([]);
                             } catch (error) {
@@ -643,7 +693,7 @@ const StaffCourseManage = () => {
                 onDelete={handleDeleteStaff}
             />
         </div>
-    )
-}
+    );
+};
 
 export default StaffCourseManage;
