@@ -12,7 +12,7 @@ import axios from 'axios';
 import API_URL from '../../config';
 
 function Dashboard() {
-    
+
     const [studentCount, setStudentCount] = useState(0);
     const [staffCount, setStaffCount] = useState(0);
     const [courseCount, setCourseCount] = useState(0);

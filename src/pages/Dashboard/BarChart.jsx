@@ -4,13 +4,13 @@ import '../../css/BarChart.css';
 import API_URL from '../../config';
 
 const BarChart = () => {
+
     const apiUrl = API_URL;
     const [componentReport, setComponentReport] = useState({});
     const [cia1, setCia1] = useState(0);
     const [cia2, setCia2] = useState(0);
     const [ass1, setAss1] = useState(0);
     const [ass2, setAss2] = useState(0);
-    const [ese, setEse] = useState(0);
 
     useEffect(() => {
         const fetchProgress = async () => {

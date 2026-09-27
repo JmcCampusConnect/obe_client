@@ -9,6 +9,7 @@ import API_URL from '../../config';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const PieChart1 = () => {
+
     const apiUrl = API_URL;
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(true);
@@ -88,7 +89,6 @@ const PieChart1 = () => {
                 {
                     label: function (context) {
                         const label = context.label || '';
-                        const value = context.raw || 0;
                         return `${label}`;
                     },
                 },

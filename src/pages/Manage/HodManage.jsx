@@ -11,6 +11,7 @@ import DeleteHodModal from "../../components/HodManage/DeleteHodModal";
 import API_URL from '../../config';
 
 function StaffHodManage() {
+
     const apiUrl = API_URL;
 
     // States

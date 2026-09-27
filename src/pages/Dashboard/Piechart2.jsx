@@ -9,6 +9,7 @@ import API_URL from '../../config';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const PieChart2 = () => {
+
     const apiUrl = API_URL;
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(true);
