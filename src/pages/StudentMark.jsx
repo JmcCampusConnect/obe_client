@@ -4,10 +4,11 @@ import "../css/StudentMark.css";
 import { useLocation } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import API_URL from '../config';
 
 function StudentMark() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const location = useLocation();
     const [active, setActive] = useState();
     const [stuData, setStuData] = useState([]);

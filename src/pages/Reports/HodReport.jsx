@@ -5,8 +5,9 @@ import HodReportHeader from '../../components/HodReport/HodReportHeader';
 import HodReportFilter from '../../components/HodReport/HodReportFilters';
 import HodReportTable from '../../components/HodReport/HodReportTable';
 import '../../css/HodReport.css';
+import API_URL from '../../config';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = API_URL;
 
 function HodReport() {
 

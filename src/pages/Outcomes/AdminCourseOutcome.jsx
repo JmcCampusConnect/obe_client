@@ -6,7 +6,8 @@ import Loading from '../../assets/load.svg'
 
 function AdminCourseOutcome() {
     
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
     const [showCclaPopup, setShowCclaPopup] = useState(false);
     const [showCapsoPopup, setShowCapsoPopup] = useState(false);
     const { staffId } = useParams();

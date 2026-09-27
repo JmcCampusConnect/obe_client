@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../css/RsMatrix.css';
-const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../config';
+const apiUrl = API_URL;
 import Loading from '../assets/load.svg'
 
 function RsMatrix() {

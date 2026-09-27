@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from "axios";
 import '../../css/TutorCourseOutcome.css';
 import Loading from '../../assets/load.svg'
-const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+const apiUrl = API_URL;
 
 function TutorCourseOutcome() {
     
@@ -42,7 +43,6 @@ function TutorCourseOutcome() {
 
     const handleCclaPopup = () => { setShowCclaPopup(true) }
     const closeCclaPopup = () => { setShowCclaPopup(false) }
-
     const handleCapsoPopup = () => { setShowCapsoPopup(true) }
     const closeCapsoPopup = () => { setShowCapsoPopup(false) }
 

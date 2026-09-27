@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/common/Authenticate';
 import '../css/LoginPage.css';
+import API_URL from '../config';
 
 const getPasswordConstraints = (password) => {
     return {
@@ -19,11 +20,7 @@ const getPasswordConstraints = (password) => {
 
 function LoginPage() {
 
-    // const apiUrl = import.meta.env.VITE_API_URL;
-    const apiUrl =
-    window.location.hostname === "192.168.10.38"
-        ? "http://192.168.10.38:5001"
-        : "http://61.1.189.85:5001";
+    const apiUrl = API_URL;
     const [loginLoading, setLoginLoading] = useState(false);
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');
@@ -41,7 +38,7 @@ function LoginPage() {
         }
         setLoginLoading(true);
         try {
-            const response = await axios.post(`${apiUrl}/login`, {
+                const response = await axios.post(`${apiUrl}/login`, {
                 staff_id: staffId.trim(),
                 staff_pass: password.trim()
             });
@@ -195,7 +192,7 @@ const PasswordChangeModal = ({ staffId, apiUrl }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post(`${apiUrl}/update-password`, {
+                    const response = await axios.post(`${apiUrl}/update-password`, {
                 staff_id: staffId,
                 old_password: oldPassword,
                 new_password: newPassword

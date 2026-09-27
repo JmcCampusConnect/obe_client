@@ -15,7 +15,8 @@ import '../css/Layout.css';
 
 function Layout() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../config';
+    const apiUrl = API_URL;
     const { staffId: urlStaffId } = useParams();
     const navigate = useNavigate();
     const { logout, isAuthenticated, staffId: contextStaffId } = useAuth();

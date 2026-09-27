@@ -6,10 +6,11 @@ import EseReportTable from "../../components/EseReport/EseReportTable";
 import EseReportFilters from "../../components/EseReport/EseReportFilters";
 import EseReportHeader from "../../components/EseReport/EseReportHeader";
 import Loading from '../../assets/load.svg';
+import API_URL from '../../config';
 
 function EseReport() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const [loading, setLoading] = useState(true);
     const [courseCode, setCourseCode] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");

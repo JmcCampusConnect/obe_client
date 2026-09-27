@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../../css/CourseOutcome.css';
-const apiUrl = import.meta.env.VITE_API_URL;
 import Loading from '../../assets/load.svg'
+import API_URL from '../../config';
+const apiUrl = API_URL;
 
 function CourseOutcome() {
 

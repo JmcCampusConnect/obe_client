@@ -8,10 +8,11 @@ import Loading from '../../assets/load.svg';
 import DepartmentReportTable from '../../components/DepartmentReport/DepartmentReportTable';
 import DepartmentReportHeader from '../../components/DepartmentReport/DepartmentReportHeader';
 import DepartmentReportFilter from '../../components/DepartmentReport/DepartmentReportFilter';
+import API_URL from '../../config';
 
 function DepartmentReport() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const [loading, setLoading] = useState(true);
     const { dept } = useParams();
 

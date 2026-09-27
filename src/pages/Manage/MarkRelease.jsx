@@ -38,7 +38,8 @@ function MarkRelease() {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(100);
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
     const totalPages = filteredData ? Math.ceil(filteredData.length / pageSize) : 1;
 
     // Fetch report data

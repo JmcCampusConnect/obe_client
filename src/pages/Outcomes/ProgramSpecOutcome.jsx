@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../css/ProgramSpecOutcome.css';
+import API_URL from '../../config';
 
 function ProgramSpecOutcome() {
 
@@ -12,7 +13,7 @@ function ProgramSpecOutcome() {
     const [selectedDeptId, setSelectedDeptId] = useState('');
     const [attainmentSpecData, setAttainmentSpecData] = useState({});
     const [specTable, setSpecTable] = useState(false);
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
 
     useEffect(() => {
         const fetchDeptName = async () => {

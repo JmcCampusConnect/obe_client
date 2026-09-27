@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../css/ObeReport.css";
 import jmclogo from "../../assets/jmclogo.png";
 import axios from "axios";
+import API_URL from '../../config';
 import {
     FileText,
     Download,
@@ -24,7 +25,7 @@ import {
 
 function ObeReport() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const [attainmentSpecData, setAttainmentSpecData] = useState({});
     const [poRawData, setPoRawData] = useState(null);
     const [loading, setLoading] = useState(false);

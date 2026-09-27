@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../css/CourseList.css';
 import { useParams } from 'react-router-dom';
-const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../config';
+const apiUrl = API_URL;
 import Loading from '../assets/load.svg'
 
 function CourseList() {

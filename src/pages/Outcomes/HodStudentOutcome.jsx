@@ -3,12 +3,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import '../../css/HodStudentOutcome.css';
 import Loading from '../../assets/load.svg'
+import API_URL from '../../config';
 
 function HodStudentOutcome() {
 
 	const { staffId } = useParams();
 	const [showSclaPopup, setShowSclaPopup] = useState(false);
-	const apiUrl = import.meta.env.VITE_API_URL;
+	const apiUrl = API_URL;
 	const [academicSem, setAcademicSem] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [departments, setDepartments] = useState([]);

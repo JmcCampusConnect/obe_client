@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+const apiUrl = API_URL;
 
 const LineChart = () => {
 

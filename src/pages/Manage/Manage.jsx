@@ -6,7 +6,8 @@ import axios from "axios";
 function Manage() {
 
     const { staffId } = useParams();
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
     const [academic, setAcademic] = useState(false);
     const [academicsem, setAcademicSem] = useState('');
     const navigate = useNavigate();

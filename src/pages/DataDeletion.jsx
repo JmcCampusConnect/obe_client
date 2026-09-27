@@ -8,7 +8,8 @@ import '../css/DataDeletion.css';
 
 function DataDeletion() {
 
-    const apiUrl = import.meta.env.VITE_API_URL || '';
+import API_URL from '../config';
+    const apiUrl = API_URL || '';
     const [options, setOptions] = useState({ batches: [], mentorAcademicYears: [], markEntryAcademicYears: [], reportAcademicSems: [], hodAllCount: 0, staffAllCount: 0 });
     const [selected, setSelected] = useState({ studentBatches: [], mentorYears: [], markEntryYears: [], reportSems: [], hodAll: false, staffAll: false });
     const [preview, setPreview] = useState({ studentCounts: {}, mentorCounts: {}, markEntryCounts: {}, reportCounts: {}, hodAllCount: 0, staffAllCount: 0 });

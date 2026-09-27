@@ -5,7 +5,8 @@ import "../css/FileUpload.css";
 
 function FileUpload() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../config';
+    const apiUrl = API_URL;
     const [files, setFiles] = useState({});
     const [loading, setLoading] = useState(false);
     const [finished, setFinished] = useState(false);

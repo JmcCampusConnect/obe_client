@@ -12,7 +12,8 @@ import AddTutorModal from "../../components/TutorManage/AddTutorModal";
 function StaffTutorManage() {
 
     // --- API CONFIG ---
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
 
     // --- MAIN DATA STATE ---
     const [data, setData] = useState([]);

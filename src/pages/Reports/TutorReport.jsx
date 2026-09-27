@@ -4,8 +4,9 @@ import '../../css/TutorReport.css';
 import { useParams } from 'react-router-dom';
 import TutorReportTable from '../../components/TutorReport/TutorReportTable';
 import TutorHeader from '../../components/TutorManage/TutorHeader';
+import API_URL from '../../config';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = API_URL;
 
 function TutorReport() {
 

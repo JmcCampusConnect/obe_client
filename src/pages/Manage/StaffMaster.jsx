@@ -15,7 +15,8 @@ function StaffMaster() {
     const [loading, setLoading] = useState(true);
     const [filterDeptCategory, setFilterDeptCategory] = useState("");
     const [filteredData, setFilteredData] = useState([]);
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
 
     // Modals Popup
     const [popup, setPopup] = useState(false);

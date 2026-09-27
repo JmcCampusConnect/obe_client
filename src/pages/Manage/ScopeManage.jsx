@@ -11,7 +11,8 @@ function ScopeManage() {
     const [filteredData, setFilteredData] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(true);
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
 
     const [page, setPage] = useState(1);
     const pageSize = 100;

@@ -10,7 +10,8 @@ import {
 
 const StaffCourseManage = () => {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
     const queryClient = useQueryClient();
 
     const [searchTerm, setSearchTerm] = useState('');

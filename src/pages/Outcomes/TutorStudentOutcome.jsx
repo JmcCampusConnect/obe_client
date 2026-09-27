@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import '../../css/TutorStudentOutcome.css';
 import Loading from '../../assets/load.svg';
+import API_URL from '../../config';
 
 function TutorStudentOutcome() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const { staffId } = useParams();
     const [showSclaPopup, setShowSclaPopup] = useState(false);
     const [outcomeData, setOutcomeData] = useState("");

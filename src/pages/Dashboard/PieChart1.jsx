@@ -9,7 +9,8 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const PieChart1 = () => {
     
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(true);
 

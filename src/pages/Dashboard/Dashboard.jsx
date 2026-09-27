@@ -9,6 +9,7 @@ import { IoPersonSharp } from "react-icons/io5";
 import { FaBook } from "react-icons/fa";
 import { SiBookstack } from "react-icons/si";
 import axios from 'axios';
+import API_URL from '../../config';
 
 function Dashboard() {
     
@@ -16,11 +17,7 @@ function Dashboard() {
     const [staffCount, setStaffCount] = useState(0);
     const [courseCount, setCourseCount] = useState(0);
     const [programCount, setProgramCount] = useState(0);
-
-    const apiUrl =
-    window.location.hostname === "192.168.10.38"
-        ? "http://192.168.10.38:5001"
-        : "http://61.1.189.85:5001";
+    const apiUrl = API_URL;
 
     const fetchCounts = async () => {
         try {

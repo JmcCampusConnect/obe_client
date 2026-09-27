@@ -4,13 +4,14 @@ import "../../css/RsMatrixReport.css";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import Loading from '../../assets/load.svg';
+import API_URL from '../../config';
 import RsMartixReportTable from "../../components/RsMatrixReport/RsMartixReportTable";
 import RsMartixReportHeader from "../../components/RsMatrixReport/RsMartixReportHeader";
 import RsMartixReportFilters from "../../components/RsMatrixReport/RsMartixReportFilters";
 
 function RsMatrixReport() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
 
     const [loading, setLoading] = useState(true);
     const [academicYear, setAcademicYear] = useState("");

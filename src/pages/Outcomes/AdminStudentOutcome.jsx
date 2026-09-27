@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../../css/AdminStudentOutcome.css';
 import Loading from '../../assets/load.svg';
+import API_URL from '../../config';
 
 function AdminStudentOutcome() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const [showSclaPopup, setShowSclaPopup] = useState(false);
     const [categories, setCategories] = useState([]);
     const [departments, setDepartments] = useState([]);

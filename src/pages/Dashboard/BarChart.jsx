@@ -4,7 +4,8 @@ import '../../css/BarChart.css';
 
 const BarChart = () => {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
     const [componentReport, setComponentReport] = useState({});
     const [cia1, setCia1] = useState(0);
     const [cia2, setCia2] = useState(0);

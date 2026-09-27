@@ -11,7 +11,8 @@ import DeleteHodModal from "../../components/HodManage/DeleteHodModal";
 
 function StaffHodManage() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+    const apiUrl = API_URL;
 
     // States
     const [data, setData] = useState([]);

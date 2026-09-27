@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import '../../css/MarkManage.css';
 import axios from "axios";
-const apiUrl = import.meta.env.VITE_API_URL;
+import API_URL from '../../config';
+const apiUrl = API_URL;
 
 function MarkManage() {
 

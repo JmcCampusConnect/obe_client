@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import '../css/Settings.css';
 import passbg from '../assets/passbg.jpg';
+import API_URL from '../config';
 
 function Settings() {
 
@@ -39,7 +40,7 @@ function Settings() {
     });
 
     const confirmPasswordRef = useRef(null);
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
     const { staffId } = useParams();
     const navigate = useNavigate();
 

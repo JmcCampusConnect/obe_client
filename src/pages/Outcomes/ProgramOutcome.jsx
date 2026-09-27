@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../css/ProgramOutcome.css';
+import API_URL from '../../config';
 
 function ProgramOutcome() {
 
@@ -9,7 +10,7 @@ function ProgramOutcome() {
     const [programType, setProgramType] = useState('UG');
     const [attainmentAllData, setAttainmentAllData] = useState({});
     const [allTable, setAllTable] = useState(false);
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = API_URL;
 
     useEffect(() => {
         const fetchAcademicYear = async () => {
