@@ -4,12 +4,11 @@ import '../../css/PieChart.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import axios from 'axios';
+import API_URL from '../../config';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const PieChart1 = () => {
-    
-import API_URL from '../../config';
     const apiUrl = API_URL;
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(true);

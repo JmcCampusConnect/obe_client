@@ -7,13 +7,12 @@ import {
     AddModal, EditModal, DeleteModal, StaffCourseTable,
     StaffCourseHeader, StaffCourseFilter
 } from '@/components/StaffCourseManage';
+import API_URL from '../../config';
 
 const StaffCourseManage = () => {
 
-import API_URL from '../../config';
     const apiUrl = API_URL;
     const queryClient = useQueryClient();
-
     const [searchTerm, setSearchTerm] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);

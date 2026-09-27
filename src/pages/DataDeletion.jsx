@@ -5,10 +5,10 @@ import {
     ShieldAlert, Database, Users, FileText, History
 } from "lucide-react";
 import '../css/DataDeletion.css';
+import API_URL from '../config';
 
 function DataDeletion() {
-
-import API_URL from '../config';
+    
     const apiUrl = API_URL || '';
     const [options, setOptions] = useState({ batches: [], mentorAcademicYears: [], markEntryAcademicYears: [], reportAcademicSems: [], hodAllCount: 0, staffAllCount: 0 });
     const [selected, setSelected] = useState({ studentBatches: [], mentorYears: [], markEntryYears: [], reportSems: [], hodAll: false, staffAll: false });

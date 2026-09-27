@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../css/BlockShow.css";
+import API_URL from '../../config';
 
 function BlockShow() {
-
-import API_URL from '../../config';
+    
     const apiUrl = API_URL;
     const [activeData, setActiveData] = useState({
         cia_1: 0, cia_2: 0, ass_1: 0, ass_2: 0

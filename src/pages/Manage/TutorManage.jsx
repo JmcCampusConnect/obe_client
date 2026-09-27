@@ -8,11 +8,11 @@ import DeleteTutorModal from "../../components/TutorManage/DeleteTutorModal";
 import TutorFilters from "../../components/TutorManage/TutorFilters";
 import TutorHeader from "../../components/TutorManage/TutorHeader";
 import AddTutorModal from "../../components/TutorManage/AddTutorModal";
+import API_URL from '../../config';
 
 function StaffTutorManage() {
 
     // --- API CONFIG ---
-import API_URL from '../../config';
     const apiUrl = API_URL;
 
     // --- MAIN DATA STATE ---

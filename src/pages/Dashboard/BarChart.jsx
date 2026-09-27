@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../css/BarChart.css';
+import API_URL from '../../config';
 
 const BarChart = () => {
-
-import API_URL from '../../config';
     const apiUrl = API_URL;
     const [componentReport, setComponentReport] = useState({});
     const [cia1, setCia1] = useState(0);

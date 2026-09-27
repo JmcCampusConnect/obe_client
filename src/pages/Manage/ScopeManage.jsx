@@ -4,6 +4,7 @@ import ScopeHeader from "../../components/ScopeManage/ScopeHeader";
 import ScopeTable from "../../components/ScopeManage/ScopeTable";
 import '../../css/ScopeManage.css';
 import Loading from '../../assets/load.svg';
+import API_URL from '../../config';
 
 function ScopeManage() {
 
@@ -11,7 +12,6 @@ function ScopeManage() {
     const [filteredData, setFilteredData] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [loading, setLoading] = useState(true);
-import API_URL from '../../config';
     const apiUrl = API_URL;
 
     const [page, setPage] = useState(1);

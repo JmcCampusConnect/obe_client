@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import '../../css/Manage.css';
 import axios from "axios";
+import API_URL from '../../config';
 
 function Manage() {
 
     const { staffId } = useParams();
-import API_URL from '../../config';
     const apiUrl = API_URL;
     const [academic, setAcademic] = useState(false);
     const [academicsem, setAcademicSem] = useState('');

@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import '../../css/AdminCourseOutcome.css';
 import axios from "axios";
 import Loading from '../../assets/load.svg'
+import API_URL from '../../config';
 
 function AdminCourseOutcome() {
     
-import API_URL from '../../config';
     const apiUrl = API_URL;
     const [showCclaPopup, setShowCclaPopup] = useState(false);
     const [showCapsoPopup, setShowCapsoPopup] = useState(false);

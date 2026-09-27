@@ -12,10 +12,10 @@ import Jmclogo from '../assets/jmclogo.png';
 import { useAuth } from '../components/common/Authenticate';
 import { useNavigate } from 'react-router-dom';
 import '../css/Layout.css';
+import API_URL from '../config';
 
 function Layout() {
-
-import API_URL from '../config';
+    
     const apiUrl = API_URL;
     const { staffId: urlStaffId } = useParams();
     const navigate = useNavigate();

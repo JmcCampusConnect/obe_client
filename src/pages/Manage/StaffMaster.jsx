@@ -8,6 +8,7 @@ import AddStaffModal from "../../components/StaffMaster/AddStaffModal";
 import EditStaffModal from "../../components/StaffMaster/EditStaffModal";
 import DeleteStaffModal from "../../components/StaffMaster/DeleteStaffModal";
 import Loading from '../../assets/load.svg'
+import API_URL from '../../config';
 
 function StaffMaster() {
 
@@ -15,7 +16,6 @@ function StaffMaster() {
     const [loading, setLoading] = useState(true);
     const [filterDeptCategory, setFilterDeptCategory] = useState("");
     const [filteredData, setFilteredData] = useState([]);
-import API_URL from '../../config';
     const apiUrl = API_URL;
 
     // Modals Popup

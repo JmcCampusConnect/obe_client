@@ -8,10 +8,9 @@ import HodFilters from "../../components/HodManage/HodFilters";
 import AddHodModal from "../../components/HodManage/AddHodModal";
 import EditHodModal from "../../components/HodManage/EditHodModal";
 import DeleteHodModal from "../../components/HodManage/DeleteHodModal";
+import API_URL from '../../config';
 
 function StaffHodManage() {
-
-import API_URL from '../../config';
     const apiUrl = API_URL;
 
     // States

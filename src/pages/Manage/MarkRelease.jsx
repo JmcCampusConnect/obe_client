@@ -5,6 +5,7 @@ import Loading from '../../assets/load.svg';
 import MarkReleaseTable from '../../components/MarkRelease/MarkReleaseTable';
 import MarkReleaseHeader from '../../components/MarkRelease/MarkReleaseHeader';
 import MarkReleaseFilters from '../../components/MarkRelease/MarkReleaseFilters';
+import API_URL from '../../config';
 
 function MarkRelease() {
 
@@ -38,7 +39,6 @@ function MarkRelease() {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(100);
 
-import API_URL from '../../config';
     const apiUrl = API_URL;
     const totalPages = filteredData ? Math.ceil(filteredData.length / pageSize) : 1;
 

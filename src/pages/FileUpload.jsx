@@ -2,10 +2,10 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import { Upload, Download, FileText } from "lucide-react";
 import "../css/FileUpload.css";
+import API_URL from '../config';
 
 function FileUpload() {
-
-import API_URL from '../config';
+    
     const apiUrl = API_URL;
     const [files, setFiles] = useState({});
     const [loading, setLoading] = useState(false);
