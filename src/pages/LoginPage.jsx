@@ -19,7 +19,11 @@ const getPasswordConstraints = (password) => {
 
 function LoginPage() {
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl =
+    window.location.hostname === "192.168.10.38"
+        ? "http://192.168.10.38:5001"
+        : "http://61.1.189.85:5001";
     const [loginLoading, setLoginLoading] = useState(false);
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');

@@ -48,7 +48,7 @@ function BlockShow() {
                 <h2>Evaluation Visibility Settings</h2>
                 <p>Control which evaluations are visible to students.</p>
                 <p className="info-text">
-                    Toggle <strong>ON</strong> to show marks, <strong>OFF</strong> to block access.
+                    Toggle <strong>ON</strong> to Block Access, <strong>OFF</strong> to Allow Access.
                 </p>
             </div>
             <hr className="showblock-divider" />

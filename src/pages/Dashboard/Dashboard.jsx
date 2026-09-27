@@ -17,9 +17,14 @@ function Dashboard() {
     const [courseCount, setCourseCount] = useState(0);
     const [programCount, setProgramCount] = useState(0);
 
+    const apiUrl =
+    window.location.hostname === "192.168.10.38"
+        ? "http://192.168.10.38:5001"
+        : "http://61.1.189.85:5001";
+
     const fetchCounts = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/counts`);
+            const response = await axios.get(`${apiUrl}/api/counts`);
             const { studentCount, staffCount, courseCount, programCount } = response.data;
             animateCount(setStudentCount, studentCount);
             animateCount(setStaffCount, staffCount);
